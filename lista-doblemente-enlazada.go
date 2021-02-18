@@ -1,14 +1,6 @@
 package main
 
-type DoublyLinkedList struct {
-	head   *Node
-	lenght int
-}
-
-// Crea una DoublyLinkedList vacia
-func NewDoublyLinkedList() DoublyLinkedList {
-	return DoublyLinkedList{nil, 0}
-}
+import "fmt"
 
 // Agrega el nodo al principio de la lista y lo vuelve la cabeza
 func (list *DoublyLinkedList) addAtTheBeggining(node *Node) {
@@ -28,13 +20,14 @@ func (list *DoublyLinkedList) addAtTheBeggining(node *Node) {
 func (list *DoublyLinkedList) add(newNode *Node) {
 	if list.isEmpty() {
 		list.head = newNode
+		fmt.Println("Agregue la tienda ", newNode.data.Name)
 		return
 	} else {
 
 		lastNode := list.getLastNode()
 		lastNode.next = newNode
 		newNode.previous = lastNode
-
+		fmt.Println("Agregue la tienda ", newNode.data.Name)
 	}
 	list.lenght++
 }
@@ -71,32 +64,38 @@ func (list *DoublyLinkedList) addAfter(index int, newNode *Node) string {
 
 // Retorna true si la lista esta vacia
 func (list *DoublyLinkedList) isEmpty() bool {
-	return list.head == nil
+	return list.lenght == 0
 }
 
 // Retorna la lista en 2 strings recorrida de atras hacia adelante y de adelante hacia atras
 func (list DoublyLinkedList) toString() (string, string) {
-
 	var temp = list.head
 	var text string
 	var reText string
-	for i := list.lenght; i > 0; i-- {
-		if temp != list.head {
-			text += " <- " + temp.data
-		} else {
-			text += temp.data
+
+	if list.isEmpty() {
+		text = "La lista se encuentra vacia"
+		reText = text
+	} else {
+		for i := list.lenght; i > 0; i-- {
+			if temp != list.head {
+				text += " <- " + temp.data.Name
+			} else {
+				text += temp.data.Name
+			}
+
+			temp = temp.next
 		}
 
-		temp = temp.next
+		temp = list.getLastNode()
+
+		for i := list.lenght; i > 0; i-- {
+
+			reText += " -> " + temp.data.Name
+			temp = temp.previous
+		}
 	}
 
-	temp = list.getLastNode()
-
-	for i := list.lenght; i > 0; i-- {
-
-		reText += " -> " + temp.data
-		temp = temp.previous
-	}
 	return text, reText
 }
 
