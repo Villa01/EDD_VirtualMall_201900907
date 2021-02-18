@@ -23,10 +23,14 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(w).Encode("Recibido")
 
 	var matrix Matrix
+	fmt.Println("$$$ LLenando la matriz...")
 	matrix.fillMatrix(Info)
+	fmt.Println("$$$ Matriz completamente llena")
 	matrix.printMatrix()
-	//array := matrix.rowMajor()
-	//fmt.Println(len(array))
+	fmt.Println("$$$ Linealizando la matriz...")
+	array := matrix.rowMajor()
+	fmt.Println("$$$ Matriz completamente linealizada")
+	printArray(array)
 }
 
 // getArreglo busca una tienda con los parametros que especifica el archivo json
@@ -106,12 +110,12 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 // printMatrix imprime la matriz en un formato legible
 func (matrix *Matrix) printMatrix() {
 
-	for _, index := range matrix.indexes {
-		fmt.Print(index.Index, "[ ")
-		for _, dep := range index.Departments {
+	for i := 0; i < len(matrix.indexes); i++ {
+		fmt.Print(matrix.indexes[i].Index, "[ ")
+		for j := 0; j < len(matrix.indexes[i].Departments); j++ {
 			fmt.Print("[ ")
-			for _, rat := range dep.ratings {
-				fmt.Print("[ ", rat.number, " ]")
+			for k := 0; k < len(matrix.indexes[i].Departments[j].ratings); k++ {
+				fmt.Print("[ ", matrix.indexes[i].Departments[j].ratings[k].number, " ]")
 			}
 			fmt.Print("] ")
 		}
@@ -128,20 +132,21 @@ func (matrix *Matrix) rowMajor() []*DoublyLinkedList {
 	var array = make([]*DoublyLinkedList, arrSize)
 
 	for i := 0; i < rowSize; i++ {
-		fmt.Println(matrix.indexes[i].Index)
 
 		for j := 0; j < colSize; j++ {
-			fmt.Println("\t", matrix.indexes[i].Departments[j].name)
 			for k := 0; k < sliSize; k++ {
-				fmt.Println("\t\t", matrix.indexes[i].Departments[j].ratings[k].number)
+
 				array[k+sliSize*(j+colSize*i)] = matrix.indexes[i].Departments[j].ratings[k].lista
-				for l := 0; l < matrix.indexes[i].Departments[j].ratings[k].lista.lenght; l++ {
-					node, _ := matrix.indexes[i].Departments[j].ratings[k].lista.getNodeAt(l)
-					fmt.Println("\t\t", node.data.Name)
-				}
 			}
 		}
 	}
-
 	return array
+}
+
+func printArray(array []*DoublyLinkedList) {
+	fmt.Print("[ ")
+	for i := 0; i < len(array); i++ {
+		fmt.Print(" ", array[i], " ")
+	}
+	fmt.Println("]")
 }
