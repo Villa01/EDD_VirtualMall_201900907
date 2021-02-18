@@ -25,7 +25,8 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	var matrix Matrix
 	matrix.fillMatrix(Info)
 	matrix.printMatrix()
-
+	//array := matrix.rowMajor()
+	//fmt.Println(len(array))
 }
 
 // getArreglo busca una tienda con los parametros que especifica el archivo json
@@ -56,8 +57,7 @@ func saveData(w http.ResponseWriter, req *http.Request) {
 // --------------------- Utilidades --------------------------------------
 
 // fillMatrix recibe la informacion y llena una matriz 3 x 3 con una lista doblemente enlazada simulando una 4ta dimension
-func (newMatrix *Matrix) fillMatrix(info Information) *Matrix {
-	fmt.Println(info.Data)
+func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 	var newIndexes []*IndexLetter
 
 	data := info.Data
@@ -70,11 +70,9 @@ func (newMatrix *Matrix) fillMatrix(info Information) *Matrix {
 		}
 		newIndexes = append(newIndexes, &newIndex)
 		//newIndexes[i].Index = dat.Index // Agrega la letra del indice
-
 		var newDepartments []DepartmentMatrix
 
 		for j, dep := range dat.Departments { // Recorremos cada departamento de cada indice
-
 			newDepartment := DepartmentMatrix{
 				name: dep.Name,
 			}
@@ -82,7 +80,6 @@ func (newMatrix *Matrix) fillMatrix(info Information) *Matrix {
 			var newRatings [5]Rating
 
 			for _, sto := range dep.Stores { // Recorremos cada tienda de cada departamento
-
 				for l := 1; l <= 5; l++ { // Se le crea una lista a cada posicion
 					newRatings[l-1] = Rating{
 						number: l,
@@ -91,12 +88,9 @@ func (newMatrix *Matrix) fillMatrix(info Information) *Matrix {
 				}
 				rate := int(sto.Rating) - 1
 				node := NewNode(sto)
-				fmt.Println("La calificacion de la tienda es: %d", rate)
-				fmt.Println("El nodo contiene: " + node.data.Name)
 				list := *newRatings[rate].lista
-				texto, _ := list.toString()
 				list.add(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
-				fmt.Println("La lista actualmente es " + texto)
+
 			}
 			newDepartments[j].ratings = newRatings
 		}
@@ -104,23 +98,50 @@ func (newMatrix *Matrix) fillMatrix(info Information) *Matrix {
 
 	}
 
-	newMatrix.indexes = newIndexes
+	matrix.indexes = newIndexes
 
-	return newMatrix
+	return matrix
 }
 
 // printMatrix imprime la matriz en un formato legible
 func (matrix *Matrix) printMatrix() {
 
 	for _, index := range matrix.indexes {
-		fmt.Println("Leyendo la fila ", index.Index)
+		fmt.Print(index.Index, "[ ")
 		for _, dep := range index.Departments {
-			fmt.Println("\tLeyendo la columna ", dep.name)
+			fmt.Print("[ ")
 			for _, rat := range dep.ratings {
-				fmt.Println("\t\tLeyendo la calificacion ", rat.number)
-				texto, _ := rat.lista.toString()
-				fmt.Println("\t\t\t ", texto, " y su tamaño es ", rat.lista.lenght)
+				fmt.Print("[ ", rat.number, " ]")
+			}
+			fmt.Print("] ")
+		}
+		fmt.Println("]")
+	}
+}
+
+// rowMajor linealiza la matriz a un arreglo
+func (matrix *Matrix) rowMajor() []*DoublyLinkedList {
+	rowSize := len(matrix.indexes)
+	colSize := len(matrix.indexes[0].Departments)
+	sliSize := len(matrix.indexes[0].Departments[0].ratings)
+	var arrSize int = rowSize * colSize * sliSize
+	var array = make([]*DoublyLinkedList, arrSize)
+
+	for i := 0; i < rowSize; i++ {
+		fmt.Println(matrix.indexes[i].Index)
+
+		for j := 0; j < colSize; j++ {
+			fmt.Println("\t", matrix.indexes[i].Departments[j].name)
+			for k := 0; k < sliSize; k++ {
+				fmt.Println("\t\t", matrix.indexes[i].Departments[j].ratings[k].number)
+				array[k+sliSize*(j+colSize*i)] = matrix.indexes[i].Departments[j].ratings[k].lista
+				for l := 0; l < matrix.indexes[i].Departments[j].ratings[k].lista.lenght; l++ {
+					node, _ := matrix.indexes[i].Departments[j].ratings[k].lista.getNodeAt(l)
+					fmt.Println("\t\t", node.data.Name)
+				}
 			}
 		}
 	}
+
+	return array
 }

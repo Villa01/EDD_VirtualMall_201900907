@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // Agrega el nodo al principio de la lista y lo vuelve la cabeza
 func (list *DoublyLinkedList) addAtTheBeggining(node *Node) {
 	if list.lenght == 0 {
@@ -20,15 +18,14 @@ func (list *DoublyLinkedList) addAtTheBeggining(node *Node) {
 func (list *DoublyLinkedList) add(newNode *Node) {
 	if list.isEmpty() {
 		list.head = newNode
-		fmt.Println("Agregue la tienda ", newNode.data.Name)
+		//fmt.Println("Agregue la tienda ", newNode.data.Name)
 		return
-	} else {
-
-		lastNode := list.getLastNode()
-		lastNode.next = newNode
-		newNode.previous = lastNode
-		fmt.Println("Agregue la tienda ", newNode.data.Name)
 	}
+	lastNode := list.getLastNode()
+	lastNode.next = newNode
+	newNode.previous = lastNode
+	//fmt.Println("Agregue la tienda ", newNode.data.Name)
+
 	list.lenght++
 }
 

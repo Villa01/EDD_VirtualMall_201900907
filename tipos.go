@@ -1,5 +1,6 @@
 package main
 
+// DoublyLinkedList es una lista doble enlazada
 type DoublyLinkedList struct {
 	head   *Node
 	lenght int
