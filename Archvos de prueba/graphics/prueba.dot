@@ -1,0 +1,14 @@
+digraph reporte {
+rankdir = "TB"
+node [ shape= rect label="Amador" ] A41Amador;
+rankdir = "TB"
+node [ shape= rect label="Aurora" ] A50Aurora;
+node [ shape= rect label="Armados" ] A51Aurora;
+A50Aurora -> A51Aurora;
+A51Aurora -> A50Aurora;
+rankdir = "TB"
+node [ shape= rect label="A comer todo" ] A51Acomertodo;
+rankdir = "TB"
+node [ shape= rect label="Bayoneta" ] B51Bayoneta;
+
+}

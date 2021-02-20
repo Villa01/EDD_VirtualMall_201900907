@@ -1,7 +1,12 @@
 package main
 
-// Agrega el nodo al principio de la lista y lo vuelve la cabeza
-func (list *DoublyLinkedList) addAtTheBeggining(node *Node) {
+import (
+	"fmt"
+	"strings"
+)
+
+//AddAtTheBeggining Agrega el nodo al principio de la lista y lo vuelve la cabeza
+func (list *DoublyLinkedList) AddAtTheBeggining(node *Node) {
 	if list.lenght == 0 {
 		list.head = node
 
@@ -14,32 +19,31 @@ func (list *DoublyLinkedList) addAtTheBeggining(node *Node) {
 	list.lenght++
 }
 
-// Agrega un nodo al final
-func (list *DoublyLinkedList) add(newNode *Node) {
-	if list.isEmpty() {
+// Append  Agrega un nodo al final
+func (list *DoublyLinkedList) Append(newNode *Node) {
+	if list.head == nil {
 		list.head = newNode
-		//fmt.Println("Agregue la tienda ", newNode.data.Name)
+		list.lenght++
 		return
 	}
-	lastNode := list.getLastNode()
+	lastNode := list.GetLastNode()
 	lastNode.next = newNode
 	newNode.previous = lastNode
-	//fmt.Println("Agregue la tienda ", newNode.data.Name)
 
 	list.lenght++
 }
 
-// Agrega un nodo delante de un indice
-func (list *DoublyLinkedList) addAfter(index int, newNode *Node) string {
+//AddAfter Agrega un nodo delante de un indice
+func (list *DoublyLinkedList) AddAfter(index int, newNode *Node) string {
 	var err string
 	var previousNode *Node
 	var nextNode *Node
 	if list.isEmpty() {
-		err = "La lista se encuentra vacia"
+		err = "vacia"
 	} else if list.isInRange(index) {
 		err = "El indice está fuera de rango"
 	} else {
-		previousNode, _ = list.getNodeAt(index)
+		previousNode, _ = list.GetNodeAt(index)
 		if previousNode.next != nil {
 			nextNode = previousNode.next
 		}
@@ -64,14 +68,14 @@ func (list *DoublyLinkedList) isEmpty() bool {
 	return list.lenght == 0
 }
 
-// Retorna la lista en 2 strings recorrida de atras hacia adelante y de adelante hacia atras
-func (list DoublyLinkedList) toString() (string, string) {
+// ToString Retorna la lista en 2 strings recorrida de atras hacia adelante y de adelante hacia atras
+func (list DoublyLinkedList) ToString() (string, string) {
 	var temp = list.head
 	var text string
 	var reText string
 
 	if list.isEmpty() {
-		text = "La lista se encuentra vacia"
+		text = "vacia"
 		reText = text
 	} else {
 		for i := list.lenght; i > 0; i-- {
@@ -84,7 +88,7 @@ func (list DoublyLinkedList) toString() (string, string) {
 			temp = temp.next
 		}
 
-		temp = list.getLastNode()
+		temp = list.GetLastNode()
 
 		for i := list.lenght; i > 0; i-- {
 
@@ -96,8 +100,8 @@ func (list DoublyLinkedList) toString() (string, string) {
 	return text, reText
 }
 
-// Retorna el último nodo de la lista
-func (list DoublyLinkedList) getLastNode() *Node {
+//GetLastNode Retorna el último nodo de la lista
+func (list DoublyLinkedList) GetLastNode() *Node {
 	var lastNode *Node
 	temp := list.head
 	for i := 1; i < list.lenght; i++ {
@@ -108,8 +112,8 @@ func (list DoublyLinkedList) getLastNode() *Node {
 	return lastNode
 }
 
-// Retorna la referencia al nodo en el indice solicitado
-func (list DoublyLinkedList) getNodeAt(index int) (*Node, string) {
+//GetNodeAt Retorna la referencia al nodo en el indice solicitado
+func (list DoublyLinkedList) GetNodeAt(index int) (*Node, string) {
 
 	var err string
 	var temp *Node
@@ -131,4 +135,57 @@ func (list DoublyLinkedList) getNodeAt(index int) (*Node, string) {
 
 func (list DoublyLinkedList) isInRange(index int) bool {
 	return index < 0 || index > list.lenght-1
+}
+
+//SortByAscii ordena de menor a mayor por el codigo ascii del nombre de la tienda
+func (list *DoublyLinkedList) SortByAscii() {
+
+	for i := 0; i < list.lenght; i++ {
+
+	}
+}
+
+func GetAsciiValue(word string) int {
+	sum := 0
+	for i := 0; i < len(word); i++ {
+		fmt.Println("La letra es : ", word[i])
+		sum += int(word[i])
+	}
+	return sum
+}
+
+//GetGraphviz retorna una representacion en texto en formato dot
+func (list DoublyLinkedList) GetGraphviz() string {
+	var text string
+
+	var letter string
+
+	text += "\trankdir = \"TB\"\n"
+	letter = string(list.head.data.Name[0])
+
+	var tempNode1 *Node
+	var tempNode2 *Node
+	i := 0
+	for i < list.lenght-1 || i == 0 {
+
+		if list.lenght == 1 {
+			tempNode1 := list.GetLastNode()
+			nodeName := letter + fmt.Sprint(tempNode1.data.Rating) + fmt.Sprint(i+1) + strings.ReplaceAll(tempNode1.data.Name, " ", "")
+
+			text += "\tnode [ shape= rect label=\"" + tempNode1.data.Name + "\" ] " + nodeName + ";\n"
+		} else {
+			tempNode1, _ = list.GetNodeAt(i)
+			tempNode2 = tempNode1.next
+			nodeName := letter + fmt.Sprint(tempNode1.data.Rating) + fmt.Sprint(i) + strings.ReplaceAll(tempNode1.data.Name, " ", "")
+			nodeName2 := letter + fmt.Sprint(tempNode2.data.Rating) + fmt.Sprint(i+1) + strings.ReplaceAll(tempNode1.data.Name, " ", "")
+			text += "\tnode [ shape= rect label=\"" + tempNode1.data.Name + "\" ] " + nodeName + ";\n"
+			text += "\tnode [ shape= rect label=\"" + tempNode2.data.Name + "\" ] " + nodeName2 + ";\n"
+			text += "\t" + nodeName + " -> " + nodeName2 + ";\n"
+			text += "\t" + nodeName2 + " -> " + nodeName + ";\n"
+		}
+
+		i++
+	}
+
+	return text
 }

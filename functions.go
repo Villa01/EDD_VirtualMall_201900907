@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 // -------------------------------Funciones del servidor ----------------------
+
+var array []*DoublyLinkedList
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -14,6 +17,28 @@ var Info Information
 // Index es una funcion de prueba
 func Index(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprint(w, "El servidor esta funcionando")
+
+	lista := NewDoublyLinkedList()
+	store := Store{
+		Name:        "Tienda de prueba",
+		Description: "Descripcion de prueba",
+		Contact:     "Contacto de prueba",
+		Rating:      5,
+	}
+	store2 := Store{
+		Name:        "Tienda de prueba2",
+		Description: "Descripcion de prueba2",
+		Contact:     "Contacto de prueba2",
+		Rating:      5,
+	}
+	nodo := NewNode(store)
+	nodo2 := NewNode(store2)
+	lista.Append(nodo)
+	lista.Append(nodo2)
+	text, _ := lista.ToString()
+	fmt.Print(text)
+	num := GetAsciiValue("prueba")
+	fmt.Println(num)
 }
 
 // loadStore obtiene los datos de tiendas
@@ -28,14 +53,42 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("$$$ Matriz completamente llena")
 	matrix.printMatrix()
 	fmt.Println("$$$ Linealizando la matriz...")
-	array := matrix.rowMajor()
+	array = matrix.rowMajor()
 	fmt.Println("$$$ Matriz completamente linealizada")
 	printArray(array)
 }
 
-// getArreglo busca una tienda con los parametros que especifica el archivo json
+// getArreglo genera un reporte del vector de listas linealizado
 func getArreglo(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprint(w, "La graficacion del arreglo funciona")
+
+	dotArrayRoute := "reporte.dot"
+
+	if len(array) <= 0 {
+		return
+	}
+	text := "digraph reporte {\n"
+	for i := 0; i < len(array); i++ {
+
+		if array[i].head != nil {
+			fmt.Println(array[i].head.data.Name)
+			text += array[i].GetGraphviz()
+		} else {
+			text += "\tnode [ shape= rect label=\"Null\"] v" + fmt.Sprint(i) + ";\n"
+		}
+	}
+
+	text += "\n}"
+	fmt.Println(text)
+
+	file, err := os.Create(dotArrayRoute)
+
+	if err != nil {
+		return
+	}
+	defer file.Close()
+
+	file.WriteString(text)
+
 }
 
 // searchSpecificStore busca una tienda con los parametros que especifica el archivo json
@@ -83,18 +136,21 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 			newDepartments = append(newDepartments, newDepartment)
 			var newRatings [5]Rating
 
-			for _, sto := range dep.Stores { // Recorremos cada tienda de cada departamento
-				for l := 1; l <= 5; l++ { // Se le crea una lista a cada posicion
-					newRatings[l-1] = Rating{
-						number: l,
-						lista:  NewDoublyLinkedList(),
-					}
+			for l := 1; l <= 5; l++ { // Se le crea una lista a cada posicion
+				newRatings[l-1] = Rating{
+					number: l,
+					lista:  NewDoublyLinkedList(),
 				}
+			}
+
+			for _, sto := range dep.Stores { // Recorremos cada tienda de cada departamento
+
 				rate := int(sto.Rating) - 1
 				node := NewNode(sto)
-				list := *newRatings[rate].lista
-				list.add(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
-
+				newRatings[rate].lista.Append(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
+				fmt.Println("Agregué la tienda ", newRatings[rate].lista.head)
+				text, _ := newRatings[rate].lista.ToString()
+				fmt.Println(" a la lista ", text)
 			}
 			newDepartments[j].ratings = newRatings
 		}
@@ -137,6 +193,7 @@ func (matrix *Matrix) rowMajor() []*DoublyLinkedList {
 			for k := 0; k < sliSize; k++ {
 
 				array[k+sliSize*(j+colSize*i)] = matrix.indexes[i].Departments[j].ratings[k].lista
+				//texto, _ := matrix.indexes[i].Departments[j].ratings[k].lista.ToString()
 			}
 		}
 	}
@@ -146,7 +203,8 @@ func (matrix *Matrix) rowMajor() []*DoublyLinkedList {
 func printArray(array []*DoublyLinkedList) {
 	fmt.Print("[ ")
 	for i := 0; i < len(array); i++ {
-		fmt.Print(" ", array[i], " ")
+		text, _ := array[i].ToString()
+		fmt.Print(" ", text, " ,")
 	}
 	fmt.Println("]")
 }
