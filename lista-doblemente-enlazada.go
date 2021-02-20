@@ -189,3 +189,29 @@ func (list DoublyLinkedList) GetGraphviz() string {
 
 	return text
 }
+
+// GetJSONNodes regresa los nodos de una lista en un formato compatible con json
+func (list DoublyLinkedList) GetJSONNodes() SeveralJSONNodes {
+
+	var Anodes []JSONNodes
+	temp := list.head
+	for i := 0; i < list.lenght; i++ {
+
+		Nname := temp.data.Name
+		Ndescription := temp.data.Description
+		Ncontact := temp.data.Contact
+
+		node := JSONNodes{
+			Name:        Nname,
+			Description: Ndescription,
+			Contact:     Ncontact,
+		}
+
+		Anodes = append(Anodes, node)
+		temp, _ = list.GetNodeAt(i)
+	}
+	data := SeveralJSONNodes{
+		Nodes: Anodes,
+	}
+	return data
+}

@@ -66,3 +66,15 @@ type Rating struct {
 type Matrix struct {
 	indexes []*IndexLetter
 }
+
+// JSONNodes es una representacion de una store compatible con json
+type JSONNodes struct {
+	Name        string `json:"Nombre"`
+	Description string `json:"Descripcion"`
+	Contact     string `json:"Contacto"`
+}
+
+// SeveralJSONNodes es un conjunto de JSONNodes
+type SeveralJSONNodes struct {
+	Nodes []JSONNodes `json:"Tiendas"`
+}

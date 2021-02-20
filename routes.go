@@ -23,7 +23,7 @@ var routes = Routes{
 	Route{Name: "CargaTiendas", Method: "POST", Path: "/guardar", Function: loadStore},
 	Route{Name: "GetArreglo", Method: "GET", Path: "/getArreglo", Function: getArreglo},
 	Route{Name: "TiendaEspecifica", Method: "POST", Path: "/TiendaEspecifica", Function: searchSpecificStore},
-	Route{Name: "BusquedaPorPosicion", Method: "GET", Path: "/id/numero,", Function: searchByPosition},
+	Route{Name: "BusquedaPorPosicion", Method: "GET", Path: "/id/{numero}", Function: searchByPosition},
 	Route{Name: "EliminarRegistro", Method: "DELETE", Path: "/Eliminar", Function: deleteRegistry},
 	Route{Name: "GuardarDatos", Method: "GET", Path: "/Guardar", Function: saveData}}
 

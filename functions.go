@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 // -------------------------------Funciones del servidor ----------------------
@@ -60,7 +63,7 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 
 // getArreglo genera un reporte del vector de listas linealizado
 func getArreglo(w http.ResponseWriter, req *http.Request) {
-
+	fmt.Println("\n Generando un reporte del vector linealizado...")
 	dotArrayRoute := "reporte.dot"
 
 	if len(array) <= 0 {
@@ -89,6 +92,8 @@ func getArreglo(w http.ResponseWriter, req *http.Request) {
 
 	file.WriteString(text)
 
+	fmt.Println("\n EL archivo reporte.svg se encuentra en la carpeta del proyecto.")
+
 }
 
 // searchSpecificStore busca una tienda con los parametros que especifica el archivo json
@@ -98,7 +103,28 @@ func searchSpecificStore(w http.ResponseWriter, req *http.Request) {
 
 // searchByPosition busca en los arreglos las tiendas en cierta posicion
 func searchByPosition(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprint(w, "La busqueda por posicion funciona")
+
+	if len(array) == 0 {
+		fmt.Println("Primero debe llenar el arreglo con informacion")
+		json.NewEncoder(w).Encode("Primero debe llenar el arreglo con informacion")
+		return
+	}
+
+	parameters := mux.Vars(req)
+	index, err := strconv.Atoi(parameters["numero"])
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Iniciando la busqueda del elemento en el arreglo linealizado")
+
+	lista := array[index]
+
+	nodes := lista.GetJSONNodes()
+	fmt.Println(nodes)
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(nodes)
 }
 
 // deleteRegistry elimina una de las tiendas con la informacion del archivo json
@@ -148,9 +174,6 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 				rate := int(sto.Rating) - 1
 				node := NewNode(sto)
 				newRatings[rate].lista.Append(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
-				fmt.Println("Agregué la tienda ", newRatings[rate].lista.head)
-				text, _ := newRatings[rate].lista.ToString()
-				fmt.Println(" a la lista ", text)
 			}
 			newDepartments[j].ratings = newRatings
 		}
@@ -171,7 +194,9 @@ func (matrix *Matrix) printMatrix() {
 		for j := 0; j < len(matrix.indexes[i].Departments); j++ {
 			fmt.Print("[ ")
 			for k := 0; k < len(matrix.indexes[i].Departments[j].ratings); k++ {
-				fmt.Print("[ ", matrix.indexes[i].Departments[j].ratings[k].number, " ]")
+				text, _ := matrix.indexes[i].Departments[j].ratings[k].lista.ToString()
+				fmt.Print("[ ", text, " ]")
+
 			}
 			fmt.Print("] ")
 		}
