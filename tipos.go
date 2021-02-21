@@ -51,9 +51,8 @@ type IndexLetter struct {
 
 //DepartmentMatrix es el tipo de dato de las columnas de la matriz
 type DepartmentMatrix struct {
-	Department
-	name    string
-	ratings [5]Rating
+	Name    string
+	Ratings [5]Rating
 }
 
 // Rating es la tercera dimension de la matriz
@@ -77,4 +76,18 @@ type JSONNodes struct {
 // SeveralJSONNodes es un conjunto de JSONNodes
 type SeveralJSONNodes struct {
 	Nodes []JSONNodes `json:"Tiendas"`
+}
+
+// SpecificStore es un tipo que permite buscar por medio de 3 parametros
+type SpecificStore struct {
+	Departament string `json:"Departamento"`
+	Name        string `json:"Nombre"`
+	Rating      int    `json:"Calificacion"`
+}
+
+// VectorItem es un item para llenar el vector linealizado
+type VectorItem struct {
+	Department string
+	Rating     int
+	List       *DoublyLinkedList
 }

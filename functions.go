@@ -12,7 +12,7 @@ import (
 
 // -------------------------------Funciones del servidor ----------------------
 
-var array []*DoublyLinkedList
+var array []VectorItem
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -72,9 +72,9 @@ func getArreglo(w http.ResponseWriter, req *http.Request) {
 	text := "digraph reporte {\n"
 	for i := 0; i < len(array); i++ {
 
-		if array[i].head != nil {
-			fmt.Println(array[i].head.data.Name)
-			text += array[i].GetGraphviz()
+		if array[i].List.head != nil {
+			fmt.Println(array[i].List.head.data.Name)
+			text += array[i].List.GetGraphviz()
 		} else {
 			text += "\tnode [ shape= rect label=\"Null\"] v" + fmt.Sprint(i) + ";\n"
 		}
@@ -86,7 +86,7 @@ func getArreglo(w http.ResponseWriter, req *http.Request) {
 	file, err := os.Create(dotArrayRoute)
 
 	if err != nil {
-		return
+		panic(err)
 	}
 	defer file.Close()
 
@@ -98,14 +98,35 @@ func getArreglo(w http.ResponseWriter, req *http.Request) {
 
 // searchSpecificStore busca una tienda con los parametros que especifica el archivo json
 func searchSpecificStore(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprint(w, "La busqueda especifica funciona")
+	var sStore SpecificStore
+	_ = json.NewDecoder(req.Body).Decode(&sStore)
+	fmt.Println("$$$Buscando tienda con los parametros especificados")
+	fmt.Println("Los datos que busco son ", sStore)
+	var store Store
+	for i := 0; i < len(array); i++ {
+		if array[i].Department == sStore.Departament && array[i].Rating == sStore.Rating {
+			for j := 0; j < array[i].List.lenght; j++ {
+				tempNode, _ := array[i].List.GetNodeAt(j)
+				tempName := tempNode.data.Name
+				fmt.Println(tempName)
+				if tempName == sStore.Name {
+					store = tempNode.data
+				}
+			}
+		}
+	}
+
+	fmt.Println("Lo que encontre es ", store)
+	fmt.Println("$$$ Retornando datos obtenidos")
+	w.Header().Set("Content-type", "application/json")
+	json.NewEncoder(w).Encode(store)
 }
 
 // searchByPosition busca en los arreglos las tiendas en cierta posicion
 func searchByPosition(w http.ResponseWriter, req *http.Request) {
 
 	if len(array) == 0 {
-		fmt.Println("Primero debe llenar el arreglo con informacion")
+		fmt.Println("$$$Primero debe llenar el arreglo con informacion")
 		json.NewEncoder(w).Encode("Primero debe llenar el arreglo con informacion")
 		return
 	}
@@ -117,14 +138,18 @@ func searchByPosition(w http.ResponseWriter, req *http.Request) {
 		panic(err)
 	}
 
-	fmt.Println("Iniciando la busqueda del elemento en el arreglo linealizado")
+	fmt.Println("$$$Iniciando la busqueda del elemento en el arreglo linealizado")
 
-	lista := array[index]
+	item := array[index]
+	nodes := item.List.GetJSONNodes()
+	if len(nodes.Nodes) > 0 {
+		w.Header().Set("Content-type", "application/json")
+		json.NewEncoder(w).Encode(nodes)
+	} else {
+		w.Header().Set("Content-type", "application/json")
+		json.NewEncoder(w).Encode("La posicion está vacía.")
+	}
 
-	nodes := lista.GetJSONNodes()
-	fmt.Println(nodes)
-	w.Header().Set("Content-type", "application/json")
-	json.NewEncoder(w).Encode(nodes)
 }
 
 // deleteRegistry elimina una de las tiendas con la informacion del archivo json
@@ -157,7 +182,7 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 
 		for j, dep := range dat.Departments { // Recorremos cada departamento de cada indice
 			newDepartment := DepartmentMatrix{
-				name: dep.Name,
+				Name: dep.Name,
 			}
 			newDepartments = append(newDepartments, newDepartment)
 			var newRatings [5]Rating
@@ -175,7 +200,7 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 				node := NewNode(sto)
 				newRatings[rate].lista.Append(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
 			}
-			newDepartments[j].ratings = newRatings
+			newDepartments[j].Ratings = newRatings
 		}
 		newIndexes[i].Departments = newDepartments
 
@@ -193,8 +218,8 @@ func (matrix *Matrix) printMatrix() {
 		fmt.Print(matrix.indexes[i].Index, "[ ")
 		for j := 0; j < len(matrix.indexes[i].Departments); j++ {
 			fmt.Print("[ ")
-			for k := 0; k < len(matrix.indexes[i].Departments[j].ratings); k++ {
-				text, _ := matrix.indexes[i].Departments[j].ratings[k].lista.ToString()
+			for k := 0; k < len(matrix.indexes[i].Departments[j].Ratings); k++ {
+				text, _ := matrix.indexes[i].Departments[j].Ratings[k].lista.ToString()
 				fmt.Print("[ ", text, " ]")
 
 			}
@@ -205,19 +230,26 @@ func (matrix *Matrix) printMatrix() {
 }
 
 // rowMajor linealiza la matriz a un arreglo
-func (matrix *Matrix) rowMajor() []*DoublyLinkedList {
+func (matrix *Matrix) rowMajor() []VectorItem {
 	rowSize := len(matrix.indexes)
 	colSize := len(matrix.indexes[0].Departments)
-	sliSize := len(matrix.indexes[0].Departments[0].ratings)
+	sliSize := len(matrix.indexes[0].Departments[0].Ratings)
 	var arrSize int = rowSize * colSize * sliSize
-	var array = make([]*DoublyLinkedList, arrSize)
+	var array = make([]VectorItem, arrSize)
 
 	for i := 0; i < rowSize; i++ {
-
 		for j := 0; j < colSize; j++ {
 			for k := 0; k < sliSize; k++ {
+				department := matrix.indexes[i].Departments[j].Name
+				rating := matrix.indexes[i].Departments[j].Ratings[k].number
+				list := matrix.indexes[i].Departments[j].Ratings[k].lista
 
-				array[k+sliSize*(j+colSize*i)] = matrix.indexes[i].Departments[j].ratings[k].lista
+				temp := VectorItem{
+					Department: department,
+					Rating:     rating,
+					List:       list,
+				}
+				array[k+sliSize*(j+colSize*i)] = temp
 				//texto, _ := matrix.indexes[i].Departments[j].ratings[k].lista.ToString()
 			}
 		}
@@ -225,10 +257,10 @@ func (matrix *Matrix) rowMajor() []*DoublyLinkedList {
 	return array
 }
 
-func printArray(array []*DoublyLinkedList) {
+func printArray(array []VectorItem) {
 	fmt.Print("[ ")
 	for i := 0; i < len(array); i++ {
-		text, _ := array[i].ToString()
+		text, _ := array[i].List.ToString()
 		fmt.Print(" ", text, " ,")
 	}
 	fmt.Println("]")
