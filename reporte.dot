@@ -34,7 +34,6 @@ digraph reporte {
 	node [ shape= rect label="Null"] v26;
 	node [ shape= rect label="Null"] v27;
 	node [ shape= rect label="Null"] v28;
-	rankdir = "TB"
-	node [ shape= rect label="Bayoneta" ] B51Bayoneta;
+	node [ shape= rect label="Null"] v29;
 
 }

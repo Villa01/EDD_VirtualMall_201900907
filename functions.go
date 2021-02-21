@@ -13,6 +13,7 @@ import (
 // -------------------------------Funciones del servidor ----------------------
 
 var array []VectorItem
+var matrix Matrix
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -50,7 +51,6 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	_ = json.NewDecoder(req.Body).Decode(&Info)
 	json.NewEncoder(w).Encode("Recibido")
 
-	var matrix Matrix
 	fmt.Println("$$$ LLenando la matriz...")
 	matrix.fillMatrix(Info)
 	fmt.Println("$$$ Matriz completamente llena")
@@ -179,7 +179,9 @@ func deleteRegistry(w http.ResponseWriter, req *http.Request) {
 
 // saveData guarda los datos de la matriz en un archivo json
 func saveData(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprint(w, "El guardado de datos funciona")
+	m := inverseRowMajor(array)
+	m.printMatrix()
+	json.NewEncoder(w).Encode(m)
 }
 
 // --------------------- Utilidades --------------------------------------
@@ -209,8 +211,8 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 
 			for l := 1; l <= 5; l++ { // Se le crea una lista a cada posicion
 				newRatings[l-1] = Rating{
-					number: l,
-					lista:  NewDoublyLinkedList(),
+					Number: l,
+					Lista:  NewDoublyLinkedList(),
 				}
 			}
 
@@ -218,7 +220,7 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 
 				rate := int(sto.Rating) - 1
 				node := NewNode(sto)
-				newRatings[rate].lista.Append(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
+				newRatings[rate].Lista.Append(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
 			}
 			newDepartments[j].Ratings = newRatings
 		}
@@ -226,7 +228,7 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 
 	}
 
-	matrix.indexes = newIndexes
+	matrix.Indexes = newIndexes
 
 	return matrix
 }
@@ -234,12 +236,12 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 // printMatrix imprime la matriz en un formato legible
 func (matrix *Matrix) printMatrix() {
 
-	for i := 0; i < len(matrix.indexes); i++ {
-		fmt.Print(matrix.indexes[i].Index, "[ ")
-		for j := 0; j < len(matrix.indexes[i].Departments); j++ {
+	for i := 0; i < len(matrix.Indexes); i++ {
+		fmt.Print(matrix.Indexes[i].Index, "[ ")
+		for j := 0; j < len(matrix.Indexes[i].Departments); j++ {
 			fmt.Print("[ ")
-			for k := 0; k < len(matrix.indexes[i].Departments[j].Ratings); k++ {
-				text, _ := matrix.indexes[i].Departments[j].Ratings[k].lista.ToString()
+			for k := 0; k < len(matrix.Indexes[i].Departments[j].Ratings); k++ {
+				text, _ := matrix.Indexes[i].Departments[j].Ratings[k].Lista.ToString()
 				fmt.Print("[ ", text, " ]")
 
 			}
@@ -251,18 +253,18 @@ func (matrix *Matrix) printMatrix() {
 
 // rowMajor linealiza la matriz a un arreglo
 func (matrix *Matrix) rowMajor() []VectorItem {
-	rowSize := len(matrix.indexes)
-	colSize := len(matrix.indexes[0].Departments)
-	sliSize := len(matrix.indexes[0].Departments[0].Ratings)
+	rowSize := len(matrix.Indexes)
+	colSize := len(matrix.Indexes[0].Departments)
+	sliSize := len(matrix.Indexes[0].Departments[0].Ratings)
 	var arrSize int = rowSize * colSize * sliSize
 	var array = make([]VectorItem, arrSize)
 
 	for i := 0; i < rowSize; i++ {
 		for j := 0; j < colSize; j++ {
 			for k := 0; k < sliSize; k++ {
-				department := matrix.indexes[i].Departments[j].Name
-				rating := matrix.indexes[i].Departments[j].Ratings[k].number
-				list := matrix.indexes[i].Departments[j].Ratings[k].lista
+				department := matrix.Indexes[i].Departments[j].Name
+				rating := matrix.Indexes[i].Departments[j].Ratings[k].Number
+				list := matrix.Indexes[i].Departments[j].Ratings[k].Lista
 
 				temp := VectorItem{
 					Department: department,
@@ -275,6 +277,44 @@ func (matrix *Matrix) rowMajor() []VectorItem {
 		}
 	}
 	return array
+}
+
+func inverseRowMajor(array []VectorItem) Matrix {
+
+	rowSize := len(matrix.Indexes)
+	colSize := len(matrix.Indexes[0].Departments)
+	sliSize := len(matrix.Indexes[0].Departments[0].Ratings)
+
+	var indexes []*IndexLetter
+	var matrix Matrix
+
+	for i := 0; i < rowSize; i++ {
+		var newIndex IndexLetter
+		indexes = append(indexes, &newIndex)
+		var departs []DepartmentMatrix
+		for j := 0; j < colSize; j++ {
+			var dep DepartmentMatrix
+			departs = append(departs, dep)
+
+			var ratings [5]Rating
+			for k := 0; k < 5; k++ {
+				var rat Rating
+				ratings[k] = rat
+			}
+			departs[j].Ratings = ratings
+		}
+		indexes[i].Departments = departs
+	}
+	matrix.Indexes = indexes
+
+	for i := 0; i < rowSize; i++ {
+		for j := 0; j < colSize; j++ {
+			for k := 0; k < sliSize; k++ {
+				matrix.Indexes[i].Departments[j].Ratings[k].Lista = array[k+sliSize*(j+colSize*i)].List
+			}
+		}
+	}
+	return matrix
 }
 
 func printArray(array []VectorItem) {

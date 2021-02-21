@@ -46,24 +46,24 @@ type Information struct {
 //IndexLetter es el tipo de dato de las filas de la matriz
 type IndexLetter struct {
 	Index       string
-	Departments []DepartmentMatrix
+	Departments []DepartmentMatrix `json: "Departamentos`
 }
 
 //DepartmentMatrix es el tipo de dato de las columnas de la matriz
 type DepartmentMatrix struct {
-	Name    string
-	Ratings [5]Rating
+	Name    string    `json:"Departamento"`
+	Ratings [5]Rating `json:"Calificaciones"`
 }
 
 // Rating es la tercera dimension de la matriz
 type Rating struct {
-	number int
-	lista  *DoublyLinkedList
+	Number int `json: "Calificacion"`
+	Lista  *DoublyLinkedList
 }
 
 // Matrix es una matriz llenada con informacion de un json
 type Matrix struct {
-	indexes []*IndexLetter
+	Indexes []*IndexLetter
 }
 
 // JSONNodes es una representacion de una store compatible con json
