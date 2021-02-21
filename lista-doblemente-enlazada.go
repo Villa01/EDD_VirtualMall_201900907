@@ -215,3 +215,31 @@ func (list DoublyLinkedList) GetJSONNodes() SeveralJSONNodes {
 	}
 	return data
 }
+
+// DeleteNode elimina el nodo de la lista
+func (list *DoublyLinkedList) DeleteNode(index int) {
+
+	if list.isEmpty() {
+		return
+	}
+	node, _ := list.GetNodeAt(index)
+	fmt.Println(node)
+	fmt.Println(node.data.Name)
+
+	if list.lenght == 1 {
+		list.head = nil
+	} else if node == list.GetLastNode() { // Si es el ultimo al anterior se le apunta a nil
+		node.previous.next = nil
+	} else if node == list.head { // Si es el primero al siguiente se le apunta a nil
+		temp := node.next
+		list.head = temp
+		node.next.previous = nil
+
+	} else {
+		node.previous.next = node.next
+		node.next.previous = node.previous
+	}
+
+	list.lenght--
+
+}

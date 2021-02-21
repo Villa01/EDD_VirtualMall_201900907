@@ -101,7 +101,6 @@ func searchSpecificStore(w http.ResponseWriter, req *http.Request) {
 	var sStore SpecificStore
 	_ = json.NewDecoder(req.Body).Decode(&sStore)
 	fmt.Println("$$$Buscando tienda con los parametros especificados")
-	fmt.Println("Los datos que busco son ", sStore)
 	var store Store
 	for i := 0; i < len(array); i++ {
 		if array[i].Department == sStore.Departament && array[i].Rating == sStore.Rating {
@@ -116,7 +115,6 @@ func searchSpecificStore(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	fmt.Println("Lo que encontre es ", store)
 	fmt.Println("$$$ Retornando datos obtenidos")
 	w.Header().Set("Content-type", "application/json")
 	json.NewEncoder(w).Encode(store)
@@ -154,7 +152,29 @@ func searchByPosition(w http.ResponseWriter, req *http.Request) {
 
 // deleteRegistry elimina una de las tiendas con la informacion del archivo json
 func deleteRegistry(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprint(w, "La eliminacion funciona")
+	var sStore SpecificStore
+	_ = json.NewDecoder(req.Body).Decode(&sStore)
+
+	if len(array) == 0 {
+		fmt.Println("$$$Primero debe llenar el arreglo con informacion")
+		json.NewEncoder(w).Encode("Primero debe llenar el arreglo con informacion")
+		return
+	}
+
+	fmt.Println("$$$Buscando tienda con los parametros especificados")
+	for i := 0; i < len(array); i++ {
+		if array[i].Department == sStore.Departament && array[i].Rating == sStore.Rating {
+			for j := 0; j < array[i].List.lenght; j++ {
+				tempNode, _ := array[i].List.GetNodeAt(j)
+				tempName := tempNode.data.Name
+				if tempName == sStore.Name {
+					array[i].List.DeleteNode(j)
+				}
+			}
+		}
+	}
+	printArray(array)
+
 }
 
 // saveData guarda los datos de la matriz en un archivo json
