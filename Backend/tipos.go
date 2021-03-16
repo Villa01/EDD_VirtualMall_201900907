@@ -24,6 +24,7 @@ type Store struct {
 	Description string `json:"Descripcion"`
 	Contact     string `json:"Contacto"`
 	Rating      int8   `json:"Calificacion"`
+	Logo        string `json: Logo`
 }
 
 // Department se refiere a los departamentos a los que pertenencen las tiendas
@@ -83,6 +84,7 @@ type SpecificStore struct {
 	Departament string `json:"Departamento"`
 	Name        string `json:"Nombre"`
 	Rating      int    `json:"Calificacion"`
+	Logo        string `json: Logo`
 }
 
 // VectorItem es un item para llenar el vector linealizado
@@ -90,4 +92,13 @@ type VectorItem struct {
 	Department string
 	Rating     int
 	List       *DoublyLinkedList
+}
+
+// Product son los productos del inventario
+type Product struct {
+	Nombre      string `json: "Nombre"`
+	Codigo      int    `json: "Codigo"`
+	Descripcion string `json: "Descripcion"`
+	Precio      float  `json: "Precio"`
+	Cantidad    int    `json: "Cantidad"`
 }

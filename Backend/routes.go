@@ -20,7 +20,7 @@ type Routes []Route
 // Aqui se agregan las nuevas rutas
 var routes = Routes{
 	Route{Name: "Index", Method: "GET", Path: "/", Function: Index},
-	Route{Name: "CargaTiendas", Method: "POST", Path: "/guardar", Function: loadStore},
+	Route{Name: "CargaTiendas", Method: "POST", Path: "/cargarTienda", Function: loadStore},
 	Route{Name: "GetArreglo", Method: "GET", Path: "/getArreglo", Function: getArreglo},
 	Route{Name: "TiendaEspecifica", Method: "POST", Path: "/TiendaEspecifica", Function: searchSpecificStore},
 	Route{Name: "BusquedaPorPosicion", Method: "GET", Path: "/id/{numero}", Function: searchByPosition},
