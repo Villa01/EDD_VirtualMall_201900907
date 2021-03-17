@@ -89,8 +89,8 @@ type SpecificStore struct {
 
 // VectorItem es un item para llenar el vector linealizado
 type VectorItem struct {
-	Department string
-	Rating     int
+	Department string `json:"Departamento"`
+	Rating     int `json:"Calificacion"`
 	List       *DoublyLinkedList
 }
 
@@ -99,6 +99,6 @@ type Product struct {
 	Nombre      string `json: "Nombre"`
 	Codigo      int    `json: "Codigo"`
 	Descripcion string `json: "Descripcion"`
-	Precio      float  `json: "Precio"`
+	Precio      float32  `json: "Precio"`
 	Cantidad    int    `json: "Cantidad"`
 }

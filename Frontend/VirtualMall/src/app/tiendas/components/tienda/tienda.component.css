@@ -1,0 +1,18 @@
+img {
+    width: 200px;
+    width: 200px;
+}
+div {
+    text-align: center;
+    display: flex;
+    
+}
+
+.descripcion{
+    display: flex;
+    flex-direction: row;
+}
+
+.descripcion p{
+    width: 100%;
+}

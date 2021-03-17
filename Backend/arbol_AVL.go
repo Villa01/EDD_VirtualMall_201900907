@@ -19,7 +19,7 @@ func newArbolAVL() *arbolAVL {
 	return &arbolAVL{root: nil}
 }
 
-func max(num1 int, num2 int) int {
+func max(num1 int, num2 int) int  {
 	if num1 > num2 {
 		return num1
 	}
@@ -30,5 +30,4 @@ func (nodo *nodoAVL) getAltura() int {
 	if nodo != nil {
 		return nodo.altura
 	}
-	return -1
 }

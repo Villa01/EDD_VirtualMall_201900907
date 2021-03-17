@@ -20,6 +20,7 @@ export interface Tienda {
     Logo:         string;
 }
 
+
 interface HTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
 }

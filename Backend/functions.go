@@ -54,11 +54,11 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("$$$ LLenando la matriz...")
 	matrix.fillMatrix(Info)
 	fmt.Println("$$$ Matriz completamente llena")
-	matrix.printMatrix()
+	//matrix.printMatrix()
 	fmt.Println("$$$ Linealizando la matriz...")
 	array = matrix.rowMajor()
 	fmt.Println("$$$ Matriz completamente linealizada")
-	printArray(array)
+	//printArray(array)
 }
 
 // getArreglo genera un reporte del vector de listas linealizado
@@ -81,7 +81,7 @@ func getArreglo(w http.ResponseWriter, req *http.Request) {
 	}
 
 	text += "\n}"
-	fmt.Println(text)
+	//fmt.Println(text)
 
 	file, err := os.Create(dotArrayRoute)
 
@@ -107,7 +107,7 @@ func searchSpecificStore(w http.ResponseWriter, req *http.Request) {
 			for j := 0; j < array[i].List.lenght; j++ {
 				tempNode, _ := array[i].List.GetNodeAt(j)
 				tempName := tempNode.data.Name
-				fmt.Println(tempName)
+				//fmt.Println(tempName)
 				if tempName == sStore.Name {
 					store = tempNode.data
 				}
@@ -181,7 +181,20 @@ func deleteRegistry(w http.ResponseWriter, req *http.Request) {
 func saveData(w http.ResponseWriter, req *http.Request) {
 	m := inverseRowMajor(array)
 	m.printMatrix()
+	enableCors(&w)
 	json.NewEncoder(w).Encode(m)
+}
+
+func getTiendas(w http.ResponseWriter, req *http.Request){
+	fmt.Println("$$$Devolviendo las tiendas")
+	stores := fillStores(array)
+	//fmt.Print(stores)
+	enableCors(&w)
+	json.NewEncoder(w).Encode(stores)
+}
+
+func enableCors(w *http.ResponseWriter) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 // --------------------- Utilidades --------------------------------------
@@ -231,6 +244,19 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 	matrix.Indexes = newIndexes
 
 	return matrix
+}
+
+
+func fillStores(vector []VectorItem) []Store{
+	var stores []Store
+	for _, item := range vector {
+		for i:= 0; i < item.List.lenght; i++{
+			temp,_ := item.List.GetNodeAt(i)
+			stores = append(stores, temp.data)
+		}
+	}
+
+	return stores
 }
 
 // printMatrix imprime la matriz en un formato legible
