@@ -71,7 +71,7 @@ func loadInventories(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte("500 - La información no es correcta"))
 		return
 	}
-
+	enableCors(&w)
 	json.NewEncoder(w).Encode("Recibido")
 
 	fmt.Println("$$$ Asignando el inventario a cada tienda")

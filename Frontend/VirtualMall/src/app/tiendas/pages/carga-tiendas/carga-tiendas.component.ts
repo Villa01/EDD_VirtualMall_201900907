@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TiendaService } from '../../services/tienda.service';
 
 @Component({
@@ -9,6 +9,8 @@ import { TiendaService } from '../../services/tienda.service';
 export class CargaTiendasComponent  {
 
   termino :string = ""
+
+  opcion : string[] = ['tienda', 'inventario']
 
   constructor(private tiendaService : TiendaService) { }
 

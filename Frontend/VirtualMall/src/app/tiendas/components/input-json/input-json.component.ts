@@ -8,7 +8,7 @@ import { TiendaService } from '../../services/tienda.service';
   styleUrls: []
 })
 export class InputJSONComponent {
-
+  @Input() opcion : string = ""
   @Output() onEnter : EventEmitter<string> = new EventEmitter();
 
   termino : string = ""
@@ -31,15 +31,31 @@ export class InputJSONComponent {
     }
     //Envia el archivo al padre
     enviar(){
+      
+      console.log(this.opcion)
+      switch (this.opcion){
+        case 'tienda':
+          this.tiendasService.cargarTiendas(this.termino).subscribe(
+            resp =>{
+              //console.log(resp.toString);
+            }, err => {
+              //console.log(err)
+            }
+          );
+          break
+        case 'inventario':
+          this.tiendasService.cargarInventarios(this.termino).subscribe(
+            resp =>{
+              //console.log(resp.toString);
+            }, err => {
+              //console.log(err)
+            }
+          );
+          break
+      }
       //console.log(this.termino)
 
-      this.tiendasService.cargarTiendas(this.termino).subscribe(
-        resp =>{
-          //console.log(resp.toString);
-        }, err => {
-          //console.log(err)
-        }
-      );
+      
 
       //this.onEnter.emit(this.termino);
 

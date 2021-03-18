@@ -18,6 +18,11 @@ export class TiendaService {
     return this.http.post(url, termino)
   }
 
+  cargarInventarios(termino:string){
+    const url = `${this.apiUrl}/cargarInventarios`;
+    return this.http.post(url, termino)
+  }
+
   obtenerTiendas(): Observable<Tienda[]>{
     const url= `${this.apiUrl}/getTiendas`;
     return this.http.get<Tienda[]>(url);
