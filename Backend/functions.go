@@ -17,6 +17,7 @@ var matrix Matrix
 
 // Info almacena todos los datos del json leido
 var Info Information
+var InvResp InventoryResponse
 
 // Index es una funcion de prueba
 func Index(w http.ResponseWriter, req *http.Request) {
@@ -59,6 +60,24 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	array = matrix.rowMajor()
 	fmt.Println("$$$ Matriz completamente linealizada")
 	//printArray(array)
+}
+
+func loadInventories(w http.ResponseWriter, req *http.Request) {
+
+	err := json.NewDecoder(req.Body).Decode(&InvResp)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("500 - La información no es correcta"))
+		return
+	}
+
+	json.NewEncoder(w).Encode("Recibido")
+
+	fmt.Println("$$$ Asignando el inventario a cada tienda")
+	asignInventories()
+	fmt.Println("$$$ Inventarios asignados")
+	//matrix.printMatrix()
 }
 
 // getArreglo genera un reporte del vector de listas linealizado
@@ -198,6 +217,47 @@ func enableCors(w *http.ResponseWriter) {
 }
 
 // --------------------- Utilidades --------------------------------------
+
+func asignInventories(){
+
+	for _, inventario := range InvResp.Invetarios {
+		name := inventario.Tienda
+		depart := inventario.Departamento
+		rat := inventario.Calificacion
+		// Se recorren los items del arreglo linealizado para encontrar la tienda
+		for _, item := range array {
+
+			// Cuando se encuentra la tienda
+
+			if item.Department == depart && item.Rating == rat {
+				temp := item.List.searchByContent(name)
+				if temp == nil {
+					break
+				}
+				temp.data.Inventory = NewAVL()
+				// Se le asignan todos los productos a su inventario
+				for _, producto := range inventario.Productos {
+					// Se verifica si el indice ya existe
+					existente := temp.data.Inventory.BuscarNodo(producto.Codigo)
+					if existente != nil {
+
+						fmt.Println("La tienda existe " + existente.producto.Nombre )
+						existente.producto.Cantidad += producto.Cantidad
+					} else {
+						// Si no existe
+
+						fmt.Println("La tienda no existe "  )
+						temp.data.Inventory.Insertar(producto, producto.Codigo)
+					}
+				}
+				fmt.Print("El arbol es ")
+				temp.data.Inventory.Print()
+			}
+		}
+
+	}
+}
+
 
 // fillMatrix recibe la informacion y llena una matriz 3 x 3 con una lista doblemente enlazada simulando una 4ta dimension
 func (matrix *Matrix) fillMatrix(info Information) *Matrix {

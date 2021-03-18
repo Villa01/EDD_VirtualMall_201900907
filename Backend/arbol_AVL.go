@@ -104,7 +104,29 @@ func (avl *AVL) Print(){
 func inOrden(temp *nodo)  {
 	if temp != nil {
 		inOrden(temp.izq)
-		fmt.Println("Index: ", temp.indice)
+		fmt.Println("Nombre: ", temp.producto.Nombre)
 		inOrden(temp.der)
 	}
+}
+
+func (avl *AVL) BuscarNodo (codigo int) * nodo{
+	return buscarNodo(avl.raiz, codigo)
+}
+
+func buscarNodo (temp *nodo, codigo int ) *nodo{
+	if temp != nil {
+
+		if temp.producto.Codigo == codigo {
+			return temp
+		}
+		izq := buscarNodo(temp.izq, codigo)
+		der := buscarNodo(temp.der, codigo)
+
+		if izq != nil {
+			return izq
+		} else if der != nil {
+			return der
+		}
+	}
+	return nil
 }

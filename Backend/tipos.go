@@ -25,6 +25,7 @@ type Store struct {
 	Contact     string `json:"Contacto"`
 	Rating      int8   `json:"Calificacion"`
 	Logo        string `json: Logo`
+	Inventory *AVL
 }
 
 // Department se refiere a los departamentos a los que pertenencen las tiendas
@@ -90,15 +91,26 @@ type SpecificStore struct {
 // VectorItem es un item para llenar el vector linealizado
 type VectorItem struct {
 	Department string `json:"Departamento"`
-	Rating     int `json:"Calificacion"`
+	Rating     int    `json:"Calificacion"`
 	List       *DoublyLinkedList
 }
 
 // Product son los productos del inventario
 type Product struct {
-	Nombre      string `json: "Nombre"`
-	Codigo      int    `json: "Codigo"`
-	Descripcion string `json: "Descripcion"`
-	Precio      float32  `json: "Precio"`
-	Cantidad    int    `json: "Cantidad"`
+	Nombre      string  `json: "Nombre"`
+	Codigo      int     `json: "Codigo"`
+	Descripcion string  `json: "Descripcion"`
+	Precio      float32 `json: "Precio"`
+	Cantidad    int     `json: "Cantidad"`
+}
+
+type Invetory struct {
+	Tienda       string    `json:"Tienda"`
+	Departamento string    `json:"Departamento"`
+	Calificacion int     `json:"Calificacion"`
+	Productos    []Product `json:"Productos"`
+}
+
+type InventoryResponse struct {
+	Invetarios []Invetory `json:"Invetarios"`
 }

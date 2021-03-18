@@ -3,7 +3,7 @@ digraph reporte {
 	node [ shape= rect label="Null"] v1;
 	node [ shape= rect label="Null"] v2;
 	rankdir = "TB"
-	node [ shape= rect label="Aguayo Cepeda S.A." ] A41AguayoCepedaS.A.;
+	node [ shape= rect label="Aguayo Cepeda S.A" ] A41AguayoCepedaSA;
 	rankdir = "TB"
 	node [ shape= rect label="Amaya, Rolón y Chavarría Asociados" ] A51Amaya,RolónyChavarríaAsociados;
 	node [ shape= rect label="Null"] v5;
@@ -11,7 +11,7 @@ digraph reporte {
 	rankdir = "TB"
 	node [ shape= rect label="Amaya, Rolón y Chavarría Asociados" ] A31Amaya,RolónyChavarríaAsociados;
 	rankdir = "TB"
-	node [ shape= rect label="Aguayo Cepeda S.A." ] A41AguayoCepedaS.A.;
+	node [ shape= rect label="Aguayo Cepeda S.A" ] A41AguayoCepedaSA;
 	node [ shape= rect label="Null"] v9;
 	node [ shape= rect label="Null"] v10;
 	node [ shape= rect label="Null"] v11;
@@ -19,7 +19,7 @@ digraph reporte {
 	node [ shape= rect label="Null"] v13;
 	node [ shape= rect label="Null"] v14;
 	rankdir = "TB"
-	node [ shape= rect label="Briones Pineda S.A." ] B11BrionesPinedaS.A.;
+	node [ shape= rect label="Briones Pineda S.A" ] B11BrionesPinedaSA;
 	node [ shape= rect label="Null"] v16;
 	node [ shape= rect label="Null"] v17;
 	node [ shape= rect label="Null"] v18;

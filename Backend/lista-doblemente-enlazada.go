@@ -243,3 +243,18 @@ func (list *DoublyLinkedList) DeleteNode(index int) {
 	list.lenght--
 
 }
+
+func (list *DoublyLinkedList) searchByContent(storeName string) *Node{
+	var node *Node
+
+	i := 0
+	for i < list.lenght{
+		temp, _ := list.GetNodeAt(i)
+		if temp.data.Name == storeName {
+			node = temp
+		}
+		i++
+	}
+
+	return node
+}

@@ -21,6 +21,7 @@ type Routes []Route
 var routes = Routes{
 	Route{Name: "Index", Method: "GET", Path: "/", Function: Index},
 	Route{Name: "CargaTiendas", Method: "POST", Path: "/cargarTienda", Function: loadStore},
+	Route{Name: "CargarInventarios", Method: "POST", Path: "/cargarInventarios", Function: loadInventories},
 	Route{Name: "GetArreglo", Method: "GET", Path: "/getArreglo", Function: getArreglo},
 	Route{Name: "TiendaEspecifica", Method: "POST", Path: "/TiendaEspecifica", Function: searchSpecificStore},
 	Route{Name: "BusquedaPorPosicion", Method: "GET", Path: "/id/{numero}", Function: searchByPosition},
