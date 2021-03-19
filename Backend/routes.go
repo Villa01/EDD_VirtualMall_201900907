@@ -31,6 +31,7 @@ var routes = Routes{
 	Route{Name: "getTiendas", Method: "GET", Path: "/getTiendas", Function: getTiendas},
 	Route{Name: "agregarAlCarrito", Method: "POST", Path: "/agregarAlCarrito", Function: agregarAlCarrito},
 	Route{Name: "getCarrito", Method: "GET", Path: "/getCarrito", Function: obtenerCarrito},
+	Route{Name: "eliminarDelCarrito", Method: "POST", Path: "/eliminarDelCarrito", Function: eliminarDelCarrito},
 }
 
 // CreateRouter construye un router con todas las rutas en routes

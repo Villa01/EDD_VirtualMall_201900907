@@ -43,5 +43,9 @@ export class TiendaService {
     return this.http.get<Producto[]>(url);
   }
 
+  eliminarDelCarrito(producto: string){
+    const url= `${this.apiUrl}/eliminarDelCarrito`;
+    return this.http.post(url, producto)
+  }
   
 }

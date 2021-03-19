@@ -239,6 +239,19 @@ func obtenerCarrito(w http.ResponseWriter, req *http.Request){
 	json.NewEncoder(w).Encode(carrito)
 }
 
+func eliminarDelCarrito(w http.ResponseWriter, req *http.Request){
+	fmt.Println("$$$ Eliminando del carrito")
+	enableCors(&w)
+	var eliminado Product
+	json.NewDecoder(req.Body).Decode(&eliminado)
+
+	for i, product := range carrito {
+		if product.Codigo == eliminado.Codigo {
+			carrito = append(carrito[:i], carrito[i+1:]...)
+		}
+	}
+}
+
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }

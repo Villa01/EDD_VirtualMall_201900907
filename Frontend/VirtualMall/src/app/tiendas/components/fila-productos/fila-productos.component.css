@@ -37,15 +37,3 @@
     background-color: rgb(238, 94, 89, 0.5);
 }
 
-.fila {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-}
-
-.fila2 {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-}

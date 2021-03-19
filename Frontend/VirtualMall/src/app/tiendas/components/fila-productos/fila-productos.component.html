@@ -1,0 +1,13 @@
+
+    <td >{{producto.Nombre}} : {{producto.Descripcion}} </td>
+    <td>Q. {{producto.Precio}}</td>
+    <td> {{producto.Cantidad}}</td>
+    <td>
+        <button type="button" class="mas" (click)="sumar()"> + </button>
+    </td>
+    <td>
+        <button type="button" class="menos" (click)="restar()"> - </button>
+    </td>
+    <td>
+        <button type="button" class="eliminar" (click)="eliminar()">Eliminar</button>   
+    </td>

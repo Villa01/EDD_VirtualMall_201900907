@@ -9,20 +9,19 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor= "let producto of productos">
-            <td>{{producto.Nombre}} : {{producto.Descripcion}} </td>
+        <tr class="" *ngFor= "let producto of productos">
+            <td >{{producto.Nombre}} : {{producto.Descripcion}} </td>
             <td>Q. {{producto.Precio}}</td>
             <td> {{producto.Cantidad}}</td>
             <td>
-                <button class="mas">+</button>
+                <button type="button" class="mas" (click)="sumar(producto.Codigo)"> + </button>
             </td>
             <td>
-                <button class="menos">-</button>
+                <button type="button" class="menos" (click)="restar(producto.Codigo)"> - </button>
             </td>
             <td>
-                <button class="eliminar">Eliminar</button>
+                <button type="button" class="eliminar" (click)="eliminar(producto.Codigo)">Eliminar</button>   
             </td>
-
         </tr>
     </tbody>
 </table>

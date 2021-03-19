@@ -12,6 +12,7 @@ import { ProductosComponent } from './pages/productos/productos.component';
 import { ProductoComponent } from './components/producto/producto.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
 import { TablaCarritoComponent } from './components/tabla-carrito/tabla-carrito.component';
+import { FilaProductosComponent } from './components/fila-productos/fila-productos.component';
 
 
 
@@ -24,7 +25,8 @@ import { TablaCarritoComponent } from './components/tabla-carrito/tabla-carrito.
     ProductosComponent,
     ProductoComponent,
     CarritoComponent,
-    TablaCarritoComponent
+    TablaCarritoComponent,
+    FilaProductosComponent
   ],
   imports: [
     CommonModule,

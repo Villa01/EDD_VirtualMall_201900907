@@ -21,6 +21,53 @@ export class TablaCarritoComponent  {
         console.log(err)
       }
     );
+
+  }
+
+  sumar(num : number){
+    console.log(num)
+    let indice = this.obtenerProducto(num)
+    console.log(`El indice es ${indice}`)
+    this.productos[indice].Cantidad++
+  }
+
+  restar(num : number){
+    let indice = this.obtenerProducto(num)
+    this.productos[indice].Cantidad--
+  }
+
+  eliminar(codigo : number){
+    let indice = this.obtenerProducto(codigo)
+    let producto = JSON.stringify(this.productos[indice])
+    console.log(producto)
+    this.tiendasService.eliminarDelCarrito(producto).subscribe(
+      err => {
+        console.log(err)
+      }
+    );
+
+    this.tiendasService.obtenerCarrito().subscribe(
+      product => {
+        this.productos = product
+      }, 
+      err => {
+        console.log(err)
+      }
+    );
+  }
+
+  obtenerProducto(codigo: number) :number{
+    
+    let numero = -1;
+    this.productos.forEach(
+      (product, i) => {
+        if (product.Codigo === codigo){
+            numero = i
+        } 
+      }
+    );
+      
+    return numero
   }
 
 }
