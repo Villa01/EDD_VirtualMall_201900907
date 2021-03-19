@@ -8,6 +8,10 @@ import { SharedModule } from '../shared/shared.module';
 import { InputJSONComponent } from './components/input-json/input-json.component';
 import { TiendaComponent } from './components/tienda/tienda.component';
 import { CatalogoComponent } from './pages/catalogo/catalogo.component';
+import { ProductosComponent } from './pages/productos/productos.component';
+import { ProductoComponent } from './components/producto/producto.component';
+import { CarritoComponent } from './pages/carrito/carrito.component';
+import { TablaCarritoComponent } from './components/tabla-carrito/tabla-carrito.component';
 
 
 
@@ -16,7 +20,11 @@ import { CatalogoComponent } from './pages/catalogo/catalogo.component';
     CargaTiendasComponent,
     InputJSONComponent,
     TiendaComponent,
-    CatalogoComponent
+    CatalogoComponent,
+    ProductosComponent,
+    ProductoComponent,
+    CarritoComponent,
+    TablaCarritoComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,38 @@
+.mas {
+    background-color: rgb(22, 197, 95);
+    color: white;
+    font-size: medium;
+    border-radius: 2px;
+    height: 100%;
+    width: 100%;
+}
+
+.mas:hover{
+    background-color: rgb(22, 197, 95, 0.5);
+}
+
+.menos {
+    background-color: rgb(99, 89, 238);
+    color: white;
+    font-size: medium;
+    border-radius: 2px;
+    height: 100%;
+    width: 100%;
+}
+
+.menos:hover{
+    background-color: rgb(99, 89, 238, 0.5);
+}
+
+.eliminar{
+    background-color: rgb(238, 94, 89);
+    color: black;
+    font-size: medium;
+    border-radius: 2px;
+    height: 100%;
+    width: 100%;
+}
+
+.eliminar:hover{
+    background-color: rgb(238, 94, 89, 0.5);
+}

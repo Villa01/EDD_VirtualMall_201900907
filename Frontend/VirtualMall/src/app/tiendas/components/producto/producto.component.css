@@ -1,0 +1,25 @@
+img {
+    max-width: 300px;
+    max-height: 400px;
+}
+
+.button{
+    color: white;
+    background-color: #0000FF;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.button:hover{
+    background-color: #3e67f0;
+}
+
+.contenedor-producto{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.precio{
+    font-size: large;
+}

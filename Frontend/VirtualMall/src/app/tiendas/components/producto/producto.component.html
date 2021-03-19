@@ -1,0 +1,13 @@
+<h4>{{producto.Nombre}}</h4>
+<div class="contenedor-producto">
+    <img src="{{producto.Imagen}}" alt="">
+    <div class="contenedor-info">
+        <p>{{producto.Descripcion}}</p>
+        <p class="precio">Q. {{producto.Precio}}</p>
+        <p>Stock: {{producto.Cantidad}} </p>
+        <p>Codigo: {{producto.Codigo}}</p>
+        <form (ngSubmit)="agregarAlCarrito()">
+            <input type="submit" class="button" value="Comprar">
+        </form>
+    </div>
+</div>

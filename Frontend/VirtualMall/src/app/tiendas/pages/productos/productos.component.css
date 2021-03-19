@@ -1,0 +1,12 @@
+.contenedor {
+  grid-auto-rows: 1fr;
+}
+
+.contenedor-producto{
+  
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+

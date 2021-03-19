@@ -21,6 +21,11 @@ export interface Tienda {
 }
 
 
-interface HTMLInputEvent extends Event {
-    target: HTMLInputElement & EventTarget;
+export interface Producto {
+    Nombre:      string;
+    Codigo:      number;
+    Descripcion: string;
+    Precio:      number;
+    Cantidad:    number;
+    Imagen:      string;
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 
-import { Tienda } from "../interfaces/tienda.interface";
+import { Tienda, Producto } from '../interfaces/tienda.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +27,21 @@ export class TiendaService {
     const url= `${this.apiUrl}/getTiendas`;
     return this.http.get<Tienda[]>(url);
   }
+
+  obtenerProductos(): Observable<Producto[]>{
+    const url= `${this.apiUrl}/getProductos`;
+    return this.http.get<Producto[]>(url);
+  }
+
+  agregarAlCarrito(producto: string){
+    const url = `${this.apiUrl}/agregarAlCarrito`;
+    return this.http.post(url, producto)
+  }
+
+  obtenerCarrito():  Observable<Producto[]>{
+    const url= `${this.apiUrl}/getCarrito`;
+    return this.http.get<Producto[]>(url);
+  }
+
+  
 }

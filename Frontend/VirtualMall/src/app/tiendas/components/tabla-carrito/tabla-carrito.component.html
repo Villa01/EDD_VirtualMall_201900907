@@ -1,0 +1,28 @@
+<table *ngIf="productos" class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col"> </th>
+            <th scope="col"> </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor= "let producto of productos">
+            <td>{{producto.Nombre}} : {{producto.Descripcion}} </td>
+            <td>Q. {{producto.Precio}}</td>
+            <td> {{producto.Cantidad}}</td>
+            <td>
+                <button class="mas">+</button>
+            </td>
+            <td>
+                <button class="menos">-</button>
+            </td>
+            <td>
+                <button class="eliminar">Eliminar</button>
+            </td>
+
+        </tr>
+    </tbody>
+</table>

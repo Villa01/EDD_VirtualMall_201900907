@@ -102,6 +102,7 @@ type Product struct {
 	Descripcion string  `json: "Descripcion"`
 	Precio      float32 `json: "Precio"`
 	Cantidad    int     `json: "Cantidad"`
+	Imagen 		string	`json:"Imagen"`
 }
 
 type Invetory struct {

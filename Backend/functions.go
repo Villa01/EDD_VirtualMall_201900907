@@ -14,6 +14,7 @@ import (
 
 var array []VectorItem
 var matrix Matrix
+var carrito []Product
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -51,7 +52,6 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 
 	_ = json.NewDecoder(req.Body).Decode(&Info)
 	json.NewEncoder(w).Encode("Recibido")
-
 	fmt.Println("$$$ LLenando la matriz...")
 	matrix.fillMatrix(Info)
 	fmt.Println("$$$ Matriz completamente llena")
@@ -72,6 +72,9 @@ func loadInventories(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	enableCors(&w)
+
+	w.WriteHeader(http.StatusAccepted)
+	w.Write([]byte("200 - La información fue recibida"))
 	json.NewEncoder(w).Encode("Recibido")
 
 	fmt.Println("$$$ Asignando el inventario a cada tienda")
@@ -205,11 +208,35 @@ func saveData(w http.ResponseWriter, req *http.Request) {
 }
 
 func getTiendas(w http.ResponseWriter, req *http.Request){
-	fmt.Println("$$$Devolviendo las tiendas")
+	fmt.Println("$$$ Devolviendo las tiendas")
 	stores := fillStores(array)
 	//fmt.Print(stores)
 	enableCors(&w)
 	json.NewEncoder(w).Encode(stores)
+}
+
+func getProductos(w http.ResponseWriter, req *http.Request){
+	fmt.Println("$$$ Devolviendo los productos")
+	productos := obtainProducts()
+	//fmt.Print(stores)
+	enableCors(&w)
+	json.NewEncoder(w).Encode(productos)
+}
+
+func agregarAlCarrito(w http.ResponseWriter, req *http.Request){
+
+	enableCors(&w)
+	var producto Product
+	_ = json.NewDecoder(req.Body).Decode(&producto)
+	fmt.Println("$$$ Producto " + producto.Nombre + " agregado al carrito de compras")
+	carrito = append(carrito, producto)
+
+}
+
+func obtenerCarrito(w http.ResponseWriter, req *http.Request){
+	fmt.Println("$$$ Devolviendo el carrito")
+	enableCors(&w)
+	json.NewEncoder(w).Encode(carrito)
 }
 
 func enableCors(w *http.ResponseWriter) {
@@ -226,7 +253,6 @@ func asignInventories(){
 		rat := inventario.Calificacion
 		// Se recorren los items del arreglo linealizado para encontrar la tienda
 		for _, item := range array {
-
 			// Cuando se encuentra la tienda
 
 			if item.Department == depart && item.Rating == rat {
@@ -234,29 +260,47 @@ func asignInventories(){
 				if temp == nil {
 					break
 				}
-				temp.data.Inventory = NewAVL()
+				if temp.data.Inventory == nil {
+					temp.data.Inventory = NewAVL()
+				}
 				// Se le asignan todos los productos a su inventario
 				for _, producto := range inventario.Productos {
 					// Se verifica si el indice ya existe
 					existente := temp.data.Inventory.BuscarNodo(producto.Codigo)
 					if existente != nil {
 
-						fmt.Println("La tienda existe " + existente.producto.Nombre )
 						existente.producto.Cantidad += producto.Cantidad
 					} else {
 						// Si no existe
-
-						fmt.Println("La tienda no existe "  )
 						temp.data.Inventory.Insertar(producto, producto.Codigo)
 					}
+
 				}
-				fmt.Print("El arbol es ")
-				temp.data.Inventory.Print()
 			}
 		}
 
 	}
 }
+
+
+func obtainProducts() []Product{
+	var products []Product
+	for _, item := range array {
+		for i := 0; i< item.List.lenght; i++ {
+			node,_ := item.List.GetNodeAt(i)
+			if node.data.Inventory != nil {
+
+				tempProd := node.data.Inventory.ObtenerProductos()
+				if tempProd != nil {
+
+					products = append(products,tempProd...)
+				}
+			}
+		}
+	}
+	return products
+}
+
 
 
 // fillMatrix recibe la informacion y llena una matriz 3 x 3 con una lista doblemente enlazada simulando una 4ta dimension
