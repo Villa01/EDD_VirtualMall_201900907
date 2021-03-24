@@ -60,6 +60,7 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	array = matrix.rowMajor()
 	fmt.Println("$$$ Matriz completamente linealizada")
 	//printArray(array)
+	enableCors(&w)
 }
 
 func loadInventories(w http.ResponseWriter, req *http.Request) {
@@ -229,9 +230,26 @@ func agregarAlCarrito(w http.ResponseWriter, req *http.Request){
 	var producto Product
 	_ = json.NewDecoder(req.Body).Decode(&producto)
 	fmt.Println("$$$ Producto " + producto.Nombre + " agregado al carrito de compras")
-	carrito = append(carrito, producto)
+	invProducto := searchProduct(producto)
+	if invProducto == nil {
+		fmt.Println("$$$ 409 - no se encontró el artículo en el inventario")
+		w.WriteHeader(http.StatusConflict)
+		w.Write([]byte("No se encontró el artículo en el inventario"))
+		return
+	}
+
+	if invProducto.Cantidad > 0 && invProducto.Cantidad >= producto.Cantidad{
+		//zinvProducto.Cantidad -= producto.Cantidad
+		carrito = append(carrito, producto)
+	} else {
+		fmt.Println("$$$ 409 - El artículo no cuenta con inventario")
+		w.WriteHeader(http.StatusConflict)
+		w.Write([]byte("El artículo no cuenta con inventario"))
+
+	}
 
 }
+
 
 func obtenerCarrito(w http.ResponseWriter, req *http.Request){
 	fmt.Println("$$$ Devolviendo el carrito")
@@ -252,11 +270,54 @@ func eliminarDelCarrito(w http.ResponseWriter, req *http.Request){
 	}
 }
 
+func hacerPedido( w http.ResponseWriter, req *http.Request){
+	fmt.Println("%%% Haciendo nuevo pedido")
+	enableCors(&w)
+	var pedido []Product
+	json.NewDecoder(req.Body).Decode(&pedido)
+
+	for _, product := range pedido {
+		if !verificarExistencias(product){
+			fmt.Println("$$$ 409 - El artículo "+product.Nombre+" no cuenta con inventario")
+			w.WriteHeader(http.StatusConflict)
+			w.Write([]byte("El artículo no cuenta con inventario"))
+
+			return
+		}
+	}
+}
+
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 // --------------------- Utilidades --------------------------------------
+
+func verificarExistencias(producto Product) bool{
+	temp := searchProduct(producto)
+	if producto.Cantidad > temp.Cantidad {
+		return false
+	}
+	return true
+}
+
+func searchProduct(producto Product) *Product{
+	var retorno *Product
+
+	for _, item := range array {
+		for i := 0; i< item.List.lenght; i++ {
+			node,_ := item.List.GetNodeAt(i)
+			if node.data.Inventory != nil{
+				temp := node.data.Inventory.BuscarNodo(producto.Codigo)
+
+				if temp != nil{
+					retorno = &(temp.producto)
+				}
+			}
+		}
+	}
+	return retorno
+}
 
 func asignInventories(){
 

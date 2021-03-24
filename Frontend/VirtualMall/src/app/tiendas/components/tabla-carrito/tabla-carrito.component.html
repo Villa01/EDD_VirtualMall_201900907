@@ -24,4 +24,8 @@
             </td>
         </tr>
     </tbody>
+    <br>
+    
+    <div *ngIf="error" class="alert alert-danger">{{msjError}}</div>
+    <button (click)="enviarPedido()">Confirmar Pedido</button>
 </table>

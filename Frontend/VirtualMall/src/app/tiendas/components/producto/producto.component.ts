@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Producto, Departamento } from '../../interfaces/tienda.interface';
+import { Producto } from '../../interfaces/tienda.interface';
 import { TiendaService } from '../../services/tienda.service';
 
 @Component({
@@ -18,17 +18,33 @@ export class ProductoComponent {
     Imagen : ''
 
   }
+  stock : number  = 0
+  constructor(private tiendasService: TiendaService) { 
 
-  constructor(private tiendasService: TiendaService) { }
+  }
 
   agregarAlCarrito(){
-    console.log(`Agregando ${this.producto.Nombre}` )
-    let jsonProducto = JSON.stringify(this.producto)
+    const temp: Producto = this.producto
+    temp.Cantidad = this.stock
+
+    let jsonProducto = JSON.stringify(temp)
     this.tiendasService.agregarAlCarrito(jsonProducto).subscribe(
       err => {
         console.log(err)
       }
     );
+  }
+
+  sumar(num : number){
+    if (this.stock <= this.producto.Cantidad && this.stock >=0) { 
+      this.stock++
+    }
+  }
+
+  restar(num : number){
+    if (this.stock <= this.producto.Cantidad && this.stock >0) {
+      this.stock--
+    }
   }
 
 }

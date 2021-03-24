@@ -10,9 +10,14 @@ import { TiendaService } from '../../services/tienda.service';
 export class TablaCarritoComponent  {
 
   productos : Producto[] = []
+  error : boolean = false
+  msjError : string = ""
 
   constructor(private tiendasService : TiendaService) {
+    this.actualizarCarrito();
+  }
 
+  actualizarCarrito(){
     this.tiendasService.obtenerCarrito().subscribe(
       product => {
         this.productos = product
@@ -21,7 +26,6 @@ export class TablaCarritoComponent  {
         console.log(err)
       }
     );
-
   }
 
   sumar(num : number){
@@ -46,14 +50,7 @@ export class TablaCarritoComponent  {
       }
     );
 
-    this.tiendasService.obtenerCarrito().subscribe(
-      product => {
-        this.productos = product
-      }, 
-      err => {
-        console.log(err)
-      }
-    );
+    this.actualizarCarrito();
   }
 
   obtenerProducto(codigo: number) :number{
@@ -68,6 +65,20 @@ export class TablaCarritoComponent  {
     );
       
     return numero
+  }
+
+  enviarPedido(){
+    
+    let pedidoJSON: string = JSON.stringify(this.productos)
+    this.tiendasService.hacerPedido(pedidoJSON).subscribe(
+      ()=> {
+        this.productos = []
+      },
+      err => {
+        this.error = true 
+        this.msjError = "Un producto no cuenta con inventario suficiente. "
+      }
+    )
   }
 
 }

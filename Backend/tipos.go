@@ -115,3 +115,14 @@ type Invetory struct {
 type InventoryResponse struct {
 	Invetarios []Invetory `json:"Invetarios"`
 }
+
+
+type arbolAnios struct{
+	AVL
+	meses listaMeses `json:"meses"`
+}
+
+type listaMeses struct {
+	lenght int `json:"lenght"`
+}
+

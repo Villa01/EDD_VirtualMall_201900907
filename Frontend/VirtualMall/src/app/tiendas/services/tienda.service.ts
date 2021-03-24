@@ -48,4 +48,8 @@ export class TiendaService {
     return this.http.post(url, producto)
   }
   
+  hacerPedido(pedido : string){
+    const url = `${this.apiUrl}/hacerPedido`;
+    return this.http.post(url, pedido)
+  }
 }

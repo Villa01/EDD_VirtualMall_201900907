@@ -7,6 +7,11 @@
         <p>Stock: {{producto.Cantidad}} </p>
         <p>Codigo: {{producto.Codigo}}</p>
         <form (ngSubmit)="agregarAlCarrito()">
+            <div>
+                <button type="button" class="mas" (click)="sumar(1)"> + </button>
+                <input type="number" value="{{stock}}" >
+                <button type="button" class="menos" (click)="restar(1)"> - </button>
+            </div>
             <input type="submit" class="button" value="Comprar">
         </form>
     </div>
