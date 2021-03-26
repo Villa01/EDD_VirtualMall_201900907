@@ -3,11 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"net/http"
 	"os"
 	"strconv"
-
-	"github.com/gorilla/mux"
 )
 
 // -------------------------------Funciones del servidor ----------------------
@@ -15,6 +14,8 @@ import (
 var array []VectorItem
 var matrix Matrix
 var carrito []Product
+var pedidosAnuales *AVLPedido
+var categorias map[string]int
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -83,6 +84,28 @@ func loadInventories(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("$$$ Inventarios asignados")
 	//matrix.printMatrix()
 }
+
+func cargarPedidos(w http.ResponseWriter, req *http.Request) {
+	var response PedidosResponse
+	err := json.NewDecoder(req.Body).Decode(&response)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("500 - La información no es correcta"))
+		return
+	}
+	enableCors(&w)
+
+	w.WriteHeader(http.StatusAccepted)
+	w.Write([]byte("200 - La información fue recibida"))
+	json.NewEncoder(w).Encode("Recibido")
+
+	fmt.Println("$$$ Asignando añadiendo los pedidos")
+	asignarPedidos(response.Pedidos)
+	fmt.Println("$$$ Pedidos asignados")
+	//matrix.printMatrix()
+}
+
 
 // getArreglo genera un reporte del vector de listas linealizado
 func getArreglo(w http.ResponseWriter, req *http.Request) {
@@ -250,7 +273,6 @@ func agregarAlCarrito(w http.ResponseWriter, req *http.Request){
 
 }
 
-
 func obtenerCarrito(w http.ResponseWriter, req *http.Request){
 	fmt.Println("$$$ Devolviendo el carrito")
 	enableCors(&w)
@@ -287,11 +309,83 @@ func hacerPedido( w http.ResponseWriter, req *http.Request){
 	}
 }
 
+
 func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 // --------------------- Utilidades --------------------------------------
+
+func asignarPedidos (pedidos []Pedido){
+
+	if pedidosAnuales == nil {
+		pedidosAnuales = NewAVLPedido()
+	}
+
+	for _, pedido := range pedidos {
+		year := pedido.Fecha[len(pedido.Fecha)-4:]
+		mon := pedido.Fecha[len(pedido.Fecha)-7: len(pedido.Fecha)-5]
+		day := pedido.Fecha[: len(pedido.Fecha)-8]
+		yearN,_ := strconv.Atoi(year)
+		monN,_ := strconv.Atoi(mon)
+		dayN,_ := strconv.Atoi(day)
+
+		// Busca si el nodo ya existe
+		nodoAVL := pedidosAnuales.BuscarNodo(yearN)
+
+		if nodoAVL == nil { // Si no existe el nodo de ese año, se crea
+			listaNueva := crearListaMeses()
+			nodoMesSel := listaNueva.searchByContent(monN)
+			matrizMes := nodoMesSel.data
+			elegido := matrizMes.BuscarNodo(dayN, obtenerCategoria(pedido.Departamento))
+			if elegido == nil {
+				cola := nuevaCola(monN, dayN)
+				matrizMes.Insert(cola, dayN,obtenerCategoria(pedido.Departamento))
+			}else {
+				elegido.cola.pedidos = append(elegido.cola.pedidos, pedido)
+			}
+
+			pedidosAnuales.InsertarP(listaNueva, yearN)
+
+		} else {
+			nodoMesSel := nodoAVL.meses.searchByContent(monN)
+			matrizMes := nodoMesSel.data
+			elegido := matrizMes.BuscarNodo(dayN, obtenerCategoria(pedido.Departamento))
+			if elegido == nil {
+				cola := nuevaCola(monN, dayN)
+				matrizMes.Insert(cola, dayN,obtenerCategoria(pedido.Departamento))
+			}else {
+				elegido.cola.pedidos = append(elegido.cola.pedidos, pedido)
+			}
+		}
+	}
+}
+
+func obtenerCategoria(categoria string) int {
+	if categorias == nil {
+		categorias = map[string]int{}
+	}
+	if categorias[categoria] == 0 {
+		categorias[categoria] = len(categorias)+1
+	}
+
+	return categorias[categoria]
+}
+
+// crearListaMeses crea una nueva lista con todos los meses.
+func crearListaMeses() *listaMeses{
+
+	lista := nuevaListaMeses()
+
+	for i:=1; i<=12; i++ {
+		nuevaMatriz := NewMatriz()
+		nodoNuevo := nuevoNodoMes(i, nuevaMatriz)
+		lista.Append(nodoNuevo)
+	}
+
+	return  lista
+
+}
 
 func verificarExistencias(producto Product) bool{
 	temp := searchProduct(producto)
@@ -356,7 +450,6 @@ func asignInventories(){
 	}
 }
 
-
 func obtainProducts() []Product{
 	var products []Product
 	for _, item := range array {
@@ -374,8 +467,6 @@ func obtainProducts() []Product{
 	}
 	return products
 }
-
-
 
 // fillMatrix recibe la informacion y llena una matriz 3 x 3 con una lista doblemente enlazada simulando una 4ta dimension
 func (matrix *Matrix) fillMatrix(info Information) *Matrix {
@@ -423,7 +514,6 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 
 	return matrix
 }
-
 
 func fillStores(vector []VectorItem) []Store{
 	var stores []Store

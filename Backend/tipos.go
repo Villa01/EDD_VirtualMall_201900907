@@ -117,12 +117,27 @@ type InventoryResponse struct {
 }
 
 
-type arbolAnios struct{
-	AVL
-	meses listaMeses `json:"meses"`
+
+type ColaPedidos struct {
+	mes int `json:"mes"`
+	dia int `json:"dia"`
+	pedidos []Pedido `json:"pedidos"`
 }
 
-type listaMeses struct {
-	lenght int `json:"lenght"`
+func nuevaCola(mes int, dia int) *ColaPedidos {
+	var pedidos []Pedido
+	return &ColaPedidos{mes, dia, pedidos}
 }
 
+type Pedido struct {
+	Fecha        string     `json:"Fecha"`
+	Tienda       string     `json:"Tienda"`
+	Departamento string     `json:"Departamento"`
+	Calificacion int      `json:"Calificacion"`
+	Productos    []Product `json:"Productos"`
+}
+
+
+type PedidosResponse struct {
+	Pedidos []Pedido `json:"Pedidos"`
+}
