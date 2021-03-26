@@ -12,6 +12,7 @@ export class InputJSONComponent {
   @Output() onEnter : EventEmitter<string> = new EventEmitter();
 
   termino : string = ""
+  error : boolean = false
 
   constructor(private tiendasService : TiendaService) { }
   // Obtiene el contenido del archivo JSON
@@ -32,14 +33,13 @@ export class InputJSONComponent {
     //Envia el archivo al padre
     enviar(){
       
-      console.log(this.opcion)
       switch (this.opcion){
         case 'tienda':
           this.tiendasService.cargarTiendas(this.termino).subscribe(
             resp =>{
               //console.log(resp.toString);
             }, err => {
-              //console.log(err)
+              this.error = true
             }
           );
           break
@@ -48,10 +48,21 @@ export class InputJSONComponent {
             resp =>{
               //console.log(resp.toString);
             }, err => {
-              //console.log(err)
+              this.error = true
             }
           );
           break
+        
+          case 'pedidos':
+            this.tiendasService.cargarPedidos(this.termino).subscribe(
+              resp =>{
+                //console.log(resp.toString);
+              }, err => {
+                this.error = true
+                
+              }
+            );
+            break
       }
       //console.log(this.termino)
 

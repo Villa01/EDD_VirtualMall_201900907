@@ -10,7 +10,7 @@ export class CargaTiendasComponent  {
 
   termino :string = ""
 
-  opcion : string[] = ['tienda', 'inventario']
+  opcion : string[] = ['tienda', 'inventario', 'pedidos']
 
   constructor(private tiendaService : TiendaService) { }
 
@@ -18,7 +18,6 @@ export class CargaTiendasComponent  {
     console.log(this.termino);
     this.tiendaService.cargarTiendas(this.termino).subscribe(
       () => {
-        console.log(this.termino)
         
       }, err => {
         console.log("No se pudo cargar la información")

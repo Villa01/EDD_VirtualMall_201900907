@@ -86,15 +86,19 @@ func loadInventories(w http.ResponseWriter, req *http.Request) {
 }
 
 func cargarPedidos(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Empenzando carga de pedidos ")
+
+	enableCors(&w)
 	var response PedidosResponse
 	err := json.NewDecoder(req.Body).Decode(&response)
+	fmt.Println(response)
 
 	if err != nil {
+		fmt.Println("$$$ 500 - La información no es correcta")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("500 - La información no es correcta"))
 		return
 	}
-	enableCors(&w)
 
 	w.WriteHeader(http.StatusAccepted)
 	w.Write([]byte("200 - La información fue recibida"))
