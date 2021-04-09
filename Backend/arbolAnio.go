@@ -124,28 +124,4 @@ func buscarNodoP (temp *nodoPedido, codigo int ) *nodoPedido{
 	}
 	return nil
 }
-/*
-func (avl *AVL) ObtenerProductos () []Product{
-	if avl.raiz == nil {
-		return nil
-	}
-	return obtenerProductos(avl.raiz)
-}
 
-func obtenerProductos (temp *nodo) []Product{
-	var productos []Product
-	if temp != nil {
-		productos = append(productos, temp.producto)
-
-		izq := obtenerProductos(temp.izq)
-		der := obtenerProductos(temp.der)
-
-		if izq != nil {
-			productos = append(productos,izq...)
-		}
-		if der != nil {
-			productos = append(productos, der...)
-		}
-	}
-	return productos
-}*/

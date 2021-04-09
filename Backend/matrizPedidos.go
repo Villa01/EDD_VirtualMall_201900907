@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 
 
@@ -18,6 +21,7 @@ type lista struct {
 }
 
 type matriz struct {
+	mes string
 	lst_h, lst_v *lista
 }
 
@@ -35,8 +39,8 @@ func newLista() *lista{
 }
 
 //Se cambio a primer letra mayuscula para poder acceder
-func NewMatriz() *matriz{
-	return &matriz{newLista(),newLista()}
+func NewMatriz(mes string) *matriz{
+	return &matriz{mes, newLista(),newLista()}
 }
 
 func (n *nodoM) headerX() int { return n.x }
@@ -91,11 +95,13 @@ func (l *lista) search(header int) *nodoM{
 }
 
 func (l *lista) print() {
+	fmt.Println("Lista : ")
 	temp := l.first
 	for temp != nil{
-		fmt.Println("Cabecera:", temp.header)
+		fmt.Print("Cabecera:", temp.header)
 		temp = temp.siguiente
 	}
+	fmt.Println()
 }
 
 func (m *matriz) Insert(meses *ColaPedidos, x int, y int){
@@ -323,3 +329,31 @@ func (n nodoM) printLista() {
 	fmt.Println("x: ", n.x , " y: ", n.y)
 }
 
+func (m matriz) getGraphviz() string {
+	texto := "digraph Sparce_Matrix_"+ m.mes+"{ \n" +
+		"\t node[shape = \"box\"]\n" +
+		"\tMt[label=\""+ m.mes+"\",shape = \"box\", width = 1.5, group = 0]\n"
+
+	temp := m.lst_h.first
+	cont := 0
+	if temp != nil {
+		texto += "\tEncabezado"+ strconv.Itoa(temp.x) +"[label = \""+ strconv.Itoa(temp.header) +"\" width = 1.5 style = filled, fillcolor = bisque1, group = "+strconv.Itoa(cont)+" ];\n"
+		temp = temp.siguiente
+		cont += 1
+	}
+	texto += "\tMt -> Encabezado0[color=\"transparent\"]\n"
+	temp = m.lst_h.first
+	cont = 0
+
+	if temp != nil {
+
+		fmt.Print("Cabecera:", temp.header)
+		texto += "\tEncabezado"+strconv.Itoa(cont)+" -> Encabezado"+strconv.Itoa(cont+1)+"\n"
+		cont += 1
+		temp = temp.siguiente
+	}
+
+
+	texto += "\n}"
+	return texto
+}

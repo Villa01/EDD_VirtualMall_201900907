@@ -25,27 +25,11 @@ var InvResp InventoryResponse
 func Index(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprint(w, "El servidor esta funcionando")
 
-	lista := NewDoublyLinkedList()
-	store := Store{
-		Name:        "Tienda de prueba",
-		Description: "Descripcion de prueba",
-		Contact:     "Contacto de prueba",
-		Rating:      5,
-	}
-	store2 := Store{
-		Name:        "Tienda de prueba2",
-		Description: "Descripcion de prueba2",
-		Contact:     "Contacto de prueba2",
-		Rating:      5,
-	}
-	nodo := NewNode(store)
-	nodo2 := NewNode(store2)
-	lista.Append(nodo)
-	lista.Append(nodo2)
-	text, _ := lista.ToString()
-	fmt.Print(text)
-	num := GetAsciiValue("prueba")
-	fmt.Println(num)
+	matriz := pedidosAnuales.BuscarNodo(2017).meses.searchByContent(04).data
+	fmt.Println(matriz)
+	matriz.lst_h.print()
+	matriz.lst_v.print()
+	fmt.Println(matriz.getGraphviz())
 }
 
 // loadStore obtiene los datos de tiendas
@@ -382,7 +366,7 @@ func crearListaMeses() *listaMeses{
 	lista := nuevaListaMeses()
 
 	for i:=1; i<=12; i++ {
-		nuevaMatriz := NewMatriz()
+		nuevaMatriz := NewMatriz("Mes")
 		nodoNuevo := nuevoNodoMes(i, nuevaMatriz)
 		lista.Append(nodoNuevo)
 	}
