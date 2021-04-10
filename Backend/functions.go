@@ -52,6 +52,7 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 
 	_ = json.NewDecoder(req.Body).Decode(&Info)
 	json.NewEncoder(w).Encode("Recibido")
+	enableCors(&w)
 	fmt.Println("$$$ LLenando la matriz...")
 	matrix.fillMatrix(Info)
 	fmt.Println("$$$ Matriz completamente llena")
@@ -60,13 +61,13 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	array = matrix.rowMajor()
 	fmt.Println("$$$ Matriz completamente linealizada")
 	//printArray(array)
-	enableCors(&w)
 }
 
 func loadInventories(w http.ResponseWriter, req *http.Request) {
 
 	err := json.NewDecoder(req.Body).Decode(&InvResp)
-
+	fmt.Println(req.Body)
+	fmt.Println(InvResp)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("500 - La información no es correcta"))
@@ -320,7 +321,7 @@ func searchProduct(producto Product) *Product{
 }
 
 func asignInventories(){
-
+	fmt.Println(InvResp.Invetarios)
 	for _, inventario := range InvResp.Invetarios {
 		name := inventario.Tienda
 		depart := inventario.Departamento
