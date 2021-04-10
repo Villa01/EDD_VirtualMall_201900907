@@ -113,7 +113,7 @@ type Invetory struct {
 }
 
 type InventoryResponse struct {
-	Invetarios []Invetory `json:"Invetarios"`
+	Invetarios []Invetory `json:"Inventarios"`
 }
 
 
