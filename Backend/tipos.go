@@ -103,6 +103,7 @@ type Product struct {
 	Precio      float32 `json: "Precio"`
 	Cantidad    int     `json: "Cantidad"`
 	Imagen 		string	`json:"Imagen"`
+	Almacenamiento string `json:"Almacenamiento"`
 }
 
 type Invetory struct {
@@ -140,4 +141,8 @@ type Pedido struct {
 
 type PedidosResponse struct {
 	Pedidos []Pedido `json:"Pedidos"`
+}
+
+type Cuenta struct {
+
 }
