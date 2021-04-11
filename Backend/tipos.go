@@ -143,6 +143,12 @@ type PedidosResponse struct {
 	Pedidos []Pedido `json:"Pedidos"`
 }
 
+// Cuenta es el tipo donde se almacena la informacion de los usuarios
 type Cuenta struct {
+	DPI int
+}
 
+// NewCuenta inicializa una nueva cuenta para un usuario
+func NewCuenta(DPI int) *Cuenta {
+	return &Cuenta{DPI}
 }
