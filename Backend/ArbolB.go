@@ -103,10 +103,49 @@ func (a *ArbolB) cambiarOrden(nuevo int) {
 	a.orden = nuevo
 }
 
+// buscarClave busca una clave en cierta pagina, devuelve true si la encontro y la posicion en la pagina
+func (a *ArbolB) buscarClave(actual *Pagina, clave Clave) (bool, int) {
+	var index int
+	var encontrado bool
+
+	// Busca en la primera posicion porque el orden es descendente
+	if clave.indice < actual.dameClave(1).indice { // Las claves se almacenan desde la posicion 1
+		encontrado = false
+		index = 0
+	} else {
+		index = actual.dameCuenta()
+		for clave.indice < actual.dameClave(index).indice && index >1 {
+			index--
+			encontrado = clave.indice == actual.dameClave(index).indice
+		}
+	}
+	return encontrado, index
+
+}
+
+// Buscar funcion publica para encontrar una clave en el arbolB
+func (a *ArbolB) Buscar(clave Clave) (*Pagina, int) {
+	return a.buscar(a.dameRaiz(), clave )
+}
+
+// buscar funcion recursiva para encontrar una clave en el arbolB
+func (a *ArbolB) buscar(actual *Pagina, clave Clave) (*Pagina, int) {
+	if actual == nil {
+		 return nil, 0
+	} else {
+		var encontrado, n = a.buscarClave(actual, clave)
+
+		if encontrado {
+			return actual, n
+		} else {
+			return a.buscar(actual.dameRama(n), clave)
+		}
+	}
+}
+
 // TODO: Insertar()
 
 // TODO: Eliminar()
 
-// TODO: Buscar()
 
 // TODO: Graficar()
