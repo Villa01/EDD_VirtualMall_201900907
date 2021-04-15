@@ -46,7 +46,7 @@ func NewMatriz(mes string) *matriz{
 func (n *nodoM) headerX() int { return n.x }
 
 func (n *nodoM) headerY() int { return n.y }
-//+ n.cola. +
+//+ numero.cola. +
 func (n *nodoM) toString() string{ return "Nombre: \n"}
 
 func (l *lista ) ordenar(nuevo *nodoM)  {
