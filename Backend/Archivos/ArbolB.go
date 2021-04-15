@@ -8,23 +8,32 @@ func main() {
 	usuario1 := Cuenta{2, "usuario1", "", "", "usuario"}
 	usuario2 := Cuenta{3, "usuario2", "", "", "usuario"}
 	usuario3 := Cuenta{4, "usuario3", "", "", "usuario"}
-	usuario4 := Cuenta{5, "usuario3", "", "", "usuario"}
+	usuario4 := Cuenta{5, "usuario4", "", "", "usuario"}
+	usuario5 := Cuenta{6, "usuario5", "", "", "usuario"}
+	usuario6 := Cuenta{7, "usuario6", "", "", "usuario"}
+	usuario7 := Cuenta{8, "usuario7", "", "", "usuario"}
 
 	arbol.Insert(admin)
 	arbol.Insert(usuario1)
 	arbol.Insert(usuario2)
 	arbol.Insert(usuario3)
 	arbol.Insert(usuario4)
+	arbol.Insert(usuario5)
+	arbol.Insert(usuario6)
+	arbol.Insert(usuario7)
+	fmt.Println(arbol.dameRaiz().numero)
 	arbol.ImprimirArbol()
+	/*for _, llave := range arbol.raiz.llaves {
+		fmt.Println(llave)
+	}
+
+	for _, hijo := range arbol.raiz.hijos {
+		fmt.Println(hijo)
+	}*/
+	//fmt.Println(arbol.generarDOT())
 }
 
-type Cuenta struct {
-	DPI    int    `json:"Dpi"`
-	Nombre string `json:"Nombre"`
-	Email  string `json:"Correo"`
-	Contra string `json:"Password"`
-	Cuenta string `json:"Usuario"`
-}
+
 
 // ArbolB es una estrucutura de datos
 type ArbolB struct {
@@ -73,7 +82,6 @@ func (B *ArbolB) search(cuenta Cuenta) *Cuenta {
 	}
 	return nil
 }
-
 //Insert inserta un nuevo nodo en el arbol
 func (B *ArbolB) Insert(cuenta Cuenta) {
 
@@ -147,3 +155,4 @@ func (B *ArbolB) Eliminar(data Cuenta) {
 func (b *ArbolB) Vacio() bool {
 	return b.raiz == nil
 }
+

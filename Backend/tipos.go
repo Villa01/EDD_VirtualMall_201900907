@@ -1,5 +1,7 @@
 package main
 
+import "strconv"
+
 // DoublyLinkedList es una lista doble enlazada
 type DoublyLinkedList struct {
 	head   *Node
@@ -143,10 +145,3 @@ type PedidosResponse struct {
 	Pedidos []Pedido `json:"Pedidos"`
 }
 
-type Cuenta struct{
-	DPI int `json:"Dpi"`
-	Nombre string `json:"Nombre"`
-	Email string `json:"Correo"`
-	Contra string `json:"Password"`
-	Cuenta string `json:"Usuario"`
-}

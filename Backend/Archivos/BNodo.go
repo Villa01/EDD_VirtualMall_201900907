@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 // BNodo es un nodo para el ArbolB
 type BNodo struct {
@@ -11,7 +14,17 @@ type BNodo struct {
 	hoja   bool
 }
 
+type Cuenta struct{
+	DPI int `json:"Dpi"`
+	Nombre string `json:"Nombre"`
+	Email string `json:"Correo"`
+	Contra string `json:"Password"`
+	Cuenta string `json:"Usuario"`
+}
 
+func (c Cuenta) toDOT() string {
+	return strconv.Itoa(c.DPI) + "\\n" + c.Nombre + "\\n" + c.Email + "\\n" + c.Contra + "\\n" + c.Cuenta
+}
 
 //NuevoBNodo crea un nuevo BNodo y retorna un puntero
 func NuevoBNodo(grado int, hoja bool) *BNodo {
