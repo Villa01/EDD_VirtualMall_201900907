@@ -4,12 +4,18 @@ import { CargaTiendasComponent } from './tiendas/pages/carga-tiendas/carga-tiend
 import { CatalogoComponent } from './tiendas/pages/catalogo/catalogo.component';
 import { ProductosComponent } from './tiendas/pages/productos/productos.component';
 import { CarritoComponent } from './tiendas/pages/carrito/carrito.component';
+import { LoginComponent } from './tiendas/pages/login/login.component';
 
 
 
 const routes: Routes = [
   {
     path: '',
+    component: LoginComponent,
+    pathMatch: 'full',
+  }, 
+  {
+    path: 'home',
     component: CargaTiendasComponent,
     pathMatch: 'full',
   }, 

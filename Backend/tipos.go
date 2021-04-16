@@ -1,5 +1,7 @@
 package main
 
+import "strconv"
+
 // DoublyLinkedList es una lista doble enlazada
 type DoublyLinkedList struct {
 	head   *Node
@@ -143,10 +145,27 @@ type PedidosResponse struct {
 	Pedidos []Pedido `json:"Pedidos"`
 }
 
+type VerificacionLogInResponse struct {
+	DPI      int  `json:"DPI"`
+	Password string `json:"password"`
+}
+
+type RespuestaVerificacionPassword struct {
+	Correcta bool `json:"correcta"` 
+	Cuenta Cuenta `json:"cuenta"`
+}
+
+
+
 type Cuenta struct{
 	DPI int `json:"Dpi"`
 	Nombre string `json:"Nombre"`
 	Email string `json:"Correo"`
 	Contra string `json:"Password"`
 	Cuenta string `json:"Usuario"`
+}
+
+
+func (c Cuenta) toDOT() string {
+	return strconv.Itoa(c.DPI) + "\\n" + c.Nombre + "\\n" + c.Email + "\\n" + c.Contra + "\\n" + c.Cuenta
 }

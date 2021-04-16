@@ -16,6 +16,8 @@ var matrix Matrix
 var carrito []Product
 var pedidosAnuales *AVLPedido
 var categorias map[string]int
+var cuentaActual Cuenta
+var ArbolCuentas ArbolB
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -298,12 +300,59 @@ func hacerPedido( w http.ResponseWriter, req *http.Request){
 	}
 }
 
+func verificarPassword(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Verificando la contraseña")
+	var verificacion VerificacionLogInResponse
+	json.NewDecoder(req.Body).Decode(&verificacion)
+
+	cuentaActual = *buscarUsuario(verificacion.DPI)
+
+	correcta := compararPassword(cuentaActual, verificacion.Password)
+
+	respuesta := &RespuestaVerificacionPassword{
+		Correcta: correcta,
+		Cuenta: cuentaActual,
+	}
+
+	enableCors(&w)
+	json.NewEncoder(w).Encode(respuesta)
+
+
+}
+
+func obtenerCuenta(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Retornar la cuenta acutal")
+	json.NewEncoder(w).Encode(cuentaActual)
+
+
+}
 
 func enableCors(w *http.ResponseWriter) {
+
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 }
 
 // --------------------- Utilidades --------------------------------------
+
+func buscarUsuario(dpi int) *Cuenta{
+	var cuenta *Cuenta
+	cuenta = &Cuenta{
+		DPI:    dpi,
+		Nombre: "",
+		Email:  "",
+		Contra: "",
+		Cuenta: "",
+	}
+
+	return ArbolCuentas.search(*cuenta)
+}
+
+func compararPassword (cuenta Cuenta, pass string) bool {
+	if cuenta.Contra == pass {
+		return true
+	}
+	return false
+}
 
 func asignarPedidos (pedidos []Pedido){
 

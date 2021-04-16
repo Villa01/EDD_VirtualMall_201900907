@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 // BNodo es un nodo para el ArbolB
 type BNodo struct {
@@ -323,4 +326,29 @@ func (B *BNodo) imprimirLlaves(){
 
 		B.hijos[i].imprimirLlaves()
 	}
+}
+
+func (B *BNodo) generarGraphviz() string {
+	nombre := "nodo" + strconv.Itoa(B.llaves[0].DPI)
+	texto :=  nombre + "[label = \""
+
+	for i, llave := range B.llaves {
+		if llave != nil {
+			if i < B.numero {
+
+				texto += llave.toDOT()+"|"
+			} else {
+
+				texto += llave.toDOT()
+			}
+		}
+	}
+	texto+= "\"];\n"
+	for _, hijo := range B.hijos {
+		if hijo != nil {
+			texto += hijo.generarGraphviz()
+			texto += "\t" +  nombre + "-> " + "nodo" +  strconv.Itoa(hijo.llaves[0].DPI) + "\n"
+		}
+	}
+	return texto
 }
