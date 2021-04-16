@@ -38,6 +38,9 @@ export class FormLoginComponent{
 
         if (this.acceso) {
           this.router.navigate(['home'])
+        } else {
+          
+          alert("Las credenciales son incorrectas")
         }
         
       }, 

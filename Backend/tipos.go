@@ -160,6 +160,10 @@ type Cuenta struct {
 	Cuenta string `json:"Usuario"`
 }
 
+type CargaUsuarios struct {
+	Cuentas []Cuenta `json:"Usuarios"`
+}
+
 func (c Cuenta) toDOT() string {
 	return strconv.Itoa(c.DPI) + "\\n" + c.Nombre + "\\n" + c.Email + "\\n" + c.Contra + "\\n" + c.Cuenta
 }

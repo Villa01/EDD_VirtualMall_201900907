@@ -68,4 +68,9 @@ export class TiendaService {
     const url =  `${this.apiUrl}/cuentaActual`
     return this.http.get<Cuenta>(url)
   }
+
+  cargarUsuarios(termino: string) {
+    const url = `${this.apiUrl}/cargaUsuarios`
+    return this.http.post<RespuestaPassword>(url, termino )
+  }
 }

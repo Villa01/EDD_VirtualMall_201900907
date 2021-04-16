@@ -9,12 +9,14 @@ import (
 func main() {
 
 	admin := &Cuenta{
-		DPI:    3007114090101,
-		Nombre: "Admin",
-		Email:  "javillatoro1@gmail.com",
-		Contra: "admin",
+		DPI:    1234567890101,
+		Nombre: "EDD2021",
+		Email:  " auxiliar@edd.com",
+		Contra: "1234",
 		Cuenta: "Admin",
 	}
+
+
 
 	ArbolCuentas = *NuevoBTree(5)
 	ArbolCuentas.Insert(*admin)

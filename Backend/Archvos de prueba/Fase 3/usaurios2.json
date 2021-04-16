@@ -1,0 +1,68 @@
+{
+    "Usuarios" : [
+
+            {
+                "Dpi": 1234567890102,
+                "Nombre": "Nombre0",
+                "Correo": "Correo0@correo.com",
+                "Password": "hola0",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890103,
+                "Nombre": "Nombre1",
+                "Correo": "Correo1@correo.com",
+                "Password": "hola1",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890104,
+                "Nombre": "Nombre2",
+                "Correo": "Correo2@correo.com",
+                "Password": "hola2",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890105,
+                "Nombre": "Nombre3",
+                "Correo": "Correo3@correo.com",
+                "Password": "hola3",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890106,
+                "Nombre": "Nombre4",
+                "Correo": "Correo4@correo.com",
+                "Password": "hola4",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890107,
+                "Nombre": "Nombre5",
+                "Correo": "Correo5@correo.com",
+                "Password": "hola5",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890108,
+                "Nombre": "Nombre6",
+                "Correo": "Correo6@correo.com",
+                "Password": "hola6",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890109,
+                "Nombre": "Nombre7",
+                "Correo": "Correo7@correo.com",
+                "Password": "hola7",
+                "Cuenta": "Usuario"
+            },
+            {
+                "Dpi": 1234567890110,
+                "Nombre": "Nombre8",
+                "Correo": "Correo8@correo.com",
+                "Password": "hola8",
+                "Cuenta": "Usuario"
+            }
+        ]
+}

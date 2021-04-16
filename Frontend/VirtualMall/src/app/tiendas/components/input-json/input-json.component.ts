@@ -13,6 +13,7 @@ export class InputJSONComponent {
 
   termino : string = ""
   error : boolean = false
+  success : boolean = false
 
   constructor(private tiendasService : TiendaService) { }
   // Obtiene el contenido del archivo JSON
@@ -37,18 +38,22 @@ export class InputJSONComponent {
         case 'tienda':
           this.tiendasService.cargarTiendas(this.termino).subscribe(
             resp =>{
-              //console.log(resp.toString);
+              this.success = true
+              this.error = false
             }, err => {
               this.error = true
+              this.success = false
             }
           );
           break
         case 'inventario':
           this.tiendasService.cargarInventarios(this.termino).subscribe(
             resp =>{
-              //console.log(resp.toString);
+              this.success = true
+              this.error = false
             }, err => {
               this.error = true
+              this.success = false
             }
           );
           break
@@ -56,10 +61,22 @@ export class InputJSONComponent {
           case 'pedidos':
             this.tiendasService.cargarPedidos(this.termino).subscribe(
               resp =>{
-                //console.log(resp.toString);
+                this.success = true
+                this.error = false
               }, err => {
                 this.error = true
-                
+                this.success = false
+              }
+            );
+            break
+          case 'usuarios':
+            this.tiendasService.cargarUsuarios(this.termino).subscribe(
+              resp =>{
+                this.success = true
+                this.error = false
+              }, err => {
+                this.error = true
+                this.success = false
               }
             );
             break

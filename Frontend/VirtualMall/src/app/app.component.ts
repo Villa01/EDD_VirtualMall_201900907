@@ -9,6 +9,7 @@ import { TiendaService } from './tiendas/services/tienda.service';
 })
 export class AppComponent implements OnInit{
   acceso : boolean = false
+  login : boolean = false
   cuenta:Cuenta = {
     Dpi:      0,
     Nombre:   "",

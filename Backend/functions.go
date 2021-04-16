@@ -304,20 +304,53 @@ func verificarPassword(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("$$$ Verificando la contraseña")
 	var verificacion VerificacionLogInResponse
 	json.NewDecoder(req.Body).Decode(&verificacion)
+	usuario := buscarUsuario(verificacion.DPI)
+	if usuario == nil {
 
-	cuentaActual = *buscarUsuario(verificacion.DPI)
+		cuenta := &Cuenta{
+			DPI:    0,
+			Nombre: "",
+			Email:  "",
+			Contra: "",
+			Cuenta: "",
+		}
+		respuesta := &RespuestaVerificacionPassword{
+			Correcta: false,
+			Cuenta: *cuenta,
+		}
+		json.NewEncoder(w).Encode(respuesta)
+	} else {
+		cuentaActual = *usuario
+		correcta := compararPassword(cuentaActual, verificacion.Password)
 
-	correcta := compararPassword(cuentaActual, verificacion.Password)
-
-	respuesta := &RespuestaVerificacionPassword{
-		Correcta: correcta,
-		Cuenta: cuentaActual,
+		respuesta := &RespuestaVerificacionPassword{
+			Correcta: correcta,
+			Cuenta: cuentaActual,
+		}
+		json.NewEncoder(w).Encode(respuesta)
 	}
 
-	enableCors(&w)
-	json.NewEncoder(w).Encode(respuesta)
+}
 
+func cargaUsuarios(w http.ResponseWriter, req *http.Request){
+	fmt.Println("$$$ Cargando usuarios")
 
+	var response CargaUsuarios
+	err := json.NewDecoder(req.Body).Decode(&response)
+
+	if err != nil {
+		fmt.Println("$$$ 500 - La información no es correcta")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("500 - La información no es correcta"))
+		return
+	}
+
+	w.WriteHeader(http.StatusAccepted)
+	w.Write([]byte("200 - La información fue recibida"))
+	json.NewEncoder(w).Encode("Recibido")
+
+	ingresarUsuarios(response.Cuentas)
+	fmt.Println(ArbolCuentas.generarDOT())
 }
 
 func obtenerCuenta(w http.ResponseWriter, req *http.Request) {
@@ -333,6 +366,19 @@ func enableCors(w *http.ResponseWriter) {
 }
 
 // --------------------- Utilidades --------------------------------------
+
+func ingresarUsuarios(usuarios []Cuenta) {
+	for _, usuario := range usuarios {
+		ingresarUsuario(usuario)
+	}
+}
+
+func ingresarUsuario(usuario Cuenta) {
+	ArbolCuentas.Insert(usuario)
+	/*if buscarUsuario(usuario.DPI) == nil {
+		ArbolCuentas.Insert(usuario)
+	}*/
+}
 
 func buscarUsuario(dpi int) *Cuenta{
 	var cuenta *Cuenta
