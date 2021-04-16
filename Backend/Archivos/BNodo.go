@@ -337,3 +337,31 @@ func (B *BNodo) imprimirLlaves(){
 		B.hijos[i].imprimirLlaves()
 	}
 }
+<<<<<<< HEAD:Backend/Archivos/BNodo.go
+=======
+
+func (B *BNodo) generarGraphviz() string {
+	nombre := "nodo" + strconv.Itoa(B.llaves[0].DPI)
+	texto :=  nombre + "[label = \""
+
+	for i, llave := range B.llaves {
+		if llave != nil {
+			if i < B.numero {
+
+				texto += llave.toDOT()+"|"
+			} else {
+
+				texto += llave.toDOT()
+			}
+		}
+	}
+	texto+= "\"];\n"
+	for _, hijo := range B.hijos {
+		if hijo != nil {
+			texto += hijo.generarGraphviz()
+			texto += "\t" +  nombre + "-> " + "nodo" +  strconv.Itoa(hijo.llaves[0].DPI) + "\n"
+		}
+	}
+	return texto
+}
+>>>>>>> arreglo:Backend/BNodo.go

@@ -14,6 +14,8 @@ import { CarritoComponent } from './pages/carrito/carrito.component';
 import { TablaCarritoComponent } from './components/tabla-carrito/tabla-carrito.component';
 import { FilaProductosComponent } from './components/fila-productos/fila-productos.component';
 import { CalendarioComponent } from './pages/calendario/calendario.component';
+import { LoginComponent } from './pages/login/login.component';
+import { FormLoginComponent } from './components/form-login/form-login.component';
 
 
 
@@ -28,7 +30,9 @@ import { CalendarioComponent } from './pages/calendario/calendario.component';
     CarritoComponent,
     TablaCarritoComponent,
     FilaProductosComponent,
-    CalendarioComponent
+    CalendarioComponent,
+    LoginComponent,
+    FormLoginComponent
   ],
   imports: [
     CommonModule,

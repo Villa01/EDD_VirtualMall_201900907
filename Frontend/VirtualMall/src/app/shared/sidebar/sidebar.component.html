@@ -1,9 +1,11 @@
 <h2>Acciones</h2>
+<h3>Usuario: {{usuario}}</h3>
 <hr>
 <ul class="list-group">
-    <li 
+    <li
+        *ngIf="admin" 
         class="list-group-item"
-        routerLink=""
+        routerLink="home"
     >
         Cargar información
     </li>

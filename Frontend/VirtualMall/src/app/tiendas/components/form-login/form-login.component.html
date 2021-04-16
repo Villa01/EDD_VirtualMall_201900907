@@ -1,0 +1,25 @@
+<form  (ngSubmit)="enviar()">
+    <h3>Log in </h3>
+    <div class="text-container">
+        <label for="DPI">DPI</label>
+        <input 
+            [(ngModel)]="DPI"  
+            type="number" 
+            id="DPI" 
+            name="DPI"
+            placeholder="30012341210101"
+        >
+    </div>
+    <div class="text-container">
+        <label for="password">Contraseña</label>
+        <input
+            [(ngModel)]="password"
+            type="password" 
+            id="password" 
+            name="password"
+            placeholder="*******"
+        >
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary">
+</form>

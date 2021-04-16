@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
@@ -34,6 +33,8 @@ var routes = Routes{
 	Route{Name: "eliminarDelCarrito", Method: "POST", Path: "/eliminarDelCarrito", Function: eliminarDelCarrito},
 	Route{Name: "hacerPedido", Method: "POST", Path: "/hacerPedido", Function: hacerPedido},
 	Route{Name: "cargarPedidos", Method: "POST", Path: "/cargarPedidos", Function: cargarPedidos},
+	Route{Name: "verificacionLogIn", Method: "POST", Path: "/verificacionLogIn", Function: verificarPassword},
+	Route{Name: "obtenerCuentaActual", Method: "GET", Path: "/cuentaActual", Function: obtenerCuenta},
 }
 // CreateRouter construye un router con todas las rutas en routes
 func CreateRouter() *mux.Router {

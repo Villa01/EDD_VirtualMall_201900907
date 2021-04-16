@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 
-import { Tienda, Producto } from '../interfaces/tienda.interface';
+import { Tienda, Producto, infoUsuario, RespuestaPassword, Cuenta } from '../interfaces/tienda.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +56,16 @@ export class TiendaService {
   hacerPedido(pedido : string){
     const url = `${this.apiUrl}/hacerPedido`;
     return this.http.post(url, pedido)
+  }
+
+  verificarPassword(info : infoUsuario) {
+    const url = `${this.apiUrl}/verificacionLogIn`
+    let texto = JSON.stringify(info)
+    return this.http.post<RespuestaPassword>(url, info )
+  }
+
+  obtenerCuenta(){
+    const url =  `${this.apiUrl}/cuentaActual`
+    return this.http.get<Cuenta>(url)
   }
 }

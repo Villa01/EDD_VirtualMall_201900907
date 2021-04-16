@@ -27,7 +27,7 @@ type Store struct {
 	Contact     string `json:"Contacto"`
 	Rating      int8   `json:"Calificacion"`
 	Logo        string `json: Logo`
-	Inventory *AVL
+	Inventory   *AVL
 }
 
 // Department se refiere a los departamentos a los que pertenencen las tiendas
@@ -99,19 +99,19 @@ type VectorItem struct {
 
 // Product son los productos del inventario
 type Product struct {
-	Nombre      string  `json: "Nombre"`
-	Codigo      int     `json: "Codigo"`
-	Descripcion string  `json: "Descripcion"`
-	Precio      float32 `json: "Precio"`
-	Cantidad    int     `json: "Cantidad"`
-	Imagen 		string	`json:"Imagen"`
-	Almacenamiento string `json:"Almacenamiento"`
+	Nombre         string  `json: "Nombre"`
+	Codigo         int     `json: "Codigo"`
+	Descripcion    string  `json: "Descripcion"`
+	Precio         float32 `json: "Precio"`
+	Cantidad       int     `json: "Cantidad"`
+	Imagen         string  `json:"Imagen"`
+	Almacenamiento string  `json:"Almacenamiento"`
 }
 
 type Invetory struct {
 	Tienda       string    `json:"Tienda"`
 	Departamento string    `json:"Departamento"`
-	Calificacion int     `json:"Calificacion"`
+	Calificacion int       `json:"Calificacion"`
 	Productos    []Product `json:"Productos"`
 }
 
@@ -119,11 +119,9 @@ type InventoryResponse struct {
 	Invetarios []Invetory `json:"Inventarios"`
 }
 
-
-
 type ColaPedidos struct {
-	mes int `json:"mes"`
-	dia int `json:"dia"`
+	mes     int      `json:"mes"`
+	dia     int      `json:"dia"`
 	pedidos []Pedido `json:"pedidos"`
 }
 
@@ -133,15 +131,35 @@ func nuevaCola(mes int, dia int) *ColaPedidos {
 }
 
 type Pedido struct {
-	Fecha        string     `json:"Fecha"`
-	Tienda       string     `json:"Tienda"`
-	Departamento string     `json:"Departamento"`
-	Calificacion int      `json:"Calificacion"`
+	Fecha        string    `json:"Fecha"`
+	Tienda       string    `json:"Tienda"`
+	Departamento string    `json:"Departamento"`
+	Calificacion int       `json:"Calificacion"`
 	Productos    []Product `json:"Productos"`
 }
-
 
 type PedidosResponse struct {
 	Pedidos []Pedido `json:"Pedidos"`
 }
 
+type VerificacionLogInResponse struct {
+	DPI      int    `json:"DPI"`
+	Password string `json:"password"`
+}
+
+type RespuestaVerificacionPassword struct {
+	Correcta bool   `json:"correcta"`
+	Cuenta   Cuenta `json:"cuenta"`
+}
+
+type Cuenta struct {
+	DPI    int    `json:"Dpi"`
+	Nombre string `json:"Nombre"`
+	Email  string `json:"Correo"`
+	Contra string `json:"Password"`
+	Cuenta string `json:"Usuario"`
+}
+
+func (c Cuenta) toDOT() string {
+	return strconv.Itoa(c.DPI) + "\\n" + c.Nombre + "\\n" + c.Email + "\\n" + c.Contra + "\\n" + c.Cuenta
+}

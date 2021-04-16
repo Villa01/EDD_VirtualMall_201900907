@@ -1,8 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func main() {
+func mainPruebas() {
 	arbol := NuevoBTree(5)
 	admin := Cuenta{1, "admin", "", "", "administrado"}
 	usuario1 := Cuenta{2, "usuario1", "", "", "usuario"}
@@ -32,8 +34,6 @@ func main() {
 	}*/
 	//fmt.Println(arbol.generarDOT())
 }
-
-
 
 // ArbolB es una estrucutura de datos
 type ArbolB struct {
@@ -82,6 +82,7 @@ func (B *ArbolB) search(cuenta Cuenta) *Cuenta {
 	}
 	return nil
 }
+
 //Insert inserta un nuevo nodo en el arbol
 func (B *ArbolB) Insert(cuenta Cuenta) {
 
@@ -155,4 +156,3 @@ func (B *ArbolB) Eliminar(data Cuenta) {
 func (b *ArbolB) Vacio() bool {
 	return b.raiz == nil
 }
-
