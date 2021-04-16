@@ -47,3 +47,7 @@ export interface Cuenta {
     Password: string;
     Usuario:  string;
 }
+
+export interface eliminarResponse {
+    eliminada : boolean
+}

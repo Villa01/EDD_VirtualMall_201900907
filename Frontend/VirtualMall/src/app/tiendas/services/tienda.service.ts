@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 
-import { Tienda, Producto, infoUsuario, RespuestaPassword, Cuenta } from '../interfaces/tienda.interface';
+import { Tienda, Producto, infoUsuario, RespuestaPassword, Cuenta, eliminarResponse } from '../interfaces/tienda.interface';
+import { flushMicrotasks } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -72,5 +73,21 @@ export class TiendaService {
   cargarUsuarios(termino: string) {
     const url = `${this.apiUrl}/cargaUsuarios`
     return this.http.post<RespuestaPassword>(url, termino )
+  }
+
+  crearUsuario(nuevo : Cuenta){
+    const url = `${this.apiUrl}/crearUsuario`
+    let usuario = JSON.stringify(nuevo)
+    return this.http.post(url, usuario)
+  }
+
+  eliminarUsuario(password : string){
+    const url = `${this.apiUrl}/eliminarUsuario`
+    let peticion = {
+      password : password
+    }
+    let texto = JSON.stringify(peticion)
+    console.log(texto)
+    return this.http.post<eliminarResponse>(url, peticion)
   }
 }

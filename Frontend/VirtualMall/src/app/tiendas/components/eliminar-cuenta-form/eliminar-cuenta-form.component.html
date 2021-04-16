@@ -1,0 +1,14 @@
+
+<p>Tenga en cuenta que eliminar su cuenta es irreversible y que perdera todos los pedidos e información guardada en la misma.
+    
+</p>
+<p>Si desea continuar introduzca si contraseña. </p>
+<form (ngSubmit) = "enviar()">
+    <label for="password">Contraseña</label> <br>
+    <input type="password" placeholder="*******" name="password" [(ngModel)]="password"><br><br>
+    <input type="submit" value="Eliminar" class="btn btn-danger">
+</form>
+<br>
+<div *ngIf="error" class="alert alert-danger">
+    No se pudo eliminar la cuenta, verifique su contraseña
+</div>

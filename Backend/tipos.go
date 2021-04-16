@@ -160,6 +160,10 @@ type Cuenta struct {
 	Cuenta string `json:"Usuario"`
 }
 
+type EliminarResponse struct {
+	Password string `json:"password"`
+}
+
 type CargaUsuarios struct {
 	Cuentas []Cuenta `json:"Usuarios"`
 }

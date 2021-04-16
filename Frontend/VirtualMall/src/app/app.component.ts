@@ -26,8 +26,17 @@ export class AppComponent implements OnInit{
     this.servicio.obtenerCuenta().subscribe(
 
       cuenta => {
+        
         this.cuenta = cuenta
-        if (cuenta.Usuario) {
+
+        if (this.cuenta.Dpi == 0) {
+          
+          this.login = false
+        } else {
+          
+          this.login = true
+        }
+        if (cuenta.Usuario == "Admin") {
           this.acceso = true
         } else {
           this.acceso = false

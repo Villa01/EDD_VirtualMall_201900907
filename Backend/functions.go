@@ -354,11 +354,43 @@ func cargaUsuarios(w http.ResponseWriter, req *http.Request){
 }
 
 func obtenerCuenta(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("$$$ Retornar la cuenta acutal")
+	fmt.Println("$$$ Retornar la cuenta actual")
 	json.NewEncoder(w).Encode(cuentaActual)
 
 
 }
+
+func crearUsuario(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Creando una cuenta nueva")
+	var nueva Cuenta
+	json.NewDecoder(req.Body).Decode(&nueva)
+
+	ingresarUsuario(nueva)
+
+	fmt.Println("$$$ 500 - Se agrego el usuario con DPI", nueva.DPI)
+	w.WriteHeader(http.StatusAccepted)
+	w.Write([]byte("Ingreso Correcto"))
+}
+
+func eliminarUsuario(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Eliminando un usuario")
+	var nueva EliminarResponse
+	json.NewDecoder(req.Body).Decode(&nueva)
+
+	password := nueva.Password
+	fmt.Println(cuentaActual.Contra)
+	fmt.Println(password)
+	if cuentaActual.Contra == password {
+		eliminarCuenta(cuentaActual)
+		w.WriteHeader(http.StatusAccepted)
+		w.Write([]byte("Cuenta eliminada"))
+	} else {
+		w.WriteHeader(http.StatusConflict)
+		fmt.Println("$$$ La contraseña es incorrecta")
+	}
+	fmt.Println(ArbolCuentas.generarDOT())
+}
+
 
 func enableCors(w *http.ResponseWriter) {
 
@@ -366,6 +398,11 @@ func enableCors(w *http.ResponseWriter) {
 }
 
 // --------------------- Utilidades --------------------------------------
+
+func eliminarCuenta(cuenta Cuenta) {
+	eliminada := ArbolCuentas.search(cuenta)
+	ArbolCuentas.Eliminar(*eliminada)
+}
 
 func ingresarUsuarios(usuarios []Cuenta) {
 	for _, usuario := range usuarios {

@@ -1,0 +1,46 @@
+<form  (ngSubmit)="enviar()">
+    <h3>Registrar Usuario </h3>
+    <p>Ingrese sus datos: </p>
+    <div class="text-container">
+        <label for="DPI">DPI</label>
+        <input 
+            [(ngModel)]="DPI"  
+            type="number" 
+            id="DPI" 
+            name="DPI"
+            placeholder="30012341210101"
+        >
+    </div>
+    <div class="text-container">
+        <label for="DPI">Correo</label>
+        <input 
+            [(ngModel)]="correo"  
+            type="email" 
+            id="correo" 
+            name="correo"
+            placeholder="correo@correo.com"
+        >
+    </div>
+    <div class="text-container">
+        <label for="nombre">Nombre</label>
+        <input 
+            [(ngModel)]="nombre"  
+            type="text" 
+            id="nombre" 
+            name="nombre"
+            placeholder="Erick Villatoro"
+        >
+    </div>
+    <div class="text-container">
+        <label for="password">Contraseña</label>
+        <input
+            [(ngModel)]="password"
+            type="password" 
+            id="password" 
+            name="password"
+            placeholder="*******"
+        >
+    </div>
+
+    <input type="submit" value="Submit" class="btn btn-primary">
+</form>

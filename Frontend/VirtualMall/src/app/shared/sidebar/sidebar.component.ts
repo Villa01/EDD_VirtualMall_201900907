@@ -11,7 +11,9 @@ export class SidebarComponent implements OnInit {
   @Input() admin: boolean = false
   @Input() usuario: string = ""
 
-  constructor() {  }
+  constructor() { 
+    
+   }
 
   ngOnInit(): void {
   }

@@ -1,9 +1,5 @@
 digraph grafo {
         node[shape="record"]
-nodo1234567890105[label = "1234567890105\nNombre3\nCorreo3@correo.com\nhola3\n|"];
-nodo1234567890101[label = "1234567890101\nEDD2021\n auxiliar@edd.com\n1234\nAdmin|1234567890102\nNombre0\nCorreo0@correo.com\nhola0\n|1234567890103\nNombre1\nCorreo1@correo.com\nhola1\n|1234567890104\nNombre2\nCorreo2@correo.com\nhola2\n|1234567890105\nNombre3\nCorreo3@correo.com\nhola3\n1234567890106\nNombre4\nCorreo4@correo.com\nhola4\n1234567890107\nNombre5\nCorreo5@correo.com\nhola5\n1234567890108\nNombre6\nCorreo6@correo.com\nhola6\n1234567890109\nNombre7\nCorreo7@correo.com\nhola7\n"];
-        nodo1234567890105-> nodo1234567890101
-nodo1234567890106[label = "1234567890106\nNombre4\nCorreo4@correo.com\nhola4\n|1234567890107\nNombre5\nCorreo5@correo.com\nhola5\n|1234567890108\nNombre6\nCorreo6@correo.com\nhola6\n|1234567890109\nNombre7\nCorreo7@correo.com\nhola7\n|1234567890110\nNombre8\nCorreo8@correo.com\nhola8\n|"];
-        nodo1234567890105-> nodo1234567890106
+nodo1234567890101[label = "1234567890101\nEDD2021\n auxiliar@edd.com\n1234\nAdmin|3007114090101\nErick Villatoro\njavillatoro1@gmail.com\nIdania\nUsuario"];
 
 }

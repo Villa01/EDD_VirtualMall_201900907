@@ -16,6 +16,10 @@ import { FilaProductosComponent } from './components/fila-productos/fila-product
 import { CalendarioComponent } from './pages/calendario/calendario.component';
 import { LoginComponent } from './pages/login/login.component';
 import { FormLoginComponent } from './components/form-login/form-login.component';
+import { RegistrarComponent } from './components/registrar/registrar.component';
+import { EliminarCuentaComponent } from './pages/eliminar-cuenta/eliminar-cuenta.component';
+import { EliminarCuentaFormComponent } from './components/eliminar-cuenta-form/eliminar-cuenta-form.component';
+
 
 
 
@@ -32,7 +36,10 @@ import { FormLoginComponent } from './components/form-login/form-login.component
     FilaProductosComponent,
     CalendarioComponent,
     LoginComponent,
-    FormLoginComponent
+    FormLoginComponent,
+    RegistrarComponent,
+    EliminarCuentaComponent,
+    EliminarCuentaFormComponent
   ],
   imports: [
     CommonModule,

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { TiendasModule } from './tiendas/tiendas.module';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
+import { EliminarCuentaComponent } from './tiendas/pages/eliminar-cuenta/eliminar-cuenta.component';
 
 @NgModule({
   declarations: [

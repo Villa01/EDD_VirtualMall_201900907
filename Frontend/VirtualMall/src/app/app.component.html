@@ -1,6 +1,9 @@
 
 <div class="row mt-4">
-    <div *ngIf="acceso" class="col-2">
+    <div class="col-1">
+
+    </div>
+    <div *ngIf="login" class=" sidebar col-3">
         <app-sidebar  [usuario] = "cuenta.Nombre" [admin] = "acceso"></app-sidebar>
     </div>
     <div class="col">
