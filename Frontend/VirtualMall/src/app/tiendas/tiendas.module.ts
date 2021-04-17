@@ -19,6 +19,8 @@ import { FormLoginComponent } from './components/form-login/form-login.component
 import { RegistrarComponent } from './components/registrar/registrar.component';
 import { EliminarCuentaComponent } from './pages/eliminar-cuenta/eliminar-cuenta.component';
 import { EliminarCuentaFormComponent } from './components/eliminar-cuenta-form/eliminar-cuenta-form.component';
+import { ReportesComponent } from './pages/reportes/reportes.component';
+import { ReporteComponent } from './components/reporte/reporte.component';
 
 
 
@@ -39,7 +41,9 @@ import { EliminarCuentaFormComponent } from './components/eliminar-cuenta-form/e
     FormLoginComponent,
     RegistrarComponent,
     EliminarCuentaComponent,
-    EliminarCuentaFormComponent
+    EliminarCuentaFormComponent,
+    ReportesComponent,
+    ReporteComponent
   ],
   imports: [
     CommonModule,

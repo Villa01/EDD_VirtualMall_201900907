@@ -1,0 +1,5 @@
+digraph grafo { 
+	node[shape="record"]
+nodo1234567890101[label = "1234567890101\nEDD2021\n auxiliar@edd.com\n1234\nAdmin"];
+
+}

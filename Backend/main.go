@@ -5,7 +5,8 @@ import (
 	"log"
 	"net/http"
 )
-
+var rutaReportesDot string
+var rutaReportesPng string
 func main() {
 
 	admin := &Cuenta{
@@ -17,9 +18,13 @@ func main() {
 	}
 
 
-
+	rutaReportesDot = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Backend\\reportesDot"
+	rutaReportesPng = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Frontend\\VirtualMall\\src\\assets"
+	encriptar("Imprime una llave")
 	ArbolCuentas = *NuevoBTree(5)
 	ArbolCuentas.Insert(*admin)
+	ArbolCuentas.generarDOT()
+
 	//port := ":3000"
 	router := CreateRouter()
 	//log.Fatal(http.ListenAndServe(port, router))

@@ -6,6 +6,7 @@ import { ProductosComponent } from './tiendas/pages/productos/productos.componen
 import { CarritoComponent } from './tiendas/pages/carrito/carrito.component';
 import { LoginComponent } from './tiendas/pages/login/login.component';
 import { EliminarCuentaComponent } from './tiendas/pages/eliminar-cuenta/eliminar-cuenta.component';
+import { ReportesComponent } from './tiendas/pages/reportes/reportes.component';
 
 
 
@@ -38,6 +39,11 @@ const routes: Routes = [
   {
     path: 'eliminarCuenta',
     component: EliminarCuentaComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'reportes',
+    component: ReportesComponent,
     pathMatch: 'full'
   }
 ]

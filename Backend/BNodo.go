@@ -339,11 +339,9 @@ func (B *BNodo) generarGraphviz() string {
 
 	for i, llave := range B.llaves {
 		if llave != nil {
-			if i < B.numero {
-
+			if i < B.numero-1 {
 				texto += llave.toDOT()+"|"
 			} else {
-
 				texto += llave.toDOT()
 			}
 		}
@@ -352,6 +350,52 @@ func (B *BNodo) generarGraphviz() string {
 	for _, hijo := range B.hijos {
 		if hijo != nil {
 			texto += hijo.generarGraphviz()
+			texto += "\t" +  nombre + "-> " + "nodo" +  strconv.Itoa(hijo.llaves[0].DPI) + "\n"
+		}
+	}
+	return texto
+}
+
+func (B *BNodo) generarGraphvizEncriptado() string {
+	nombre := "nodo" + strconv.Itoa(B.llaves[0].DPI)
+	texto :=  nombre + "[label = \""
+
+	for i, llave := range B.llaves {
+		if llave != nil {
+			if i < B.numero-1 {
+				texto += llave.toDotEncriptado()+"|"
+			} else {
+				texto += llave.toDotEncriptado()
+			}
+		}
+	}
+	texto+= "\"];\n"
+	for _, hijo := range B.hijos {
+		if hijo != nil {
+			texto += hijo.generarGraphvizEncriptado()
+			texto += "\t" +  nombre + "-> " + "nodo" +  strconv.Itoa(hijo.llaves[0].DPI) + "\n"
+		}
+	}
+	return texto
+}
+
+func (B *BNodo) generarGraphvizEncriptadoSensible() string {
+	nombre := "nodo" + strconv.Itoa(B.llaves[0].DPI)
+	texto :=  nombre + "[label = \""
+
+	for i, llave := range B.llaves {
+		if llave != nil {
+			if i < B.numero-1 {
+				texto += llave.toStringEncripSensible()+"|"
+			} else {
+				texto += llave.toStringEncripSensible()
+			}
+		}
+	}
+	texto+= "\"];\n"
+	for _, hijo := range B.hijos {
+		if hijo != nil {
+			texto += hijo.generarGraphvizEncriptadoSensible()
 			texto += "\t" +  nombre + "-> " + "nodo" +  strconv.Itoa(hijo.llaves[0].DPI) + "\n"
 		}
 	}

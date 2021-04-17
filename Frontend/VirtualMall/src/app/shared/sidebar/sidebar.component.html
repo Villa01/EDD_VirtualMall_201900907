@@ -27,11 +27,20 @@
     >
         Carrito de Compras
     </li>
+    
     <li
         *ngIf="!admin" 
         class="list-group-item"
         routerLink="eliminarCuenta"
     >
         Eliminar Cuenta
+    </li>
+
+    <li
+        *ngIf="admin" 
+        class="list-group-item"
+        routerLink="reportes"
+    >
+        Reportes
     </li>
 </ul>

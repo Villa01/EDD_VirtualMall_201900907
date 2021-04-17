@@ -168,6 +168,30 @@ type CargaUsuarios struct {
 	Cuentas []Cuenta `json:"Usuarios"`
 }
 
+type RespuestaBooleana struct {
+	booleano bool `json:"booleano"`
+}
+
+type RespuestaString struct{
+	Texto string `json:"texto"`
+}
+type RespuestaReportes struct {
+	Reportes []Reporte `json:"Reportes"`
+}
+
+type Reporte struct {
+	Nombre string `json:"nombre"`
+	Ruta   string `json:"ruta"`
+}
+
 func (c Cuenta) toDOT() string {
 	return strconv.Itoa(c.DPI) + "\\n" + c.Nombre + "\\n" + c.Email + "\\n" + c.Contra + "\\n" + c.Cuenta
+}
+
+func (c Cuenta) toDotEncriptado() string {
+	return encriptarConLlave(strconv.Itoa(c.DPI),llave) + "\\n" + encriptarConLlave(c.Nombre,llave) + "\\n" + encriptarConLlave(c.Email,llave) + "\\n" +encriptarConLlave(c.Contra,llave) + "\\n" +encriptarConLlave(c.Cuenta,llave)
+}
+
+func (c Cuenta) toStringEncripSensible() string {
+	return encriptarConLlave(strconv.Itoa(c.DPI),llave) + "\\n" + c.Nombre + "\\n" + encriptarConLlave(c.Email,llave) + "\\n" + encriptarConLlave(c.Contra,llave) + "\\n" + c.Cuenta
 }

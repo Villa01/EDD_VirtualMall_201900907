@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
 
-import { Tienda, Producto, infoUsuario, RespuestaPassword, Cuenta, eliminarResponse } from '../interfaces/tienda.interface';
+import { Tienda, Producto, infoUsuario, RespuestaPassword, Cuenta, eliminarResponse, booleanResponse, ReportesResponse } from '../interfaces/tienda.interface';
 import { flushMicrotasks } from '@angular/core/testing';
 
 @Injectable({
@@ -88,6 +88,14 @@ export class TiendaService {
     }
     let texto = JSON.stringify(peticion)
     console.log(texto)
-    return this.http.post<eliminarResponse>(url, peticion)
+    return this.http.post<booleanResponse>(url, peticion)
+  }
+
+  obtenerReportes(llave : string){
+    const url = `${this.apiUrl}/obtenerReportes`
+    let peticion = {
+      "texto" : llave
+    }
+    return this.http.post<ReportesResponse>(url, peticion)
   }
 }

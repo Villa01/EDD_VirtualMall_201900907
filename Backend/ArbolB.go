@@ -2,6 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+	"os/exec"
 )
 
 func mainPruebas() {
@@ -157,5 +161,51 @@ func (B *ArbolB) generarDOT() string {
 	texto := "digraph grafo { \n\tnode[shape=\"record\"]\n"
 	texto += B.dameRaiz().generarGraphviz()
 	texto += "\n}"
+	B.escribirDOT(texto, "ArbolB")
+
 	return texto
 }
+
+func (B *ArbolB) generarDOTEncriptado() string {
+	texto := "digraph grafo { \n\tnode[shape=\"record\"]\n"
+	texto += B.dameRaiz().generarGraphvizEncriptado()
+	texto += "\n}"
+	B.escribirDOT(texto, "ArbolBEncriptado")
+
+	return texto
+}
+
+func (B *ArbolB) generarDOTEncriptadoSensible() string {
+	texto := "digraph grafo { \n\tnode[shape=\"record\"]\n"
+	texto += B.dameRaiz().generarGraphvizEncriptadoSensible()
+	texto += "\n}"
+	B.escribirDOT(texto, "ArbolBEncriptadoSensible")
+
+	return texto
+}
+
+func (b *ArbolB) escribirDOT(text string, nombreArchivo string) {
+	f, err := os.Create(rutaReportesDot + "/"+nombreArchivo+".dot")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	_, err2 := f.WriteString(text)
+
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	fmt.Println("$$$ Archivo dot escrito.")
+	b.ejecutarComand(nombreArchivo)
+}
+
+func (B *ArbolB) ejecutarComand(nombreArchivo string) {
+	path,_ := exec.LookPath("dot")
+	cmd,_ := exec.Command(path, "-Tpng", rutaReportesDot + "/"+nombreArchivo+".dot").Output()
+	mode := int(0777)
+	ioutil.WriteFile(rutaReportesPng + "/"+nombreArchivo+".png", cmd, os.FileMode(mode))
+
+	fmt.Println("$$$ Reporte Arbol Usuarios png completado")
+}
+

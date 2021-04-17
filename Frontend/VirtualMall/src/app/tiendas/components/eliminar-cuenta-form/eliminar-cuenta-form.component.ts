@@ -19,7 +19,7 @@ export class EliminarCuentaFormComponent implements OnInit {
   enviar(){
     this.servicio.eliminarUsuario(this.password).subscribe(
       (resp)=>{
-        this.error = resp.eliminada
+        this.error = resp.booleano
       }
     );
     };

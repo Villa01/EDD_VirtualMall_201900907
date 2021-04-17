@@ -51,3 +51,16 @@ export interface Cuenta {
 export interface eliminarResponse {
     eliminada : boolean
 }
+
+export interface booleanResponse {
+    booleano : boolean
+}
+
+export interface ReportesResponse {
+    Reportes: Reporte[];
+}
+
+export interface Reporte {
+    nombre: string;
+    ruta:   string;
+}

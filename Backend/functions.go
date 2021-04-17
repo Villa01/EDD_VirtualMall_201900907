@@ -18,6 +18,7 @@ var pedidosAnuales *AVLPedido
 var categorias map[string]int
 var cuentaActual Cuenta
 var ArbolCuentas ArbolB
+var llave string
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -378,11 +379,11 @@ func eliminarUsuario(w http.ResponseWriter, req *http.Request) {
 	json.NewDecoder(req.Body).Decode(&nueva)
 
 	password := nueva.Password
-	fmt.Println(cuentaActual.Contra)
-	fmt.Println(password)
 	if cuentaActual.Contra == password {
 		eliminarCuenta(cuentaActual)
 		w.WriteHeader(http.StatusAccepted)
+		response := RespuestaBooleana{false}
+		json.NewEncoder(w).Encode(response)
 		w.Write([]byte("Cuenta eliminada"))
 	} else {
 		w.WriteHeader(http.StatusConflict)
@@ -391,6 +392,15 @@ func eliminarUsuario(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(ArbolCuentas.generarDOT())
 }
 
+func obtenerReportes(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Generando reportes")
+	var respuesta RespuestaString
+	json.NewDecoder(req.Body).Decode(&respuesta)
+	fmt.Println(respuesta)
+	llave = respuesta.Texto
+	reportes := generarReportes()
+	json.NewEncoder(w).Encode(reportes)
+}
 
 func enableCors(w *http.ResponseWriter) {
 
@@ -399,9 +409,30 @@ func enableCors(w *http.ResponseWriter) {
 
 // --------------------- Utilidades --------------------------------------
 
+func generarReportes()[]*Reporte{
+	ArbolCuentas.generarDOT()
+	ArbolCuentas.generarDOTEncriptado()
+	ArbolCuentas.generarDOTEncriptadoSensible()
+
+	var reportes []*Reporte
+	reporteNormal := &Reporte{
+		Nombre: "Arbol B",
+		Ruta:   rutaReportesPng+"/ArbolB.png",
+	}
+	reporteEncriptado := &Reporte{
+		Nombre: "Arbol B Encriptado",
+		Ruta:   rutaReportesPng+"/ArbolBEncriptado.png",
+	}
+	reporteEncriptadoSensible := &Reporte{
+		Nombre: "Arbol B Encriptado Sensible",
+		Ruta:   rutaReportesPng+"/ArbolBEncriptadoSensible.png",
+	}
+	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible)
+	return reportes
+}
+
 func eliminarCuenta(cuenta Cuenta) {
-	eliminada := ArbolCuentas.search(cuenta)
-	ArbolCuentas.Eliminar(*eliminada)
+	ArbolCuentas.Eliminar(cuenta)
 }
 
 func ingresarUsuarios(usuarios []Cuenta) {
