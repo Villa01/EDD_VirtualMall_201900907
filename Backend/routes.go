@@ -38,7 +38,8 @@ var routes = Routes{
 	Route{Name: "cargaUsuarios", Method: "POST", Path: "/cargaUsuarios", Function: cargaUsuarios},
 	Route{Name: "crearUsuario", Method: "POST", Path: "/crearUsuario", Function: crearUsuario},
 	Route{Name: "eliminarUsuario", Method: "POST", Path: "/eliminarUsuario", Function: eliminarUsuario},
-	Route{Name: "obtenerReportes", Method: "POST", Path: "/obtenerReportes", Function: obtenerReportes},
+	Route{Name: "generarReportes", Method: "POST", Path: "/generarReportes", Function: generarReportes},
+	Route{Name: "obtenerReportes", Method: "GET", Path: "/obtenerReportes", Function: obtenerReportes},
 }
 // CreateRouter construye un router con todas las rutas en routes
 func CreateRouter() *mux.Router {

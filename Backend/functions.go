@@ -19,6 +19,7 @@ var categorias map[string]int
 var cuentaActual Cuenta
 var ArbolCuentas ArbolB
 var llave string
+var reportes []*Reporte
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -392,13 +393,20 @@ func eliminarUsuario(w http.ResponseWriter, req *http.Request) {
 	fmt.Println(ArbolCuentas.generarDOT())
 }
 
-func obtenerReportes(w http.ResponseWriter, req *http.Request) {
+func generarReportes(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("$$$ Generando reportes")
-	var respuesta RespuestaString
-	json.NewDecoder(req.Body).Decode(&respuesta)
-	fmt.Println(respuesta)
-	llave = respuesta.Texto
-	reportes := generarReportes()
+	var peticion RespuestaString
+	json.NewDecoder(req.Body).Decode(&peticion)
+	fmt.Println(peticion)
+	llave = peticion.Texto
+	reportes = generarReporte()
+	var respuesta RespuestaBooleana
+	respuesta.booleano = true
+	json.NewEncoder(w).Encode(respuesta)
+}
+
+func obtenerReportes(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Devolviendo reportes")
 	json.NewEncoder(w).Encode(reportes)
 }
 
@@ -409,7 +417,7 @@ func enableCors(w *http.ResponseWriter) {
 
 // --------------------- Utilidades --------------------------------------
 
-func generarReportes()[]*Reporte{
+func generarReporte()[]*Reporte{
 	ArbolCuentas.generarDOT()
 	ArbolCuentas.generarDOTEncriptado()
 	ArbolCuentas.generarDOTEncriptadoSensible()
@@ -417,17 +425,19 @@ func generarReportes()[]*Reporte{
 	var reportes []*Reporte
 	reporteNormal := &Reporte{
 		Nombre: "Arbol B",
-		Ruta:   rutaReportesPng+"/ArbolB.png",
+		Ruta:   "/ArbolB.png",
 	}
 	reporteEncriptado := &Reporte{
 		Nombre: "Arbol B Encriptado",
-		Ruta:   rutaReportesPng+"/ArbolBEncriptado.png",
+		Ruta:   "/ArbolBEncriptado.png",
 	}
 	reporteEncriptadoSensible := &Reporte{
 		Nombre: "Arbol B Encriptado Sensible",
-		Ruta:   rutaReportesPng+"/ArbolBEncriptadoSensible.png",
+		Ruta:   "/ArbolBEncriptadoSensible.png",
 	}
 	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible)
+
+
 	return reportes
 }
 

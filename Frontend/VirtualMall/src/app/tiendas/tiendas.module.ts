@@ -21,6 +21,7 @@ import { EliminarCuentaComponent } from './pages/eliminar-cuenta/eliminar-cuenta
 import { EliminarCuentaFormComponent } from './components/eliminar-cuenta-form/eliminar-cuenta-form.component';
 import { ReportesComponent } from './pages/reportes/reportes.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { FormularioReporteComponent } from './components/formulario-reporte/formulario-reporte.component';
 
 
 
@@ -43,7 +44,8 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     EliminarCuentaComponent,
     EliminarCuentaFormComponent,
     ReportesComponent,
-    ReporteComponent
+    ReporteComponent,
+    FormularioReporteComponent
   ],
   imports: [
     CommonModule,

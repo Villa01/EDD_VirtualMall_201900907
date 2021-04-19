@@ -1,0 +1,9 @@
+<form>
+    <div>
+        <label for="">Llave : </label><br>
+        <input type="text" name="password" [(ngModel)]="password"><br><br>
+        <button type="button"  (click)="enviar()" class="btn btn-primary">Generar</button>
+    </div>
+
+</form>
+<app-mostrar-error [error] = "error" [mensajeErr]="mensErro" [success]= "success" [mensajeSucc] = "mensSucc"></app-mostrar-error>

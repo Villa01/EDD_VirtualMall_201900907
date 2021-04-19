@@ -4,7 +4,8 @@ import { Reporte } from '../../interfaces/tienda.interface';
 @Component({
   selector: 'app-reporte',
   templateUrl: './reporte.component.html',
-  styles: [
+  styleUrls : [
+    './reporte.component.css'
   ]
 })
 export class ReporteComponent implements OnInit {

@@ -7,22 +7,16 @@ import { Reporte } from '../../interfaces/tienda.interface';
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.css']
 })
-export class ReportesComponent implements OnInit {
+export class ReportesComponent {
 
-  password : string = ""
   reportes : Reporte[] = []
-
-  constructor(private servicio : TiendaService) { }
-
-  ngOnInit(): void {
+  
+  constructor() {
   }
 
-  enviar(){
-    this.servicio.obtenerReportes(this.password).subscribe(
-      resp => {
-        this.reportes = resp.Reportes
-        console.log(this.reportes)
-      }
-    );
+  imprimirReportes(reportes : Reporte[]){
+    this.reportes = reportes
+    console.log(this.reportes)
   }
+  
 }

@@ -5,6 +5,7 @@ import { FileuploadComponent } from './fileupload/fileupload.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
+import { MostrarErrorComponent } from './mostrar-error/mostrar-error.component';
 
 
 
@@ -12,11 +13,13 @@ import { HeaderComponent } from './header/header.component';
   declarations: [
     FileuploadComponent,
     SidebarComponent,
-    HeaderComponent
+    HeaderComponent,
+    MostrarErrorComponent
   ],
   exports : [
     FileuploadComponent,
-    SidebarComponent
+    SidebarComponent,
+    MostrarErrorComponent
   ],
   imports: [
     CommonModule,

@@ -1,13 +1,8 @@
 <h2>Reportes</h2>
 <p>Ingrese la llave de encriptación de la información</p> <br>
 
-<form (ngSubmit)="enviar()">
-    <label for="">Llave: </label><br>
-    <input type="password" name="password" [(ngModel)]="password"><br>
-    <br>
-    <input type="submit" value="Submit" class="btn btn-primary">
-</form>
 
+<app-formulario-reporte (evento)="imprimirReportes($event)"></app-formulario-reporte>
 <div *ngFor="let reporte of reportes">
     <app-reporte [reporte] = "reporte"></app-reporte>
 </div>
