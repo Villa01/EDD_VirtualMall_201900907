@@ -6,11 +6,11 @@ import (
 )
 
 type contenidoGrafo struct {
-	
+	nombre string
 }
 
 type nodoGrafo struct {
-	id int 
+	id string
 	contenido contenidoGrafo
 	adyacentes []*nodoGrafo
 }
@@ -38,17 +38,18 @@ func NewGrafo() *Grafo {
 	return &Grafo{}
 }
 
-func (g *Grafo) agregarNodo(id int, contenido contenidoGrafo)  {
+func (g *Grafo) agregarNodo(id string, contenido contenidoGrafo)  {
 
 	if !estaEn(g.nodos, id){
 		g.nodos = append(g.nodos, &nodoGrafo{id : id, contenido : contenido})
 	}
 }
 
-func (g *Grafo) agregarArista(anterior, siguiente, peso int)  {
+func (g *Grafo) agregarArista(anterior, siguiente string , peso int)  {
 	nodoAnterior := g.obtenerNodo(anterior)
 	nodoSig := g.obtenerNodo(siguiente)
-
+	fmt.Println("anterior ", nodoAnterior)
+	fmt.Println("siguiente ", nodoSig)
 	if nodoAnterior != nil && nodoSig != nil {
 		 if !estaEn(nodoAnterior.adyacentes, nodoSig.id){
 			 nodoAnterior.agregarAdyacente(nodoSig)
@@ -65,7 +66,7 @@ func (n *nodoGrafo) agregarAdyacente(nuevo *nodoGrafo)  {
 	n.adyacentes = append(n.adyacentes, nuevo)
 }
 
-func (g *Grafo) obtenerNodo(id int) *nodoGrafo {
+func (g *Grafo) obtenerNodo(id string) *nodoGrafo {
 	for i, nodo := range g.nodos {
 		if nodo.id == id {
 			return g.nodos[i]
@@ -74,7 +75,7 @@ func (g *Grafo) obtenerNodo(id int) *nodoGrafo {
 	return  nil
 }
 
-func estaEn ( lista []*nodoGrafo, id int) bool {
+func estaEn ( lista []*nodoGrafo, id string) bool {
 	for _, i := range lista {
 		if id == i.id {
 			return true
@@ -97,11 +98,11 @@ func (g Grafo) toDot() string {
 	var texto string
 
 	for _, nodo := range g.nodos {
-		texto += "\tN" + strconv.Itoa(nodo.id) + "[shape=\"circle\"];\n"
+		texto += "\tN" + nodo.id + "[shape=\"circle\"];\n"
 	}
 
 	for _, a := range g.aristas {
-		texto += "N" + strconv.Itoa(a.anterior.id) + " -> N" + strconv.Itoa(a.siguiente.id) + "[label= \""+strconv.Itoa(a.peso)+"\"];\n"
+		texto +=  a.anterior.id + " ->" + a.siguiente.id + "[label= \""+strconv.Itoa(a.peso)+"\"];\n"
 	}
 
 	return texto
@@ -117,42 +118,14 @@ func (g Grafo) toDot() string {
 }*/
 
 
-func (g *Grafo) distanciaEntre(inicio *nodoGrafo, fin *nodoGrafo, valorInicio int) int{
-	for _, a := range g.aristas {
-		if a.anterior == inicio &&  a.siguiente== fin{
-			return a.peso
-		}
-	}
-	return 1000000000000000000000000000
-}
+//func (g *Grafo) distanciaEntre(inicio *nodoGrafo, fin *nodoGrafo, valorInicio int) int{
+//	for _, a := range g.aristas {
+//		if a.anterior == inicio &&  a.siguiente== fin{
+//			return a.peso
+//		}
+//	}
+//	return 1000000000000000000000000000
+//}
 
 
 
-func main() {
-	prueba := NewGrafo()
-
-	for i := 0; i < 8; i++ {
-		var contenido contenidoGrafo
-		prueba.agregarNodo(i, contenido)
-	}
-
-	prueba.agregarArista(0, 1, 100)
-
-	prueba.agregarArista(0, 2, 200)
-
-	prueba.agregarArista(0, 3, 150)
-
-	prueba.agregarArista(0, 4, 25)
-
-	prueba.agregarArista(0, 1, 10)
-	prueba.agregarArista(1, 2, 5)
-	prueba.agregarArista(2, 3, 40)
-	prueba.agregarArista(3, 4, 80)
-	prueba.agregarArista(4, 5, 95)
-	prueba.agregarArista(5, 6, 99)
-	prueba.agregarArista(6, 7, 101)
-	prueba.agregarArista(7, 0, 3004)
-
-	fmt.Println(prueba.toDot())
-	prueba.Imprimir()
-}

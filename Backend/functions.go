@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"strconv"
 )
 
@@ -20,6 +23,7 @@ var cuentaActual Cuenta
 var ArbolCuentas ArbolB
 var llave string
 var reportes []*Reporte
+var grafo *Grafo
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -410,6 +414,33 @@ func obtenerReportes(w http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(w).Encode(reportes)
 }
 
+
+func generarGrafo(w http.ResponseWriter, req *http.Request) {
+	fmt.Println("$$$ Generando grafo")
+	var respuesta GrafoResponse
+
+	json.NewDecoder(req.Body).Decode(&respuesta)
+	grafo = NewGrafo()
+
+	for _, n := range respuesta.Nodos {
+		contenido := &contenidoGrafo{n.Nombre}
+		grafo.agregarNodo(n.Nombre, *contenido)
+	}
+	for _, n := range respuesta.Nodos {
+		for _, enlace := range n.Enlaces {
+			grafo.agregarArista(n.Nombre, enlace.Nombre, enlace.Distancia)
+		}
+	}
+	texto := "digraph grafo { \n\tnode[shape=\"record\" style=\"filled\" fillcollor=\"#58D27A\"]\n"
+	texto += grafo.toDot()
+	texto += "\n}"
+	escribirDOT(texto, "Grafo")
+
+	respuestaB := &RespuestaBooleana{true}
+
+	json.NewEncoder(w).Encode(respuestaB)
+}
+
 func enableCors(w *http.ResponseWriter) {
 
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
@@ -435,7 +466,11 @@ func generarReporte()[]*Reporte{
 		Nombre: "Arbol B Encriptado Sensible",
 		Ruta:   "/ArbolBEncriptadoSensible.svg",
 	}
-	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible)
+	reporteGrafo := &Reporte{
+		Nombre: "Grafo de ubicación de departamentos",
+		Ruta:   "/Grafo.svg",
+	}
+	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible, reporteGrafo)
 
 
 	return reportes
@@ -781,3 +816,29 @@ func printArray(array []VectorItem) {
 	}
 	fmt.Println("]")
 }
+
+func escribirDOT(text string, nombreArchivo string) {
+	f, err := os.Create(rutaReportesDot + "/"+nombreArchivo+".dot")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	_, err2 := f.WriteString(text)
+
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+	fmt.Println("$$$ Archivo dot escrito.")
+	ejecutarComand(nombreArchivo)
+}
+
+func ejecutarComand(nombreArchivo string) {
+	path,_ := exec.LookPath("dot")
+	cmd,_ := exec.Command(path, "-Tsvg", rutaReportesDot + "/"+nombreArchivo+".dot").Output()
+	mode := int(0777)
+	ioutil.WriteFile(rutaReportesPng + "/"+nombreArchivo+".svg", cmd, os.FileMode(mode))
+
+	fmt.Println("$$$ Reporte Arbol Usuarios png completado")
+}
+

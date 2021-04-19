@@ -10,7 +10,7 @@ export class CargaTiendasComponent  {
 
   termino :string = ""
 
-  opcion : string[] = ['tienda', 'inventario', 'pedidos', 'usuarios']
+  opcion : string[] = ['tienda', 'inventario', 'pedidos', 'usuarios', 'ubicaciones']
 
   constructor(private tiendaService : TiendaService) { }
 

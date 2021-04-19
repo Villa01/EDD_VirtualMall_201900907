@@ -1,22 +1,5 @@
 digraph grafo { 
-	
-	N0[shape="circle"];
-	N1[shape="circle"];
-	N2[shape="circle"];
-	N3[shape="circle"];
-	N4[shape="circle"];
-	N5[shape="circle"];
-	N6[shape="circle"];
-	N7[shape="circle"];
-N0 -> N1[label= "100"];
-N0 -> N2[label= "200"];
-N0 -> N3[label= "150"];
-N0 -> N4[label= "25"];
-N1 -> N2[label= "5"];
-N2 -> N3[label= "40"];
-N3 -> N4[label= "80"];
-N4 -> N5[label= "95"];
-N5 -> N6[label= "99"];
-N6 -> N7[label= "101"];
-N7 -> N0[label= "3004"];
+	node[shape="record"]
+nodo1234567890101[label = "1234567890101\nEDD2021\n auxiliar@edd.com\n1234\nAdmin"];
+
 }

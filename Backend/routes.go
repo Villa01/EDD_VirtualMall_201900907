@@ -40,6 +40,7 @@ var routes = Routes{
 	Route{Name: "eliminarUsuario", Method: "POST", Path: "/eliminarUsuario", Function: eliminarUsuario},
 	Route{Name: "generarReportes", Method: "POST", Path: "/generarReportes", Function: generarReportes},
 	Route{Name: "obtenerReportes", Method: "GET", Path: "/obtenerReportes", Function: obtenerReportes},
+	Route{Name: "generarGrafo", Method: "POST", Path: "/generarGrafo", Function: generarGrafo},
 }
 // CreateRouter construye un router con todas las rutas en routes
 func CreateRouter() *mux.Router {
@@ -49,7 +50,6 @@ func CreateRouter() *mux.Router {
 	for _, route := range routes {
 		// Agrega todos los atributos al router
 		router.Name(route.Name).Methods(route.Method).Path(route.Path).Handler(route.Function)
-
 	}
 	return router
 }

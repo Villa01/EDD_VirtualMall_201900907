@@ -80,6 +80,17 @@ export class InputJSONComponent {
               }
             );
             break
+            case 'ubicaciones':
+            this.tiendasService.cargaUbicaciones(this.termino).subscribe(
+              resp =>{
+                this.success = true
+                this.error = false
+              }, err => {
+                this.error = true
+                this.success = false
+              }
+            );
+            break
       }
       //console.log(this.termino)
 

@@ -210,5 +210,5 @@ type Nodo struct {
 
 type Enlace struct {
 	Nombre    string `json:"Nombre"`
-	Distancia int64  `json:"Distancia"`
+	Distancia int  `json:"Distancia"`
 }

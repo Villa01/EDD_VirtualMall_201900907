@@ -103,5 +103,8 @@ export class TiendaService {
     return this.http.get<Reporte[]>(url);
   }
 
-
+  cargaUbicaciones(termino : string) {
+    const url = `${this.apiUrl}/generarGrafo`
+    return this.http.post<booleanResponse>(url, termino )
+  }
 }
