@@ -425,15 +425,15 @@ func generarReporte()[]*Reporte{
 	var reportes []*Reporte
 	reporteNormal := &Reporte{
 		Nombre: "Arbol B",
-		Ruta:   "/ArbolB.png",
+		Ruta:   "/ArbolB.svg",
 	}
 	reporteEncriptado := &Reporte{
 		Nombre: "Arbol B Encriptado",
-		Ruta:   "/ArbolBEncriptado.png",
+		Ruta:   "/ArbolBEncriptado.svg",
 	}
 	reporteEncriptadoSensible := &Reporte{
 		Nombre: "Arbol B Encriptado Sensible",
-		Ruta:   "/ArbolBEncriptadoSensible.png",
+		Ruta:   "/ArbolBEncriptadoSensible.svg",
 	}
 	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible)
 

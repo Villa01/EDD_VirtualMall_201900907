@@ -195,3 +195,20 @@ func (c Cuenta) toDotEncriptado() string {
 func (c Cuenta) toStringEncripSensible() string {
 	return encriptarConLlave(strconv.Itoa(c.DPI),llave) + "\\n" + c.Nombre + "\\n" + encriptarConLlave(c.Email,llave) + "\\n" + encriptarConLlave(c.Contra,llave) + "\\n" + c.Cuenta
 }
+
+
+type GrafoResponse struct {
+	Nodos                []Nodo `json:"Nodos"`
+	PosicionInicialRobot string `json:"PosicionInicialRobot"`
+	Entrega              string `json:"Entrega"`
+}
+
+type Nodo struct {
+	Nombre  string   `json:"Nombre"`
+	Enlaces []Enlace `json:"Enlaces"`
+}
+
+type Enlace struct {
+	Nombre    string `json:"Nombre"`
+	Distancia int64  `json:"Distancia"`
+}

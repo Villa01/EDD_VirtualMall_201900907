@@ -380,7 +380,7 @@ func (B *BNodo) generarGraphvizEncriptado() string {
 }
 
 func (B *BNodo) generarGraphvizEncriptadoSensible() string {
-	nombre := "nodo" + strconv.Itoa(B.llaves[0].DPI)
+	nombre := "nodo" + strconv.Itoa(B.llaves[0].DPI) + strconv.Itoa(B.numero)
 	texto :=  nombre + "[label = \""
 
 	for i, llave := range B.llaves {

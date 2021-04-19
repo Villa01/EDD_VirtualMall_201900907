@@ -176,7 +176,8 @@ func (B *ArbolB) generarDOTEncriptado() string {
 }
 
 func (B *ArbolB) generarDOTEncriptadoSensible() string {
-	texto := "digraph grafo { \n\tnode[shape=\"record\"]\n"
+	texto := "digraph grafo { \n\tnode[shape=\"record\" style=\"filled\" fillcollor=\"#58D27A\"]\n"
+
 	texto += B.dameRaiz().generarGraphvizEncriptadoSensible()
 	texto += "\n}"
 	B.escribirDOT(texto, "ArbolBEncriptadoSensible")
@@ -202,9 +203,9 @@ func (b *ArbolB) escribirDOT(text string, nombreArchivo string) {
 
 func (B *ArbolB) ejecutarComand(nombreArchivo string) {
 	path,_ := exec.LookPath("dot")
-	cmd,_ := exec.Command(path, "-Tpng", rutaReportesDot + "/"+nombreArchivo+".dot").Output()
+	cmd,_ := exec.Command(path, "-Tsvg", rutaReportesDot + "/"+nombreArchivo+".dot").Output()
 	mode := int(0777)
-	ioutil.WriteFile(rutaReportesPng + "/"+nombreArchivo+".png", cmd, os.FileMode(mode))
+	ioutil.WriteFile(rutaReportesPng + "/"+nombreArchivo+".svg", cmd, os.FileMode(mode))
 
 	fmt.Println("$$$ Reporte Arbol Usuarios png completado")
 }
