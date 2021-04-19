@@ -75,6 +75,15 @@ func (g *Grafo) obtenerNodo(id string) *nodoGrafo {
 	return  nil
 }
 
+func (g *Grafo) obtenerArista(inicio string, fin string) *arista {
+	for i, a := range g.aristas {
+		if a.anterior.id == inicio && a.siguiente.id == fin{
+			return g.aristas[i]
+		}
+	}
+	return nil
+}
+
 func estaEn ( lista []*nodoGrafo, id string) bool {
 	for _, i := range lista {
 		if id == i.id {
@@ -109,23 +118,35 @@ func (g Grafo) toDot() string {
 
 }
 
-/*func (g *Grafo) rutaMinima(inicio *nodoGrafo, fin *nodoGrafo) []*nodoGrafo{
-	var visitados []*nodoGrafo
-	noVisitados := g.nodos
-	actual := inicio
+type CaminoMinimo struct {
+	ultimo []string
+	D []int
+	n int
+	s string
+
+}
+
+func NewCaminoMinimo( g Grafo, origen string) *CaminoMinimo {
+	var ultimo []string
+	var D []int
+	return &CaminoMinimo{
+		ultimo: ultimo,
+		D:      D,
+		s:      origen,
+		n:      len(g.nodos),
+	}
+}
+
+func (c *CaminoMinimo) Dijkstra(g Grafo, origen string)  {
+	var F []bool
+	for _,nodo := range g.nodos {
+		F = append(F, false)
+		arista := g.obtenerArista(c.s, nodo.id)
+		if arista != nil {
+			c.D = append(c.D, arista.peso)
+		}
+		c.ultimo = append(c.ultimo, c.s)
+	}
 
 
-}*/
-
-
-//func (g *Grafo) distanciaEntre(inicio *nodoGrafo, fin *nodoGrafo, valorInicio int) int{
-//	for _, a := range g.aristas {
-//		if a.anterior == inicio &&  a.siguiente== fin{
-//			return a.peso
-//		}
-//	}
-//	return 1000000000000000000000000000
-//}
-
-
-
+}
