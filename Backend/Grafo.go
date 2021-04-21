@@ -60,6 +60,18 @@ func (g *Grafo) agregarArista(anterior, siguiente int , peso int)  {
 	}
 }
 
+func (g *Grafo) obtenerIndice(nombre string) int {
+	var indice int
+
+	for _, n := range g.nodos {
+		if n.contenido.nombre == nombre {
+			indice = n.id
+		}
+	}
+
+	return indice
+}
+
 func (n *nodoGrafo) agregarAdyacente(nuevo *nodoGrafo)  {
 	n.adyacentes = append(n.adyacentes, nuevo)
 }
@@ -125,6 +137,26 @@ func (g Grafo) toDot() string {
 	return texto
 
 }
+
+func (grafo *Grafo) graficarGrafo()  {
+	texto := "digraph grafo { \n\tnode[shape=\"record\" style=\"filled\" fillcollor=\"#58D27A\"]\n"
+	texto += grafo.toDot()
+	texto += "\n}"
+	escribirDOT(texto, "Grafo")
+}
+
+func (grafo *Grafo) generarCamino(inicio, fin int) *CaminoMinimo {
+	fmt.Print("$$$ Calculando camino minimo de ", inicio, " a ", fin)
+	camino := NewCaminoMinimo(*grafo, inicio)
+	camino.ultimo = append(camino.ultimo, inicio)
+	fmt.Print("$$$ El camino es : ")
+	fmt.Print(inicio)
+	camino.Dijkstra(*grafo,*grafo.nodos[inicio], *grafo.nodos[fin])
+	camino.ultimo = append(camino.ultimo, fin)
+	fmt.Print("-> ", fin )
+	return camino
+}
+
 
 type CaminoMinimo struct {
 	ultimo []int
@@ -228,8 +260,31 @@ func (c *CaminoMinimo) minimo(anterior int) int {
 	return retorno
 }
 
+// Retorna los nodos mas cercanos
+func (c *CaminoMinimo) NodosMasCercanos() []int{
+	var retorno []int
+	distancias := c.D
 
-func main() {
+	for i, _ := range distancias {
+		retorno = append(retorno, i)
+	}
+	num := len(c.D)
+	for z := 1; z < num; z++ {
+		for v := 0; v < (num - z); v++ {
+			if distancias[v] > distancias[v+1]{
+				aux := retorno[v]
+				retorno[v] = retorno[v + 1]
+				retorno[v + 1] = aux
+			}
+		}
+	}
+
+	return retorno
+}
+
+
+
+/*func main() {
 	grafo := NewGrafo()
 	contenido1 := &contenidoGrafo{"Despacho"}
 	contenido2 := &contenidoGrafo{"Ferreteria"}
@@ -255,15 +310,4 @@ func main() {
 
 	grafo.generarCamino(0, 4)
 }
-
-func (grafo *Grafo) generarCamino(inicio, fin int) *CaminoMinimo {
-	fmt.Print("$$$ Calculando camino minimo de ", inicio, " a ", fin)
-	camino := NewCaminoMinimo(*grafo, inicio)
-	camino.ultimo = append(camino.ultimo, inicio)
-	fmt.Print("$$$ El camino es : ")
-	fmt.Print(inicio)
-	camino.Dijkstra(*grafo,*grafo.nodos[inicio], *grafo.nodos[fin])
-	camino.ultimo = append(camino.ultimo, fin)
-	fmt.Print("-> ", fin )
-	return camino
-}
+*/

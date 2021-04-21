@@ -212,3 +212,4 @@ type Enlace struct {
 	Nombre    string `json:"Nombre"`
 	Distancia int  `json:"Distancia"`
 }
+

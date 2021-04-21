@@ -23,7 +23,6 @@ func main() {
 	encriptar("Imprime una llave")
 	ArbolCuentas = *NuevoBTree(5)
 	ArbolCuentas.Insert(*admin)
-	ArbolCuentas.generarDOT()
 
 	//port := ":3000"
 	router := CreateRouter()

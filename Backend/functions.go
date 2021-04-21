@@ -24,6 +24,7 @@ var ArbolCuentas ArbolB
 var llave string
 var reportes []*Reporte
 var grafo *Grafo
+var robot *Robot
 
 // Info almacena todos los datos del json leido
 var Info Information
@@ -84,7 +85,6 @@ func cargarPedidos(w http.ResponseWriter, req *http.Request) {
 	enableCors(&w)
 	var response PedidosResponse
 	err := json.NewDecoder(req.Body).Decode(&response)
-	fmt.Println(response)
 
 	if err != nil {
 		fmt.Println("$$$ 500 - La información no es correcta")
@@ -295,7 +295,9 @@ func hacerPedido( w http.ResponseWriter, req *http.Request){
 	var pedido []Product
 	json.NewDecoder(req.Body).Decode(&pedido)
 
-	for _, product := range pedido {
+	robot.buscarRuta(pedido)
+	robot.imprimirRuta()
+	/*for _, product := range pedido {
 		if !verificarExistencias(product){
 			fmt.Println("$$$ 409 - El artículo "+product.Nombre+" no cuenta con inventario")
 			w.WriteHeader(http.StatusConflict)
@@ -303,7 +305,7 @@ func hacerPedido( w http.ResponseWriter, req *http.Request){
 
 			return
 		}
-	}
+	}*/
 }
 
 func verificarPassword(w http.ResponseWriter, req *http.Request) {
@@ -420,21 +422,9 @@ func generarGrafo(w http.ResponseWriter, req *http.Request) {
 	var respuesta GrafoResponse
 
 	json.NewDecoder(req.Body).Decode(&respuesta)
-	grafo = NewGrafo()
 
-	for _, n := range respuesta.Nodos {
-		contenido := &contenidoGrafo{n.Nombre}
-		grafo.agregarNodo(n.Nombre, *contenido)
-	}
-	for _, n := range respuesta.Nodos {
-		for _, enlace := range n.Enlaces {
-			grafo.agregarArista(n.Nombre, enlace.Nombre, enlace.Distancia)
-		}
-	}
-	texto := "digraph grafo { \n\tnode[shape=\"record\" style=\"filled\" fillcollor=\"#58D27A\"]\n"
-	texto += grafo.toDot()
-	texto += "\n}"
-	escribirDOT(texto, "Grafo")
+	crearGrafo(respuesta)
+	robot = NewRobot(respuesta.PosicionInicialRobot, respuesta.Entrega)
 
 	respuestaB := &RespuestaBooleana{true}
 
@@ -447,6 +437,27 @@ func enableCors(w *http.ResponseWriter) {
 }
 
 // --------------------- Utilidades --------------------------------------
+
+func crearGrafo(respuesta GrafoResponse)  {
+	fmt.Println("$$$ Creando grafo")
+	grafo = NewGrafo()
+
+	for i, n := range respuesta.Nodos {
+		contenido := &contenidoGrafo{n.Nombre}
+		grafo.agregarNodo(i, *contenido)
+	}
+	fmt.Println(grafo.nodos)
+	for _, n := range respuesta.Nodos {
+		nodo1 := grafo.obtenerIndice(n.Nombre)
+		for _, enlace := range n.Enlaces {
+			nodo2 := grafo.obtenerIndice(enlace.Nombre)
+			fmt.Println(enlace.Nombre, " : ", nodo2)
+			grafo.agregarArista(nodo1, nodo2, enlace.Distancia)
+			grafo.agregarArista(nodo2, nodo1, enlace.Distancia)
+		}
+	}
+	grafo.graficarGrafo()
+}
 
 func generarReporte()[]*Reporte{
 	ArbolCuentas.generarDOT()

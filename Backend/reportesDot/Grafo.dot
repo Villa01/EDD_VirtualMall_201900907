@@ -1,13 +1,18 @@
 digraph grafo { 
 	node[shape="record" style="filled" fillcollor="#58D27A"]
-	NDespacho[shape="circle"];
-	NAranceles[shape="circle"];
-	NTextiles[shape="circle"];
-	NReparaciones[shape="circle"];
-NDespacho -> NAranceles[label= "5"];
-NDespacho -> NReparaciones[label= "6"];
-NDespacho -> NTextiles[label= "100"];
-NAranceles -> NTextiles[label= "10"];
-NTextiles -> NReparaciones[label= "7"];
+	Despacho[shape="circle"];
+	Aranceles[shape="circle"];
+	Textiles[shape="circle"];
+	Reparaciones[shape="circle"];
+Despacho ->Aranceles[label= "5"];
+Aranceles ->Despacho[label= "5"];
+Despacho ->Reparaciones[label= "6"];
+Reparaciones ->Despacho[label= "6"];
+Despacho ->Textiles[label= "100"];
+Textiles ->Despacho[label= "100"];
+Aranceles ->Textiles[label= "10"];
+Textiles ->Aranceles[label= "10"];
+Textiles ->Reparaciones[label= "7"];
+Reparaciones ->Textiles[label= "7"];
 
 }
