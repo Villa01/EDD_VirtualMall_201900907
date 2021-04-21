@@ -85,6 +85,14 @@ func (g *Grafo) obtenerNodo(id int) *nodoGrafo {
 	return  nil
 }
 
+func (g *Grafo) obtenerNodos(id []int) []*nodoGrafo {
+	var nodos []*nodoGrafo
+	for _,i := range id {
+		nodos = append(nodos, g.obtenerNodo(i))
+	}
+	return nodos
+}
+
 func (g *Grafo) obtenerArista(inicio int, fin int) *arista {
 	for i, a := range g.aristas {
 		if a.anterior.id == inicio && a.siguiente.id == fin{
@@ -111,6 +119,14 @@ func (g Grafo) Imprimir() {
 		}
 		fmt.Println()
 	}
+}
+
+func (g *Grafo) obtenerIndices(lista []string) []int {
+	var indices []int
+	for _, l := range lista {
+		indices = append(indices,  g.obtenerIndice(l))
+	}
+	return indices
 }
 
 func (g *Grafo) peso(inicio, fin int) int {
@@ -142,7 +158,7 @@ func (grafo *Grafo) graficarGrafo()  {
 	texto := "digraph grafo { \n\tnode[shape=\"record\" style=\"filled\" fillcollor=\"#58D27A\"]\n"
 	texto += grafo.toDot()
 	texto += "\n}"
-	escribirDOT(texto, "Grafo")
+	//escribirDOT(texto, "Grafo")
 }
 
 func (grafo *Grafo) generarCamino(inicio, fin int) *CaminoMinimo {
@@ -151,137 +167,40 @@ func (grafo *Grafo) generarCamino(inicio, fin int) *CaminoMinimo {
 	camino.ultimo = append(camino.ultimo, inicio)
 	fmt.Print("$$$ El camino es : ")
 	fmt.Print(inicio)
-	camino.Dijkstra(*grafo,*grafo.nodos[inicio], *grafo.nodos[fin])
+	camino.generarCamino(*grafo,*grafo.nodos[inicio], *grafo.nodos[fin])
 	camino.ultimo = append(camino.ultimo, fin)
 	fmt.Print("-> ", fin )
 	return camino
 }
 
+func (g *Grafo) rutaConParadas(inicio int, paradas []int) []int {
+	actual := inicio
+	var encontrado []int
+	var ruta []int
+	for i, n := range g.nodos {
+		fmt.Println(i, ". ", n.contenido.nombre)
+	}
+	for len(encontrado) < len(paradas)-1 {
+		fmt.Println("El actual es ", actual)
+		fmt.Println("Paradas", paradas)
+		encontrado = append(encontrado, actual)
+		fmt.Println("Encontrados", encontrado)
+		camino := NewCaminoMinimo(*g, actual)
+		camino.Dijkstra(*g, *g.obtenerNodo(actual))
 
-type CaminoMinimo struct {
-	ultimo []int
-	D []int
-	V []bool
-	n, s int
+		cercanos := camino.NodosMasCercanos()
 
+		siguiente := camino.siguienteNodo(paradas, encontrado, cercanos)
+		camino.generarCamino(*grafo, *grafo.obtenerNodo(actual), *grafo.obtenerNodo(siguiente))
+
+		siguientes := camino.ultimo
+		fmt.Println(siguientes)
+		ruta = append(ruta, siguientes...)
+		actual = siguiente
+
+	}
+	return ruta
 }
-
-func NewCaminoMinimo( g Grafo, origen int) *CaminoMinimo {
-
-	infinito = 1000000000000
-	var ultimo []int
-	var visto []bool
-	var D []int
-
-	for i:= 0; i<  len(g.nodos); i++ {
-		ultimo = append(ultimo, 0)
-	}
-
-	for i:= 0; i<  len(g.nodos); i++ {
-		D = append(D, 1000000000000000000)
-	}
-
-	for i:= 0; i<  len(g.nodos); i++ {
-		visto = append(visto, false)
-	}
-	D[origen] = 0
-
-	return &CaminoMinimo{
-		ultimo: ultimo,
-		D:      D,
-		V: 		visto,
-		s:      origen,
-		n:      len(g.nodos),
-	}
-}
-
-var infinito int
-func (c *CaminoMinimo) Dijkstra(g Grafo,  s nodoGrafo, f nodoGrafo) {
-	for i, w := range g.nodos {
-		if g.obtenerArista(s.id, w.id) == nil {
-			c.D[w.id] = 1000000000000000000 // Valor de infinito
-		} else {
-			peso := g.peso(s.id, w.id)
-			if peso != -1 {
-				c.D[w.id] = peso
-			}
-		}
-		c.ultimo[i] = s.id
-	}
-	c.D[s.id] = 0
-	c.V[s.id] = true
-	contador := 0
-	for !c.todosVistos() {
-
-		vertice := c.minimo(contador)
-		if vertice == -1 {
-			break
-		}
-		if vertice != f.id {
-			c.ultimo = append(c.ultimo, vertice)
-			fmt.Print("-> ", vertice)
-
-			c.V[vertice] = true
-			for _, nodo := range g.obtenerNodo(vertice).adyacentes {
-				peso := g.peso(vertice, nodo.id)
-				if peso != -1 && c.D[ nodo.id] > c.D[vertice] + peso{
-					c.D[ nodo.id] = c.D[vertice] + peso
-				}
-			}
-			contador ++
-		} else {
-			return
-		}
-	}
-}
-
-
-func (c *CaminoMinimo) todosVistos() bool {
-	for _, v := range c.V {
-		if v == false {
-			return false
-		}
-	}
-	return true
-}
-
-func (c *CaminoMinimo) minimo(anterior int) int {
-	minimo := infinito
-	retorno := -1
-	for i, d := range c.D {
-		if d < minimo && !c.V[i] {
-			minimo = d
-			retorno = i
-		}
-	}
-	if retorno == -1 {
-		c.V[anterior+1] = true
-	}
-	return retorno
-}
-
-// Retorna los nodos mas cercanos
-func (c *CaminoMinimo) NodosMasCercanos() []int{
-	var retorno []int
-	distancias := c.D
-
-	for i, _ := range distancias {
-		retorno = append(retorno, i)
-	}
-	num := len(c.D)
-	for z := 1; z < num; z++ {
-		for v := 0; v < (num - z); v++ {
-			if distancias[v] > distancias[v+1]{
-				aux := retorno[v]
-				retorno[v] = retorno[v + 1]
-				retorno[v + 1] = aux
-			}
-		}
-	}
-
-	return retorno
-}
-
 
 
 /*func main() {
@@ -309,5 +228,5 @@ func (c *CaminoMinimo) NodosMasCercanos() []int{
 
 
 	grafo.generarCamino(0, 4)
-}
-*/
+}*/
+

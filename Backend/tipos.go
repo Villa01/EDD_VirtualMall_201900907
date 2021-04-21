@@ -133,7 +133,7 @@ func nuevaCola(mes int, dia int) *ColaPedidos {
 type Pedido struct {
 	Fecha        string    `json:"Fecha"`
 	Tienda       string    `json:"Tienda"`
-	Departamento string    `json:"Departamento"`
+	Departamento string    `json:"Tienda"`
 	Calificacion int       `json:"Calificacion"`
 	Productos    []Product `json:"Productos"`
 }

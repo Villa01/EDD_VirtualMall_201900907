@@ -60,8 +60,6 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 func loadInventories(w http.ResponseWriter, req *http.Request) {
 
 	err := json.NewDecoder(req.Body).Decode(&InvResp)
-	fmt.Println(req.Body)
-	fmt.Println(InvResp)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("500 - La información no es correcta"))
@@ -292,11 +290,10 @@ func eliminarDelCarrito(w http.ResponseWriter, req *http.Request){
 func hacerPedido( w http.ResponseWriter, req *http.Request){
 	fmt.Println("%%% Haciendo nuevo pedido")
 	enableCors(&w)
-	var pedido []Product
+	var pedido Pedido
 	json.NewDecoder(req.Body).Decode(&pedido)
-
-	robot.buscarRuta(pedido)
-	robot.imprimirRuta()
+	robot.buscarRuta(pedido.Productos)
+	robot.imprimirRuta(grafo)
 	/*for _, product := range pedido {
 		if !verificarExistencias(product){
 			fmt.Println("$$$ 409 - El artículo "+product.Nombre+" no cuenta con inventario")
@@ -306,6 +303,10 @@ func hacerPedido( w http.ResponseWriter, req *http.Request){
 			return
 		}
 	}*/
+
+	fmt.Println("$$$ 202 Se realizó el pedido correctamente")
+	w.WriteHeader(http.StatusAccepted)
+	w.Write([]byte("Pedido realizado"))
 }
 
 func verificarPassword(w http.ResponseWriter, req *http.Request) {
@@ -446,12 +447,10 @@ func crearGrafo(respuesta GrafoResponse)  {
 		contenido := &contenidoGrafo{n.Nombre}
 		grafo.agregarNodo(i, *contenido)
 	}
-	fmt.Println(grafo.nodos)
 	for _, n := range respuesta.Nodos {
 		nodo1 := grafo.obtenerIndice(n.Nombre)
 		for _, enlace := range n.Enlaces {
 			nodo2 := grafo.obtenerIndice(enlace.Nombre)
-			fmt.Println(enlace.Nombre, " : ", nodo2)
 			grafo.agregarArista(nodo1, nodo2, enlace.Distancia)
 			grafo.agregarArista(nodo2, nodo1, enlace.Distancia)
 		}
@@ -622,7 +621,6 @@ func searchProduct(producto Product) *Product{
 }
 
 func asignInventories(){
-	fmt.Println(InvResp.Invetarios)
 	for _, inventario := range InvResp.Invetarios {
 		name := inventario.Tienda
 		depart := inventario.Departamento

@@ -1,5 +1,35 @@
 digraph grafo {
-        node[shape="record"]
-nodo1234567890101[label = "1234567890101\nEDD2021\n auxiliar@edd.com\n1234\nAdmin|1234567890101\nEDD2021\n auxiliar@edd.com\n1234\nAdmin"];
-
+	Textiles[shape="circle"];
+	Textiles[shape="circle"];
+	Textiles[shape="circle"];
+	Textiles[shape="circle"];
+	Textiles[shape="circle"];
+	Reparaciones[shape="circle"];
+	Aranceles[shape="circle"];
+	Despacho[shape="circle"];
+	Reparaciones[shape="circle"];
+	Reparaciones[shape="circle"];
+	Reparaciones[shape="circle"];
+	Reparaciones[shape="circle"];
+	Despacho[shape="circle"];
+	Textiles[shape="circle"];
+	Aranceles[shape="circle"];
+	Despacho[shape="circle"];
+	Textiles[shape="circle"];
+Textiles ->Textiles[label= "1"];
+Textiles ->Textiles[label= "2"];
+Textiles ->Textiles[label= "3"];
+Textiles ->Textiles[label= "4"];
+Textiles ->Reparaciones[label= "5"];
+Reparaciones ->Aranceles[label= "6"];
+Aranceles ->Despacho[label= "7"];
+Despacho ->Reparaciones[label= "8"];
+Reparaciones ->Reparaciones[label= "9"];
+Reparaciones ->Reparaciones[label= "10"];
+Reparaciones ->Reparaciones[label= "11"];
+Reparaciones ->Despacho[label= "12"];
+Despacho ->Textiles[label= "13"];
+Textiles ->Aranceles[label= "14"];
+Aranceles ->Despacho[label= "15"];
+Despacho ->Textiles[label= "16"];
 }
