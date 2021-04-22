@@ -1,5 +1,6 @@
-digraph grafo {
-        Textiles[shape="circle"];
+digraph grafo { 
+	node[shape="record" style="filled" fillcollor="#58D27A"]
+	Textiles[shape="circle"];
 	Reparaciones[shape="circle"];
 	Despacho[shape="circle"];
 	Textiles[shape="circle"];
@@ -12,4 +13,5 @@ Despacho ->Textiles[label= "3"];
 Textiles ->Aranceles[label= "4"];
 Aranceles ->Despacho[label= "5"];
 Despacho ->Textiles[label= "6"];
+
 }

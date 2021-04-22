@@ -462,6 +462,8 @@ func generarReporte()[]*Reporte{
 	ArbolCuentas.generarDOT()
 	ArbolCuentas.generarDOTEncriptado()
 	ArbolCuentas.generarDOTEncriptadoSensible()
+	grafo.graficarGrafo()
+	robot.graficar()
 
 	var reportes []*Reporte
 	reporteNormal := &Reporte{
@@ -480,7 +482,11 @@ func generarReporte()[]*Reporte{
 		Nombre: "Grafo de ubicación de departamentos",
 		Ruta:   "/Grafo.svg",
 	}
-	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible, reporteGrafo)
+	reporteCamino := &Reporte{
+		Nombre: "Camino mas corto para el Robot",
+		Ruta:   "/CaminoRobot.svg",
+	}
+	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible, reporteGrafo, reporteCamino)
 
 
 	return reportes

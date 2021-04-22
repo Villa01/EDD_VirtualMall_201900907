@@ -7,7 +7,7 @@ type CaminoMinimo struct {
 	D []int
 	V []bool
 	n, s int
-
+	camino []int
 }
 
 
@@ -43,6 +43,10 @@ func NewCaminoMinimo( g Grafo, origen int) *CaminoMinimo {
 
 var infinito int
 func (c *CaminoMinimo) generarCamino(g Grafo,  s nodoGrafo, f nodoGrafo) {
+	for i:= 0; i<  len(g.nodos); i++ {
+		c.V[i] =false
+	}
+
 	for i, w := range g.nodos {
 		if g.obtenerArista(s.id, w.id) == nil {
 			c.D[w.id] = 1000000000000000000 // Valor de infinito
@@ -65,7 +69,7 @@ func (c *CaminoMinimo) generarCamino(g Grafo,  s nodoGrafo, f nodoGrafo) {
 		}
 		if vertice != f.id {
 			c.ultimo = append(c.ultimo, vertice)
-
+			c.camino = append(c.camino, vertice)
 			c.V[vertice] = true
 			for _, nodo := range g.obtenerNodo(vertice).adyacentes {
 				peso := g.peso(vertice, nodo.id)
@@ -96,13 +100,11 @@ func (c *CaminoMinimo) Dijkstra(g Grafo,  s nodoGrafo) {
 	c.V[s.id] = true
 	contador := 0
 	for !c.todosVistos() {
-
 		vertice := c.minimo(contador)
 		if vertice == -1 {
 			break
 		}
 		c.ultimo = append(c.ultimo, vertice)
-
 		c.V[vertice] = true
 		for _, nodo := range g.obtenerNodo(vertice).adyacentes {
 			peso := g.peso(vertice, nodo.id)

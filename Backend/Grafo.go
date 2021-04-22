@@ -158,7 +158,10 @@ func (grafo *Grafo) graficarGrafo()  {
 	texto := "digraph grafo { \n\tnode[shape=\"record\" style=\"filled\" fillcollor=\"#58D27A\"]\n"
 	texto += grafo.toDot()
 	texto += "\n}"
-	//escribirDOT(texto, "Grafo")
+	escribirDOT(texto, "Grafo")
+	ejecutarComand("CaminoRobot")
+
+	fmt.Println(texto)
 }
 
 func (grafo *Grafo) generarCamino(inicio, fin int) *CaminoMinimo {
@@ -169,7 +172,6 @@ func (grafo *Grafo) generarCamino(inicio, fin int) *CaminoMinimo {
 	fmt.Print(inicio)
 	camino.generarCamino(*grafo,*grafo.nodos[inicio], *grafo.nodos[fin])
 	camino.ultimo = append(camino.ultimo, fin)
-	fmt.Print("-> ", fin )
 	return camino
 }
 
@@ -181,20 +183,17 @@ func (g *Grafo) rutaConParadas(inicio int, paradas []int) []int {
 		fmt.Println(i, ". ", n.contenido.nombre)
 	}
 	for len(encontrado) < len(paradas)-1 {
-		fmt.Println("El actual es ", actual)
-		fmt.Println("Paradas", paradas)
+
 		encontrado = append(encontrado, actual)
-		fmt.Println("Encontrados", encontrado)
+
 		camino := NewCaminoMinimo(*g, actual)
 		camino.Dijkstra(*g, *g.obtenerNodo(actual))
-
 		cercanos := camino.NodosMasCercanos()
-
 		siguiente := camino.siguienteNodo(paradas, encontrado, cercanos)
 		camino.generarCamino(*grafo, *grafo.obtenerNodo(actual), *grafo.obtenerNodo(siguiente))
-
-		siguientes := camino.ultimo
-		fmt.Println(siguientes)
+		camino.camino = append(camino.camino, siguiente)
+		siguientes := camino.camino
+		siguientes = append(siguientes[:])
 		ruta = append(ruta, siguientes...)
 		actual = siguiente
 

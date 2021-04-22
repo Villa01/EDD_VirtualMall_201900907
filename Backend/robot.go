@@ -49,7 +49,7 @@ func (r *Robot) imprimirRuta(g *Grafo) {
 	r.toDot(g)
 }
 
-func (r *Robot) toDot(g *Grafo) {
+func (r *Robot) toDot(g *Grafo) string {
 	var texto string
 	nodos := g.obtenerNodos(r.ruta)
 	for _, nodo := range nodos {
@@ -67,5 +67,14 @@ func (r *Robot) toDot(g *Grafo) {
 		}
 		anterior = n
 	}
-	fmt.Println(texto)
+	return texto
 }
+
+func (r *Robot) graficar()  {
+	texto := "digraph grafo { \n\tnode[shape=\"record\" style=\"filled\" fillcollor=\"#58D27A\"]\n"
+	texto += r.toDot(grafo)
+	texto += "\n}"
+	escribirDOT(texto, "CaminoRobot")
+	ejecutarComand("CaminoRobot")
+}
+
