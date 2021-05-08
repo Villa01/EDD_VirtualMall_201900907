@@ -1,0 +1,112 @@
+digraph g{
+    
+	node [style="filled" shape="rectangle" fillcolor="#ff00005f"];
+nodo15[label="92b025ac0f1aaf445cdfa0b5837fcdfac15fb715dc1483467641798272abac97
+62cfa62f49fc5da600bb09626289731c6a0573c21e01e540b7e292d58e2c675e
+11c79c6b906cc57784f75e25c5d0ec53264296819c7e0963e76b90a59a5cbf6b"];
+nodo7[label="11c79c6b906cc57784f75e25c5d0ec53264296819c7e0963e76b90a59a5cbf6b
+c37a6909532f8e606be2902457cb370563a23d1d29545b327e28d2e5f146fdee
+990a3135f4f20959789053ad46697b9cd8b7feb117a1efd5f77efe69015ddfdc"];
+nodo3[label="990a3135f4f20959789053ad46697b9cd8b7feb117a1efd5f77efe69015ddfdc
+88ddd28e144c728056029db0937361cd1d20cd7c78580c3595d2c4fe21d62128
+a4c8f8e96689243007f728bee55469f4bb5faef0df595f6556211df6b860bf85"];
+nodo1[label="a4c8f8e96689243007f728bee55469f4bb5faef0df595f6556211df6b860bf85
+8027fed250b665f7c516b3dcfef48993e3a095b07b5b200c360a41203464da3b
+42c03b8281693c930387ad6c39b615eed70896724ad3208302f2bda2bf1e9475"];
+nodo0[label="42c03b8281693c930387ad6c39b615eed70896724ad3208302f2bda2bf1e9475
+s8 \nAranceles\nEl smartphone del futuro\nhttps://i.blogs.es/7a4489/galaxy-s8-4/450_1000.jpg\n1234\n%f2500\n"];
+nodo2[label="8027fed250b665f7c516b3dcfef48993e3a095b07b5b200c360a41203464da3b
+s9 \nReparaciones\nEl smartphone del futuro mejorado\nhttps://static.kemikcdn.com/2019/01/griss.jpg\n1233\n%f5500\n"];
+nodo1 -> nodo0;
+nodo1 -> nodo2;
+nodo5[label="88ddd28e144c728056029db0937361cd1d20cd7c78580c3595d2c4fe21d62128
+ec681b01ad3733e51f2347b8f54303ebddf4f0462d549f01056aaae52c56e2db
+e60a2561c373dee569b8d6f216193ccbceec2a1076d31f2e56a3f5837ac05825"];
+nodo4[label="e60a2561c373dee569b8d6f216193ccbceec2a1076d31f2e56a3f5837ac05825
+P40 Pro \nTextiles\nSobresale en todas Sus areas\nhttps://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2020/01/estos-seran-colores-camaras-huawei-p40-p40-pro-1846245.jpg?itok=SE-h-ICj\n1222\n%f5500\n"];
+nodo6[label="ec681b01ad3733e51f2347b8f54303ebddf4f0462d549f01056aaae52c56e2db
+Mate 40 Pro \nTextiles\nSon ahora mas eficientes energicamente\nhttps://files.gsmchoice.com/phones/lenovo-p90-pro/lenovo-p90-pro-17.jpg\n1232\n%f7500\n"];
+nodo5 -> nodo4;
+nodo5 -> nodo6;
+nodo3 -> nodo1;
+nodo3 -> nodo5;
+nodo11[label="c37a6909532f8e606be2902457cb370563a23d1d29545b327e28d2e5f146fdee
+69d911de5f48a500287a4a9274572e05c71fc19b5a6ed61b74eee1b93adfd311
+5b27a3adf9e7d8662609c08c4beaa54da91632902bfca093504889821c20ecb9"];
+nodo9[label="5b27a3adf9e7d8662609c08c4beaa54da91632902bfca093504889821c20ecb9
+a83e286aa976dee1c1e1fc9c50839658d8e3d7ce53db381d36f8a775100b5615
+27a21d58b1da5d0c8abcb537d82d2a4c768d8c602cff8be9fc6292589fd88ce3"];
+nodo8[label="27a21d58b1da5d0c8abcb537d82d2a4c768d8c602cff8be9fc6292589fd88ce3
+Razer Huntsman mini \nAranceles\nTeclado OptoMecanico con switches purple\nhttps://techaeris.com/wp-content/uploads/2020/07/Razer-Huntsman-Mini-review.jpg\n4222\n%f810\n"];
+nodo10[label="a83e286aa976dee1c1e1fc9c50839658d8e3d7ce53db381d36f8a775100b5615
+Logitech G G915TKL \nReparaciones\nJuega en la siguiente dimension con los nuevos skitches reducidos para una mejor comodidad\nhttps://static.kemikcdn.com/2020/02/G502X1.jpg\n4232\n%f1844\n"];
+nodo9 -> nodo8;
+nodo9 -> nodo10;
+nodo13[label="69d911de5f48a500287a4a9274572e05c71fc19b5a6ed61b74eee1b93adfd311
+3a4ef6084d13ab701b27d2b79bd9c99360c5506856da8e89678effd1ad586b25
+dd04b24fc81dfa4c33b0583a374df6472a0ad5d45d6995297f1e3d6788777998"];
+nodo12[label="dd04b24fc81dfa4c33b0583a374df6472a0ad5d45d6995297f1e3d6788777998
+Nike SB \nAranceles\nComodos y ergonomicos para una mejor estabilidad de los deportistas\nhttps://tecvolucion.com/wp-content/uploads/2019/01/Sp19_BB_Nike_Adapt_20181218_NIKE0538_Detail5_rectangle_1600.jpg\n2234\n%f1500\n"];
+nodo14[label="3a4ef6084d13ab701b27d2b79bd9c99360c5506856da8e89678effd1ad586b25
+Air Jordan \nTextiles\nEl mejor estilo y comodidad, tanto para basketbolistas como de uso casual\nhttps://images.mediotiempo.com/TAGSYH6AgmeIR2gKHucF5vK8lDs=/0x530/uploads/media/2020/05/05/air-jordan-vi-fabricados-mj.jpg\n2313\n%f1300\n"];
+nodo13 -> nodo12;
+nodo13 -> nodo14;
+nodo11 -> nodo9;
+nodo11 -> nodo13;
+nodo7 -> nodo3;
+nodo7 -> nodo11;
+nodo23[label="62cfa62f49fc5da600bb09626289731c6a0573c21e01e540b7e292d58e2c675e
+3b7546ed79e3e5a7907381b093c5a182cbf364c5dd0443dfa956c8cca271cc33
+3b7546ed79e3e5a7907381b093c5a182cbf364c5dd0443dfa956c8cca271cc33"];
+nodo19[label="3b7546ed79e3e5a7907381b093c5a182cbf364c5dd0443dfa956c8cca271cc33
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"];
+nodo17[label="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+"];
+nodo16[label="
+\n"];
+nodo18[label="
+\n"];
+nodo17 -> nodo16;
+nodo17 -> nodo18;
+nodo21[label="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+"];
+nodo20[label="
+\n"];
+nodo22[label="
+\n"];
+nodo21 -> nodo20;
+nodo21 -> nodo22;
+nodo19 -> nodo17;
+nodo19 -> nodo21;
+nodo27[label="3b7546ed79e3e5a7907381b093c5a182cbf364c5dd0443dfa956c8cca271cc33
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"];
+nodo25[label="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+"];
+nodo24[label="
+\n"];
+nodo26[label="
+\n"];
+nodo25 -> nodo24;
+nodo25 -> nodo26;
+nodo29[label="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+"];
+nodo28[label="
+\n"];
+nodo30[label="
+\n"];
+nodo29 -> nodo28;
+nodo29 -> nodo30;
+nodo27 -> nodo25;
+nodo27 -> nodo29;
+nodo23 -> nodo19;
+nodo23 -> nodo27;
+nodo15 -> nodo7;
+nodo15 -> nodo23;
+
+}

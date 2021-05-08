@@ -33,11 +33,6 @@ func desencriptar(token string, key string)  {
 }
 
 func encriptar256(texto string) string{
-	sum := sha256.Sum256([]byte(texto))
-	var text []byte
-	for i := 0; i < len(sum); i++ {
-		text = append(text, sum[i])
-
-	}
-	return string(text)
+	sum := fmt.Sprintf("%x", sha256.Sum256([]byte(texto)))
+	return sum
 }

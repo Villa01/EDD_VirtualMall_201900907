@@ -1,18 +1,4 @@
-digraph grafo {
-        node[shape="record" style="filled" fillcollor="#58D27A"]
-        Despacho[shape="circle"];
-        Aranceles[shape="circle"];
-        Textiles[shape="circle"];
-        Reparaciones[shape="circle"];
-Despacho ->Aranceles[label= "5"];
-Aranceles ->Despacho[label= "5"];
-Despacho ->Reparaciones[label= "6"];
-Reparaciones ->Despacho[label= "6"];
-Despacho ->Textiles[label= "100"];
-Textiles ->Despacho[label= "100"];
-Aranceles ->Textiles[label= "10"];
-Textiles ->Aranceles[label= "10"];
-Textiles ->Reparaciones[label= "7"];
-Reparaciones ->Textiles[label= "7"];
+digraph grafo { 
+	node[shape="record" style="filled" fillcollor="#58D27A"]
 
 }

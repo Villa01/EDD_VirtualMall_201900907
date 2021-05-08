@@ -25,8 +25,10 @@ var tiendasMer []string
 var productosMer []string
 var transaccionesMer []string
 
+var Ultimobloque Bloque
+
 func main() {
-	obtenerUltimoHash()
+
 	admin := &Cuenta{
 		DPI:    1234567890101,
 		Nombre: "EDD2021",
@@ -36,7 +38,7 @@ func main() {
 	}
 	encriptar("Imprime una llave")
 
-	timer =5000
+	timer =300
 	/*
 	var info []string
 	info = append(info, "Info1")
@@ -56,6 +58,7 @@ func main() {
 
 	//escribirDOT(a.Graficar(), "arbolMerkle")
 
+	Cada5Min()
 	rutaReportesDot = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Backend\\reportesDot"
 	rutaReportesPng = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Frontend\\VirtualMall\\src\\assets"
 
@@ -73,6 +76,11 @@ func main() {
 func Cada5Min(){
 	NewTimer(timer, func() {
 		fmt.Println("Creando nuevo bloque\n")
+
+		ArbolProductos = *newArbolMerkle(productosMer)
+		ArbolUsuarios = *newArbolMerkle(usuariosMer)
+		ArbolTiendas = *newArbolMerkle(tiendasMer)
+		ArbolTransacciones = *newArbolMerkle(transaccionesMer)
 		fecha := obtenerFecha()
 		data := obtenerDatos()
 		indice := obtenerIndice()
@@ -81,15 +89,13 @@ func Cada5Min(){
 		if indice ==0 {
 			previous = "0000"
 		} else {
-			previous = obtenerUltimoHash()
+			previous = Ultimobloque.Hash
 		}
 		b1 := NewBloque(indice, 0000, fecha, data, previous, "")
+		b1.crearHash()
 		b1.guardarBloque()
+		Ultimobloque = *b1
 
-		ArbolProductos = *newArbolMerkle(productosMer)
-		ArbolUsuarios = *newArbolMerkle(usuariosMer)
-		ArbolTiendas = *newArbolMerkle(tiendasMer)
-		ArbolTransacciones = *newArbolMerkle(transaccionesMer)
 
 
 		Cada5Min()
@@ -108,28 +114,6 @@ func NewTimer(seconds int, action func()) *time.Timer {
 	return timer
 }
 
-func leerBloques(){
-	fptr := flag.String("fpath", "Bloques/0.txt", "direccion")
-	flag.Parse()
-
-	f, err := os.Open(*fptr)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() {
-		if err = f.Close(); err != nil {
-			log.Fatal(err)
-		}
-	}()
-	s := bufio.NewScanner(f)
-	for s.Scan() {
-		fmt.Println(s.Text())
-	}
-	err = s.Err()
-	if err != nil {
-		log.Fatal(err)
-	}
-}
 
 func obtenerFecha() string{
 	ahora := time.Now()

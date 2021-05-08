@@ -54,6 +54,8 @@ func loadStore(w http.ResponseWriter, req *http.Request) {
 	fmt.Println("$$$ Linealizando la matriz...")
 	array = matrix.rowMajor()
 	fmt.Println("$$$ Matriz completamente linealizada")
+
+	fmt.Println(tiendasMer)
 	//printArray(array)
 }
 
@@ -218,6 +220,7 @@ func deleteRegistry(w http.ResponseWriter, req *http.Request) {
 
 }
 
+
 // saveData guarda los datos de la matriz en un archivo json
 func saveData(w http.ResponseWriter, req *http.Request) {
 	m := inverseRowMajor(array)
@@ -292,6 +295,7 @@ func hacerPedido( w http.ResponseWriter, req *http.Request){
 	enableCors(&w)
 	var pedido Pedido
 	json.NewDecoder(req.Body).Decode(&pedido)
+	asignarPedidoMercle(pedido)
 	robot.buscarRuta(pedido.Productos)
 	robot.imprimirRuta(grafo)
 	/*for _, product := range pedido {
@@ -307,6 +311,17 @@ func hacerPedido( w http.ResponseWriter, req *http.Request){
 	fmt.Println("$$$ 202 Se realizó el pedido correctamente")
 	w.WriteHeader(http.StatusAccepted)
 	w.Write([]byte("Pedido realizado"))
+}
+
+func asignarPedidoMercle(pedido Pedido){
+	texto := pedido.Departamento + "\\n" + pedido.Fecha + "\\n" + pedido.Tienda + "\\n productos"
+
+	for _, producto := range pedido.Productos {
+		texto+= strconv.Itoa(producto.Codigo) + " "
+	}
+	texto += "\\n"
+
+	transaccionesMer = append(transaccionesMer, texto)
 }
 
 func verificarPassword(w http.ResponseWriter, req *http.Request) {
@@ -332,6 +347,8 @@ func verificarPassword(w http.ResponseWriter, req *http.Request) {
 		cuentaActual = *usuario
 		correcta := compararPassword(cuentaActual, verificacion.Password)
 
+		ingresarLogInMerkle(cuentaActual)
+
 		respuesta := &RespuestaVerificacionPassword{
 			Correcta: correcta,
 			Cuenta: cuentaActual,
@@ -339,6 +356,10 @@ func verificarPassword(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(respuesta)
 	}
 
+}
+func ingresarLogInMerkle(usuario Cuenta) {
+	texto := "Log in de " +  usuario.Nombre + "\\n"  + usuario.Cuenta + "\\n" + usuario.Email + "\\n" + usuario.Contra + "\\n" + strconv.Itoa(usuario.DPI)
+	usuariosMer = append(usuariosMer, texto)
 }
 
 func cargaUsuarios(w http.ResponseWriter, req *http.Request){
@@ -375,10 +396,15 @@ func crearUsuario(w http.ResponseWriter, req *http.Request) {
 	json.NewDecoder(req.Body).Decode(&nueva)
 
 	ingresarUsuario(nueva)
-
+	crearUsuariosMerkle(nueva)
 	fmt.Println("$$$ 500 - Se agrego el usuario con DPI", nueva.DPI)
 	w.WriteHeader(http.StatusAccepted)
 	w.Write([]byte("Ingreso Correcto"))
+}
+
+func crearUsuariosMerkle(usuario Cuenta) {
+	texto := "Se creo la cuenta " +  usuario.Nombre + "\\n"  + usuario.Cuenta + "\\n" + usuario.Email + "\\n" + usuario.Contra + "\\n" + strconv.Itoa(usuario.DPI)
+	usuariosMer = append(usuariosMer, texto)
 }
 
 func eliminarUsuario(w http.ResponseWriter, req *http.Request) {
@@ -388,6 +414,7 @@ func eliminarUsuario(w http.ResponseWriter, req *http.Request) {
 
 	password := nueva.Password
 	if cuentaActual.Contra == password {
+		eliminarUsuariosMerkle(cuentaActual)
 		eliminarCuenta(cuentaActual)
 		w.WriteHeader(http.StatusAccepted)
 		response := RespuestaBooleana{false}
@@ -398,6 +425,11 @@ func eliminarUsuario(w http.ResponseWriter, req *http.Request) {
 		fmt.Println("$$$ La contraseña es incorrecta")
 	}
 	fmt.Println(ArbolCuentas.generarDOT())
+}
+
+func eliminarUsuariosMerkle(usuario Cuenta) {
+	texto := "Se elimino la cuenta " +  usuario.Nombre + "\\n"  + usuario.Cuenta + "\\n" + usuario.Email + "\\n" + usuario.Contra + "\\n" + strconv.Itoa(usuario.DPI)
+	usuariosMer = append(usuariosMer, texto)
 }
 
 func generarReportes(w http.ResponseWriter, req *http.Request) {
@@ -439,6 +471,13 @@ func enableCors(w *http.ResponseWriter) {
 
 // --------------------- Utilidades --------------------------------------
 
+
+func agregarTiendaMerkle( tienda Store){
+	texto := tienda.Name + ",\\n" + tienda.Description + ",\\n" + tienda.Contact + ",\\n" + tienda.Logo
+	tiendasMer = append(tiendasMer, texto)
+}
+
+
 func crearGrafo(respuesta GrafoResponse)  {
 	fmt.Println("$$$ Creando grafo")
 	grafo = NewGrafo()
@@ -459,11 +498,21 @@ func crearGrafo(respuesta GrafoResponse)  {
 }
 
 func generarReporte()[]*Reporte{
+
+
+	ArbolProductos = *newArbolMerkle(productosMer)
+	ArbolUsuarios = *newArbolMerkle(usuariosMer)
+	ArbolTiendas = *newArbolMerkle(tiendasMer)
+	ArbolTransacciones = *newArbolMerkle(transaccionesMer)
 	ArbolCuentas.generarDOT()
 	ArbolCuentas.generarDOTEncriptado()
 	ArbolCuentas.generarDOTEncriptadoSensible()
 	grafo.graficarGrafo()
 	robot.graficar()
+	ArbolProductos.Graficar("ArbolProductos")
+	ArbolUsuarios.Graficar("ArbolUsuarios")
+	ArbolTiendas.Graficar("ArbolTiendas")
+	ArbolTransacciones.Graficar("ArbolPedidos")
 
 	var reportes []*Reporte
 	reporteNormal := &Reporte{
@@ -486,7 +535,24 @@ func generarReporte()[]*Reporte{
 		Nombre: "Camino mas corto para el Robot",
 		Ruta:   "/CaminoRobot.svg",
 	}
-	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible, reporteGrafo, reporteCamino)
+	reporteMercleProductos := &Reporte{
+		Nombre: "Arbol de Merkle de productos",
+		Ruta:   "/ArbolProductos.svg",
+	}
+	reporteMercleUsuarios := &Reporte{
+		Nombre: "Arbol de Merkle de usuarios",
+		Ruta:   "/ArbolUsuarios.svg",
+	}
+	reporteMercleTiendas := &Reporte{
+		Nombre: "Arbol de Merkle de tiendas",
+		Ruta:   "/ArbolTiendas.svg",
+	}
+	reporteMerklePedido := &Reporte{
+		Nombre: "Arbol de Merkle de pedidos",
+		Ruta:   "/ArbolPedidos.svg",
+	}
+
+	reportes = append(reportes, reporteNormal, reporteEncriptado, reporteEncriptadoSensible, reporteGrafo, reporteCamino, reporteMercleProductos, reporteMercleUsuarios,reporteMercleTiendas, reporteMerklePedido)
 
 
 	return reportes
@@ -498,8 +564,14 @@ func eliminarCuenta(cuenta Cuenta) {
 
 func ingresarUsuarios(usuarios []Cuenta) {
 	for _, usuario := range usuarios {
+		ingresarUsuarioMerkle(usuario)
 		ingresarUsuario(usuario)
 	}
+}
+
+func ingresarUsuarioMerkle(usuario Cuenta) {
+	texto := usuario.Nombre + "\\n"  + usuario.Cuenta + "\\n" + usuario.Email + "\\n" + usuario.Contra + "\\n" + strconv.Itoa(usuario.DPI)
+	usuariosMer = append(usuariosMer, texto)
 }
 
 func ingresarUsuario(usuario Cuenta) {
@@ -647,6 +719,7 @@ func asignInventories(){
 				}
 				// Se le asignan todos los productos a su inventario
 				for _, producto := range inventario.Productos {
+					agregarProductoMerkle(producto)
 					// Se verifica si el indice ya existe
 					existente := temp.data.Inventory.BuscarNodo(producto.Codigo)
 					if existente != nil {
@@ -662,6 +735,11 @@ func asignInventories(){
 		}
 
 	}
+}
+
+func agregarProductoMerkle( producto Product) {
+	texto := producto.Nombre + " \\n" + producto.Almacenamiento + "\\n" + producto.Descripcion + "\\n"+ producto.Imagen + "\\n" + strconv.Itoa(producto.Codigo) + "\\n" + fmt.Sprint("%f", producto.Precio)
+	productosMer = append(productosMer, texto)
 }
 
 func obtainProducts() []Product{
@@ -717,6 +795,7 @@ func (matrix *Matrix) fillMatrix(info Information) *Matrix {
 				rate := int(sto.Rating) - 1
 				node := NewNode(sto)
 				newRatings[rate].Lista.Append(node) // Se agrega la nueva tienda a la posicion del arreglo correspondiente a su calificacion
+				agregarTiendaMerkle(sto)
 			}
 			newDepartments[j].Ratings = newRatings
 		}

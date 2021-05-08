@@ -1,0 +1,56 @@
+digraph g{
+    
+	node [style="filled" shape="rectangle" fillcolor="#ff00005f"];
+nodo7[label="6033e9c5277872a28cec523dfd7a645651248da4aad17ee80e12d5a256f8f7a1
+5bc1a3349d2e1af3a88f665755fd86f5ed229129f9de3ca47ae5c8b401be6663
+53a085e2edbcf3856f7de12a6c18f08197b1d3c8b1a0160b6f3b175a2014f7e2"];
+nodo3[label="53a085e2edbcf3856f7de12a6c18f08197b1d3c8b1a0160b6f3b175a2014f7e2
+066f49edc5b8d02e3706e92949fda47b5966f2ba583866d203531f2b3be20c67
+c2a86b17d8827c42a044d609526868038beea273ff18b5229862c8b889dcdef6"];
+nodo1[label="c2a86b17d8827c42a044d609526868038beea273ff18b5229862c8b889dcdef6
+8ae40138553c3acc60ce4d774939dee4b4e10012c7a9e32f2af54e301148c93f
+c9848d01de6df13ff4adb032e9798930f4b49e8d86c5c694bd951fb276ab9a6c"];
+nodo0[label="c9848d01de6df13ff4adb032e9798930f4b49e8d86c5c694bd951fb276ab9a6c
+Amaya, Rolón y Chavarría Asociados,\nIllum accusantium voluptate voluptatem in corrupti dolorem velit et.,\n976191834,\nhttps://economipedia.com/wp-content/uploads/2015/10/apple-300x300.png\n"];
+nodo2[label="8ae40138553c3acc60ce4d774939dee4b4e10012c7a9e32f2af54e301148c93f
+Aguayo Cepeda S.A.,\nNumquam ea est error inventore et porro veritatis.,\n949 586 354,\nhttps://i.pinimg.com/originals/3d/0f/0e/3d0f0e8f600627fde858f6c6e668e999.gif\n"];
+nodo1 -> nodo0;
+nodo1 -> nodo2;
+nodo5[label="066f49edc5b8d02e3706e92949fda47b5966f2ba583866d203531f2b3be20c67
+af2fc1fe767e12d22e375fd2ce4b1f12d02d9684505e6fd418c31725e48ab2b3
+2416a8fd30fbb5b8e3c44b8a67f8465d22738821f320a8a555ca6bade2b53de4"];
+nodo4[label="2416a8fd30fbb5b8e3c44b8a67f8465d22738821f320a8a555ca6bade2b53de4
+Amaya, Rolón y Chavarría Asociados,\nEnim incidunt beatae enim quisquam harum fuga molestiae at.,\n915 133 743,\nhttps://as.com/meristation/imagenes/2021/01/18/mexico/1610944753_187605_1610981923_noticia_normal.jpg\n"];
+nodo6[label="af2fc1fe767e12d22e375fd2ce4b1f12d02d9684505e6fd418c31725e48ab2b3
+Aguayo Cepeda S.A.,\nAnimi similique quas quam consectetur dolorem.,\n961.244.645,\nhttps://graffica.info/wp-content/uploads/2017/01/Kentucky-Fried-Chicken.jpg\n"];
+nodo5 -> nodo4;
+nodo5 -> nodo6;
+nodo3 -> nodo1;
+nodo3 -> nodo5;
+nodo11[label="5bc1a3349d2e1af3a88f665755fd86f5ed229129f9de3ca47ae5c8b401be6663
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+d3cc4baa8cacc1c69480efb65dee6b0965a12a303e94a2bd73dbe0d19c3802c4"];
+nodo9[label="d3cc4baa8cacc1c69480efb65dee6b0965a12a303e94a2bd73dbe0d19c3802c4
+
+7dc0a399d6e7a8a6112078af1ebeb38aa1fad3a24941a3cbc0c17f9a66ddf7ab"];
+nodo8[label="7dc0a399d6e7a8a6112078af1ebeb38aa1fad3a24941a3cbc0c17f9a66ddf7ab
+Briones Pineda S.A.,\nMinus esse nemo eveniet sapiente iste sapiente repudiandae sapiente.,\n918-764-088,\nhttps://static-cse.canva.com/blob/211898/17-50-logotipos-que-te-inspiraran.jpg\n"];
+nodo10[label="
+\n"];
+nodo9 -> nodo8;
+nodo9 -> nodo10;
+nodo13[label="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+"];
+nodo12[label="
+\n"];
+nodo14[label="
+\n"];
+nodo13 -> nodo12;
+nodo13 -> nodo14;
+nodo11 -> nodo9;
+nodo11 -> nodo13;
+nodo7 -> nodo3;
+nodo7 -> nodo11;
+
+}

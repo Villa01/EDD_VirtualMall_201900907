@@ -32,7 +32,7 @@ func (n nodoMerkle) graficar(i int) string {
 
 			informacion += n.info + "\\n"
 	} else {
-		informacion += n.hashDer
+		informacion += n.hashDer +"\n"
 		informacion += n.hashIzq
 	}
 
@@ -168,14 +168,14 @@ func buscarNodoMerkle(temp *nodoMerkle, codigo int ) *nodoMerkle{
 	return nil
 }
 
-func (a *arbolMerkle) Graficar() string {
+func (a *arbolMerkle) Graficar(name string)  {
 
 	texto := "digraph g{\n    \n\tnode [style=\"filled\" shape=\"rectangle\" fillcolor=\"#ff00005f\"];\n"
 	texto += a.graficar(a.raiz)
 
 	texto+= "\n}"
-
-	return  texto
+	escribirDOT(texto, name)
+	fmt.Println(texto)
 }
 
 func (a arbolMerkle) graficar(actual *nodoMerkle) string {
@@ -208,7 +208,7 @@ func insertarDatosUltimoNivel(transacciones *[]string, temp *nodoMerkle){
 			if len(*transacciones) != 0 {
 				temp.info = (*transacciones)[0]
 				temp.hash = encriptar256((*transacciones)[0])
-				*transacciones = append((*transacciones)[:0], (*transacciones)[1:]...) //cola
+				*transacciones = append((*transacciones)[:0], (*transacciones)[1:]...)
 
 			}else{
 				temp.info = ""
