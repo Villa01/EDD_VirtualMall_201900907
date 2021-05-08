@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type nodo struct {
 	producto Product
@@ -23,12 +21,6 @@ func NewAVL() *AVL {
 	return &AVL{nil}
 }
 
-func max(val1 int, val2 int) int {
-	if val1 > val2 {
-		return val1
-	}
-	return val2
-}
 
 func altura(temp *nodo) int {
 	if temp != nil {
@@ -96,11 +88,11 @@ func insert(producto Product, indice int, root **nodo) {
 }
 
 func (avl *AVL) Insertar(producto Product, indice int) {
-	insert(producto, indice, &avl.raiz)
+	//insert(producto, indice, &avl.raiz)
 }
 
 func (avl *AVL) Print(){
-	inOrden(avl.raiz)
+	//inOrden(avl.raiz)
 }
 
 func inOrden(temp *nodo)  {
@@ -111,9 +103,12 @@ func inOrden(temp *nodo)  {
 	}
 }
 
+
+
 func (avl *AVL) BuscarNodo (codigo int) * nodo{
 	return buscarNodo(avl.raiz, codigo)
 }
+
 
 func buscarNodo (temp *nodo, codigo int ) *nodo{
 	if temp != nil {
@@ -131,6 +126,8 @@ func buscarNodo (temp *nodo, codigo int ) *nodo{
 	}
 	return nil
 }
+
+
 
 func (avl *AVL) ObtenerProductos () []Product{
 	if avl.raiz == nil {
@@ -156,3 +153,4 @@ func obtenerProductos (temp *nodo) []Product{
 	}
 	return productos
 }
+

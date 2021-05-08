@@ -530,7 +530,7 @@ func compararPassword (cuenta Cuenta, pass string) bool {
 }
 
 func asignarPedidos (pedidos []Pedido){
-
+	/*
 	if pedidosAnuales == nil {
 		pedidosAnuales = NewAVLPedido()
 	}
@@ -572,6 +572,8 @@ func asignarPedidos (pedidos []Pedido){
 			}
 		}
 	}
+
+	*/
 }
 
 func obtenerCategoria(categoria string) int {

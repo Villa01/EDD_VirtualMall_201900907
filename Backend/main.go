@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"github.com/gorilla/handlers"
 	"log"
 	"net/http"
@@ -16,11 +18,30 @@ func main() {
 		Contra: "1234",
 		Cuenta: "Admin",
 	}
+	encriptar("Imprime una llave")
 
+	sum := sha256.Sum256([]byte("hello world\n"))
+	sum2 := sha256.Sum256([]byte("hello worldaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n"))
+	fmt.Printf("%x", sum)
+	fmt.Printf("%x", sum2)
+
+	var info []string
+	info = append(info, "Info1")
+	info = append(info, "Info2")
+	info = append(info, "Info3")
+	info = append(info, "Info4")
+
+	a := newArbolMerkle(info)
+
+	for i := 0; i < 15; i++ {
+		a.Insertar(i)
+	}
+
+	escribirDOT(a.Graficar(), "arbolMerkle")
 
 	rutaReportesDot = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Backend\\reportesDot"
 	rutaReportesPng = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Frontend\\VirtualMall\\src\\assets"
-	encriptar("Imprime una llave")
+
 	ArbolCuentas = *NuevoBTree(5)
 	ArbolCuentas.Insert(*admin)
 
