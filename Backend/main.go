@@ -1,8 +1,6 @@
 package main
 
 import (
-	"crypto/sha256"
-	"fmt"
 	"github.com/gorilla/handlers"
 	"log"
 	"net/http"
@@ -20,10 +18,6 @@ func main() {
 	}
 	encriptar("Imprime una llave")
 
-	sum := sha256.Sum256([]byte("hello world\n"))
-	sum2 := sha256.Sum256([]byte("hello worldaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n"))
-	fmt.Printf("%x", sum)
-	fmt.Printf("%x", sum2)
 
 	var info []string
 	info = append(info, "Info1")
@@ -37,7 +31,7 @@ func main() {
 		a.Insertar(i)
 	}
 
-	escribirDOT(a.Graficar(), "arbolMerkle")
+	//escribirDOT(a.Graficar(), "arbolMerkle")
 
 	rutaReportesDot = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Backend\\reportesDot"
 	rutaReportesPng = "C:\\Users\\javil\\go\\src\\Proyecto 3\\EDD_VirtualMall_201900907\\Frontend\\VirtualMall\\src\\assets"

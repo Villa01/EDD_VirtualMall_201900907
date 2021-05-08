@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"github.com/fernet/fernet-go"
 )
@@ -29,4 +30,14 @@ func desencriptar(token string, key string)  {
 	textoB := fernet.VerifyAndDecrypt(b, 1000000000, llave)
 	texto := string(textoB)
 	fmt.Println(texto)
+}
+
+func encriptar256(texto string) string{
+	sum := sha256.Sum256([]byte(texto))
+	var text []byte
+	for i := 0; i < len(sum); i++ {
+		text = append(text, sum[i])
+
+	}
+	return string(text)
 }
