@@ -68,7 +68,7 @@ func loadInventories(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	enableCors(&w)
-
+	fmt.Println(InvResp)
 	w.WriteHeader(http.StatusAccepted)
 	w.Write([]byte("200 - La información fue recibida"))
 	json.NewEncoder(w).Encode("Recibido")
@@ -602,7 +602,7 @@ func compararPassword (cuenta Cuenta, pass string) bool {
 }
 
 func asignarPedidos (pedidos []Pedido){
-	/*
+
 	if pedidosAnuales == nil {
 		pedidosAnuales = NewAVLPedido()
 	}
@@ -645,7 +645,7 @@ func asignarPedidos (pedidos []Pedido){
 		}
 	}
 
-	*/
+
 }
 
 func obtenerCategoria(categoria string) int {
@@ -757,6 +757,7 @@ func obtainProducts() []Product{
 			}
 		}
 	}
+	fmt.Println(products)
 	return products
 }
 
