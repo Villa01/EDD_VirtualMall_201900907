@@ -207,7 +207,7 @@ func insertarDatosUltimoNivel(transacciones *[]string, temp *nodoMerkle){
 		if temp.izq == nil && temp.der == nil{
 			if len(*transacciones) != 0 {
 				temp.info = (*transacciones)[0]
-				temp.hash = encriptarConLlave((*transacciones)[0], keysha)
+				temp.hash = encriptar256((*transacciones)[0])
 				*transacciones = append((*transacciones)[:0], (*transacciones)[1:]...) //cola
 
 			}else{
@@ -217,7 +217,7 @@ func insertarDatosUltimoNivel(transacciones *[]string, temp *nodoMerkle){
 		}else{
 			temp.hashIzq = temp.izq.hash
 			temp.hashDer = temp.der.hash
-			temp.hash = encriptarConLlave(temp.hashIzq+temp.hashDer, keysha)
+			temp.hash = encriptar256(temp.hashIzq+temp.hashDer)
 		}
 	}
 

@@ -9,7 +9,7 @@ import (
 func encriptar(texto string) (string,string){
 	llave := fernet.Key{}
 	llave.Generate()
-	fmt.Println("Llave de sha256", llave.Encode())
+	//fmt.Println("Llave de sha256", llave.Encode())
 	b := []byte(texto)
 	token,_ := fernet.EncryptAndSign(b, &llave)
 	tokenTexto := string(token)
